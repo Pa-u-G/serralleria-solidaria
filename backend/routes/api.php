@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\UsersController;
 
 Route::get('/posts', function() {
     return [
@@ -8,3 +10,7 @@ Route::get('/posts', function() {
         ["id" => 2, "title" => "Segundo post"]
     ];
 });
+
+Route::get('/categories', [CategoriesController::class, 'index']);
+
+Route::get('/users', [UsersController::class, 'index']);

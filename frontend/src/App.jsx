@@ -1,25 +1,30 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+
+import Dahboard from "./pages/dashboard"
+import Categories from "./pages/categories"
+import Users from "./pages/users"
+import Dashboard from "./pages/dashboard"
 
 function App() {
-  const [posts, setPosts] = useState([]);
-
-  useEffect(() => {
-    axios.get("http://localhost:8000/api/posts")
-      .then(res => setPosts(res.data))
-      .catch(err => console.log(err));
-  }, []);
 
   return (
-    <div>
-      <h1>Posts desde Laravel</h1>
-      <ul>
-        {posts.map(post => (
-          <li key={post.id}>{post.title}</li>
-        ))}
-      </ul>
-    </div>
-  );
+
+    <BrowserRouter>
+
+      <Routes>
+
+        <Route path="/" element={<Dashboard />} />
+
+        <Route path="/categories" element={<Categories />} />
+
+        <Route path="/users" element={<Users />} />
+
+      </Routes>
+
+    </BrowserRouter>
+
+  )
+
 }
 
-export default App;
+export default App
