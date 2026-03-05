@@ -1,0 +1,26 @@
+import MainLayout from "../layouts/Main_layout";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+function Categories() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:8000/api/categories")
+      .then(res => setPosts(res.data))
+      .catch(err => console.log(err));
+  }, []);
+
+  return (
+    <MainLayout>
+      <h1>Posts desde Laravel</h1>
+      <ul>
+        {posts.map(post => (
+          <li key={post.id}>{post.name}</li>
+        ))}
+      </ul>
+    </MainLayout>
+  );
+}
+
+export default Categories;
