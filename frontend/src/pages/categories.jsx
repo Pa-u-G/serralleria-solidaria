@@ -1,3 +1,4 @@
+import MainLayout from "../layouts/Main_layout";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -11,14 +12,14 @@ function Categories() {
   }, []);
 
   return (
-    <div>
+    <MainLayout>
       <h1>Posts desde Laravel</h1>
       <ul>
         {posts.map(post => (
           <li key={post.id}>{post.name}</li>
         ))}
       </ul>
-    </div>
+    </MainLayout>
   );
 }
 
