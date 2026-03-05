@@ -1,9 +1,8 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Dahboard from "./pages/dashboard"
-import Categories from "./pages/categories"
-import Users from "./pages/users"
-import Dashboard from "./pages/dashboard"
+import Categories from "./pages/categories";
+import Users from "./pages/users";
+import Dashboard from "./pages/dashboard";
 
 function App() {
 

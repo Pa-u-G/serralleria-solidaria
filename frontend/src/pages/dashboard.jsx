@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 
 function Dashboard() {
   return (
-    <div className="p-4">
-      <h1 className="text-3xl font-bold">Dashboard</h1>
-      <p>Bienvenido al panel de control</p>
-      <Link className="mr-4 text-blue-600" to="/categories">Categories</Link>
+    <div className="min-h-screen p-6 bg-gray-100">
+      <h1 className="text-4xl font-bold text-blue-600 mb-4">Dashboard</h1>
+      <p className="text-gray-700">Bienvenido al panel de control</p>
+      <Link to="/categories">Categories</Link>
       <br />
-      <Link className="text-blue-600" to="/users">Users</Link>
+      <Link to="/users">Users</Link>
     </div>
   )
 }
