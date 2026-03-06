@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Categories from "./pages/categories";
 import Dashboard from "./pages/dashboard";
+import Categories from "./pages/categories";
+import Products from "./pages/products";
 
 function App() {
 
@@ -12,8 +13,8 @@ function App() {
       <Routes>
 
         <Route path="/" element={<Dashboard />} />
-
         <Route path="/categories" element={<Categories />} />
+        <Route path="/products" element={<Products />} />
 
       </Routes>
 
