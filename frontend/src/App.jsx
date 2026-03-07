@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Categories from "./pages/categories";
+import Categories from "./pages/categorias/categories";
 import Dashboard from "./pages/dashboard";
 
 function App() {
