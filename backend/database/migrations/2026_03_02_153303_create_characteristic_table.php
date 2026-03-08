@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('characteristic_id');
             $table->foreign('characteristic_id')->references('id')->on('characteristics_type')->onUpdate('cascade')->onDelete('cascade');
             $table->text('description');
+            $table->boolean("status")->default(true);
             $table->timestamps();
         });
     }

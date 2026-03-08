@@ -58,7 +58,7 @@
         <div className="w-full flex flex-col justify-center items-center">
           <div className="flex items-center justify-between w-4/5">
             <h1 className="text-3xl">Categorias</h1>
-            <button onClick={createCategory} className="bg-orange-500 text-white px-4 py-2 rounded mb-4">
+            <button onClick={createCategory} className="bg-orange-500 text-white px-4 py-2 rounded mb-4 cursor-pointer">
               Añadir Categoría
             </button>
           </div>
@@ -82,7 +82,7 @@
                     </div>
                   </td>
                   <td className="pl-10 pr-10 pt-4 pb-4 flex gap-2 justify-end">
-                    <button onClick={() => editCategory(post.id)} className="bg-blue-500 text-white px-2 py-1 rounded">
+                    <button onClick={() => editCategory(post.id)} className="bg-blue-500 text-white px-2 py-1 rounded cursor-pointer">
                       Editar
                     </button>
                     <button onClick={() => toggleStatus(post.id)} className={`${post.status ? "bg-red-500" : "bg-green-500"} text-white px-2 py-1 rounded cursor-pointer`}>
