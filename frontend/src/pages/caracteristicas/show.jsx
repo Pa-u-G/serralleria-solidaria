@@ -106,7 +106,7 @@ function CharacteristicTypeShow() {
                 <td className="pl-10 pr-10 pt-4 pb-4 flex gap-2 justify-end">
                   <button onClick={(e) => {
                     e.stopPropagation();
-                    edit(type.id)
+                    edit(c.id)
                   }} className="bg-blue-500 text-white px-2 py-1 rounded cursor-pointer">
                     Editar
                   </button>
