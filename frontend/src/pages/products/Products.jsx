@@ -1,6 +1,7 @@
-import MainLayout from "../layouts/Main_layout";
+import MainLayout from "../../layouts/Main_layout";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Products() {
 
@@ -15,7 +16,7 @@ function Products() {
   return (
     <MainLayout>
 
-      {/* HEADER */}
+      
       <div className="flex justify-between items-center mb-6">
 
         <h1 className="text-3xl font-bold text-gray-800">
@@ -23,13 +24,13 @@ function Products() {
         </h1>
 
         <button className="bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90 shadow">
-          + Afegir Producte
+          <Link to="/products/create">+ Afegir Producte</Link>
         </button>
 
       </div>
 
 
-      {/* FILTERS */}
+      
       <div className="flex gap-4 mb-6">
 
         <input
@@ -45,7 +46,7 @@ function Products() {
       </div>
 
 
-      {/* TABLE */}
+      
       <div className="bg-white rounded-lg shadow-sm overflow-hidden">
 
         <table className="w-full text-sm">
@@ -96,7 +97,7 @@ function Products() {
                 </td>
 
 
-                {/* FEATURED */}
+                
                 <td className="p-4">
 
                   {product.star ? (
@@ -116,11 +117,11 @@ function Products() {
                 </td>
 
 
-                {/* ACTIONS */}
+                
                 <td className="p-4 flex gap-3">
 
                   <button className="text-blue-500 hover:text-blue-700">
-                    ✏️
+                    <Link to="/products/edit">✏️</Link>
                   </button>
 
                   <button className="text-red-500 hover:text-red-700">
