@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use App\Models\Product;
+
+class Pack extends Model
+{
+    protected $fillable = [
+        'name',
+        'description',
+        'price'
+    ];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'product_pack')
+                    ->withPivot('amount')
+                    ->withTimestamps();
+    }
+}

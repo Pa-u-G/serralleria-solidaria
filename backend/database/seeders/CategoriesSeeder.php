@@ -19,16 +19,19 @@ class CategoriesSeeder extends Seeder
                 'name' => 'Cilindres',
                 'created_at' => now(),
                 'updated_at' => now(),
+                "status" => true,
             ],
             [
                 'name' => 'Escut',
                 'created_at' => now(),
                 'updated_at' => now(),
+                "status" => true,
             ],
             [
                 'name' => 'Segon pany',
                 'created_at' => now(),
                 'updated_at' => now(),
+                "status" => false,
             ],
         ]);
     }
