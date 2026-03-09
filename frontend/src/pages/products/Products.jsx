@@ -5,6 +5,26 @@ import { Link } from "react-router-dom";
 
 function Products() {
 
+  const deleteProduct = (id, name) => {
+
+    const confirmDelete = window.confirm(
+      `¿Estás seguro de eliminar el producto "${name}"?`
+    );
+
+    if (confirmDelete) {
+
+      axios.delete(`http://localhost:8000/api/delete_product/${id}`)
+        .then(res => {
+
+          setPosts(posts.filter(product => product.id !== id));
+
+        })
+        .catch(err => console.log(err));
+
+    }
+
+  };
+  
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -121,10 +141,13 @@ function Products() {
                 <td className="p-4 flex gap-3">
 
                   <button className="text-blue-500 hover:text-blue-700">
-                    <Link to="/products/edit">✏️</Link>
+                    <Link to={`/products/edit/${product.id}`}>✏️</Link>
                   </button>
 
-                  <button className="text-red-500 hover:text-red-700">
+                  <button
+                    onClick={() => deleteProduct(product.id, product.name)}
+                    className="text-red-500 hover:text-red-700"
+                  >
                     🗑️
                   </button>
 
