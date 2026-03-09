@@ -2,12 +2,21 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CharacteristicTypeController;
 use App\Http\Controllers\CharacteristicController;
 use App\Http\Controllers\PackController;
 use App\Http\Controllers\ProductPackController;
 
 Route::get('/categories', [CategoriesController::class, 'index']);
+
+Route::get('/products', [ProductsController::class, 'index']);
+Route::get('/products/{id}', [ProductsController::class, 'show']);
+
+Route::post('/create_product', [ProductsController::class, 'store']);
+Route::put('/edit_product/{id}', [ProductsController::class, 'update']);
+
+Route::delete('/delete_product/{id}', [ProductsController::class, 'destroy']);
 Route::put('/categories/{id}', [CategoriesController::class, 'update']);
 Route::patch('/categories/{id}', [CategoriesController::class, 'update']);
 Route::post('/categories', [CategoriesController::class, 'store']);
