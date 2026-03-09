@@ -19,14 +19,14 @@ function EditProduct() {
 
   const [categories, setCategories] = useState([]);
 
-  // Traer categorías
+  
   useEffect(() => {
     axios.get("http://localhost:8000/api/categories")
       .then(res => setCategories(res.data))
       .catch(err => console.log(err));
   }, []);
 
-  // Traer producto a editar
+
   useEffect(() => {
     axios.get(`http://localhost:8000/api/products/${id}`)
       .then(res => setForm(res.data))
