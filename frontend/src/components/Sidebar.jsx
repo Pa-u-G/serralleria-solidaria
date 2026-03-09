@@ -8,6 +8,7 @@ function Sidebar() {
       <Link className="hover:bg-[#F07057] p-2 rounded" to="/categories">Categories</Link>
       <Link className="hover:bg-[#F07057] p-2 rounded" to="/products">Productes</Link>
       <Link className="hover:bg-[#F07057] p-2 rounded" to="/caracteristicas">Caracteristicas</Link>
+      <Link className="hover:bg-[#F07057] p-2 rounded" to="/packs">Packs</Link>
     </aside>
   );
 }

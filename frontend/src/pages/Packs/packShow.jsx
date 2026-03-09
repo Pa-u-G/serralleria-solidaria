@@ -165,25 +165,28 @@ function PackShow(){
 
           <tbody>
 
-            {products.map(product=>(
-              <tr key={product.id} className="border-1 border-black">
+            {products
+              // filtramos los que ya están en el pack
+              .filter(product => !pack.products.some(p => p.id === product.id))
+              .map(product => (
+                <tr key={product.id} className="border-1 border-black">
 
-                <td className="pl-10 pr-10 pt-4 pb-4">{product.name}</td>
-                <td className="pl-10 pr-10 pt-4 pb-4">{product.price}€</td>
+                  <td className="pl-10 pr-10 pt-4 pb-4">{product.name}</td>
+                  <td className="pl-10 pr-10 pt-4 pb-4">{product.price}€</td>
 
-                <td className="pl-10 pr-10 pt-4 pb-4">
+                  <td className="pl-10 pr-10 pt-4 pb-4">
 
-                  <button
-                    onClick={()=>addProduct(product.id)}
-                    className="bg-green-500 text-white px-3 py-1 rounded cursor-pointer"
-                  >
-                    Añadir
-                  </button>
+                    <button
+                      onClick={() => addProduct(product.id)}
+                      className="bg-green-500 text-white px-3 py-1 rounded cursor-pointer"
+                    >
+                      Añadir
+                    </button>
 
-                </td>
+                  </td>
 
-              </tr>
-            ))}
+                </tr>
+              ))}
 
           </tbody>
 

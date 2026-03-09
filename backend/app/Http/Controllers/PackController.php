@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class PackController extends Controller
 {
-
     public function index()
     {
         return Pack::all();
@@ -20,14 +19,44 @@ class PackController extends Controller
 
     public function store(Request $request)
     {
-        $pack = Pack::create($request->all());
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric',
+        ]);
+
+        $pack = Pack::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'status' => true, // activo por defecto
+        ]);
+
         return $pack;
     }
 
     public function update(Request $request, $id)
     {
         $pack = Pack::findOrFail($id);
-        $pack->update($request->all());
+
+        // Solo actualizamos los campos que vengan
+        if ($request->has('name')) {
+            $pack->name = $request->name;
+        }
+
+        if ($request->has('description')) {
+            $pack->description = $request->description;
+        }
+
+        if ($request->has('price')) {
+            $pack->price = $request->price;
+        }
+
+        if ($request->has('status')) {
+            $pack->status = $request->status;
+        }
+
+        $pack->save();
 
         return $pack;
     }
@@ -37,5 +66,4 @@ class PackController extends Controller
         Pack::destroy($id);
         return response()->json(['message'=>'deleted']);
     }
-
 }
