@@ -141,8 +141,8 @@ function Products() {
                 
                 <td className="p-4 flex gap-3">
 
-                  <button className="text-blue-500 hover:text-blue-700">
-                    <Link to={`/products/edit/${product.id}`}>✏️</Link>
+                  <button onClick={() => navigate("/products/edit")} className="text-blue-500 hover:text-blue-700 cursor-pointer">
+                    ✏️
                   </button>
 
                   <button
