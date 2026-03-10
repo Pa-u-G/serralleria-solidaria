@@ -102,85 +102,41 @@ function PackShow(){
 
         <h2 className="text-xl mb-2">Productos del pack</h2>
 
-        <table className="border-1 border-black w-full text-center mb-10">
+        <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full mb-4">
+          <table className="p-10 w-full">
 
-          <thead className="bg-gray-200">
-            <tr>
-              <th>Nombre</th>
-              <th>Precio</th>
-              <th>Cantidad</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-
-          <tbody>
-
-            {pack.products.map(product=>(
-              <tr key={product.id} className="border-1 border-black">
-
-                <td className="pl-10 pr-10 pt-4 pb-4">{product.name}</td>
-                <td className="pl-10 pr-10 pt-4 pb-4">{product.price}€</td>
-                <td className="pl-10 pr-10 pt-4 pb-4">{product.pivot.amount}</td>
-
-                <td className="pl-10 pr-10 pt-4 pb-4 flex gap-2 justify-end">
-
-                  <button
-                    onClick={()=>editAmount(product)}
-                    className="bg-blue-500 text-white px-2 py-1 rounded cursor-pointer"
-                  >
-                    Editar
-                  </button>
-
-                  <button
-                    onClick={()=>removeProduct(product.id)}
-                    className="bg-red-500 text-white px-2 py-1 rounded cursor-pointer"
-                  >
-                    Eliminar
-                  </button>
-
-                </td>
-
+            <thead className="bg-gray-200 text-gray-600 border-b border-gray-300">
+              <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Acciones</th>
               </tr>
-            ))}
+            </thead>
 
-          </tbody>
+            <tbody>
 
-        </table>
-
-
-
-{/* TABLA PRODUCTOS DISPONIBLES */}
-
-        <h2 className="text-xl mb-2">Añadir producto</h2>
-
-        <table className="border-1 border-black w-full text-center">
-
-          <thead className="bg-gray-200">
-            <tr>
-              <th>Nombre</th>
-              <th>Precio</th>
-              <th>Añadir</th>
-            </tr>
-          </thead>
-
-          <tbody>
-
-            {products
-              // filtramos los que ya están en el pack
-              .filter(product => !pack.products.some(p => p.id === product.id))
-              .map(product => (
-                <tr key={product.id} className="border-1 border-black">
+              {pack.products.map(product=>(
+                <tr key={product.id} className="border-b border-gray-300 hover:bg-gray-50 transition">
 
                   <td className="pl-10 pr-10 pt-4 pb-4">{product.name}</td>
-                  <td className="pl-10 pr-10 pt-4 pb-4">{product.price}€</td>
+                  <td className="pl-10 pr-10 pt-4 pb-4 text-center">{product.price}€</td>
+                  <td className="pl-10 pr-10 pt-4 pb-4 text-center">{product.pivot.amount}</td>
 
-                  <td className="pl-10 pr-10 pt-4 pb-4">
+                  <td className="pl-10 pr-10 pt-4 pb-4 flex gap-2 justify-center">
 
                     <button
-                      onClick={() => addProduct(product.id)}
-                      className="bg-green-500 text-white px-3 py-1 rounded cursor-pointer"
+                      onClick={()=>editAmount(product)}
+                      className="bg-blue-500 text-white px-2 py-1 rounded cursor-pointer"
                     >
-                      Añadir
+                      Editar
+                    </button>
+
+                    <button
+                      onClick={()=>removeProduct(product.id)}
+                      className="bg-red-500 text-white px-2 py-1 rounded cursor-pointer"
+                    >
+                      Eliminar
                     </button>
 
                   </td>
@@ -188,9 +144,57 @@ function PackShow(){
                 </tr>
               ))}
 
-          </tbody>
+            </tbody>
 
-        </table>
+          </table>
+        </div>
+
+
+
+{/* TABLA PRODUCTOS DISPONIBLES */}
+
+        <h2 className="text-xl mb-2">Añadir producto</h2>
+
+        <div className="bg-white rounded-lg shadow-sm overflow-hidden w-full mb-4">
+          <table className="p-10 w-full">
+
+            <thead className="bg-gray-200 text-gray-600 border-b border-gray-300">
+              <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Añadir</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              {products
+                // filtramos los que ya están en el pack
+                .filter(product => !pack.products.some(p => p.id === product.id))
+                .map(product => (
+                  <tr key={product.id} className="border-b border-gray-300 hover:bg-gray-50 transition">
+
+                    <td className="pl-10 pr-10 pt-4 pb-4">{product.name}</td>
+                    <td className="pl-10 pr-10 pt-4 pb-4 text-center">{product.price}€</td>
+
+                    <td className="pl-10 pr-10 pt-4 pb-4 flex justify-center">
+
+                      <button
+                        onClick={() => addProduct(product.id)}
+                        className="bg-green-500 text-white px-3 py-1 rounded cursor-pointer"
+                      >
+                        Añadir
+                      </button>
+
+                    </td>
+
+                  </tr>
+                ))}
+
+            </tbody>
+
+          </table>
+        </div>
 
       </div>
 

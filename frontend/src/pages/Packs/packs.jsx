@@ -70,60 +70,60 @@ function Packs() {
 
           <button
             onClick={createPack}
-            className="bg-orange-500 text-white px-4 py-2 rounded cursor-pointer"
+            className="bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90 shadow mb-4 cursor-pointer"
           >
             Crear Pack
           </button>
         </div>
-
-        <table className="border-1 border-black p-10 w-4/5 text-center">
-          <thead className="bg-gray-200">
-            <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Precio</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {packs.map(pack => (
-              <tr key={pack.id} className="border-1 border-black cursor-pointer" onClick={() => navigate(`/packs/${pack.id}`)}>
-                <td className="pl-10 pr-10 pt-4 pb-4">{pack.id}</td>
-                <td className="pl-10 pr-10 pt-4 pb-4">{pack.name}</td>
-                <td className="pl-10 pr-10 pt-4 pb-4">{pack.price}€</td>
-                <td className="pl-10 pr-10 pt-4 pb-4">
-                  <div className={`${pack.status ? "bg-green-200 text-green-700" : "bg-red-200 text-red-700"} rounded-2xl`}>
-                    {pack.status ? "activo" : "inactivo"}
-                  </div>
-                </td>
-                <td className="pl-10 pr-10 pt-4 pb-4 flex gap-2 justify-end">
-                  <button
-                    onClick={e => {
-                      e.stopPropagation();
-                      editPack(pack);
-                    }}
-                    className="bg-blue-500 text-white px-2 py-1 rounded cursor-pointer"
-                  >
-                    Editar
-                  </button>
-                  <button
-                    onClick={e => {
-                      e.stopPropagation();
-                      togglePackStatus(pack);
-                    }}
-                    className={`${pack.status ? "bg-red-500" : "bg-green-500"} text-white px-2 py-1 rounded cursor-pointer`}
-                  >
-                    {pack.status ? "Desactivar" : "Activar"}
-                  </button>
-                </td>
+        <div className="bg-white rounded-lg shadow-sm overflow-hidden w-4/5">
+          <table className="p-10 w-full">
+            <thead className="bg-gray-200 text-gray-600 border-b border-gray-300">
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Estado</th>
+                <th>Acciones</th>
               </tr>
-            ))}
-          </tbody>
+            </thead>
 
-        </table>
+            <tbody>
+              {packs.map(pack => (
+                <tr key={pack.id} className="border-b border-gray-300 hover:bg-gray-50 transition cursor-pointer" onClick={() => navigate(`/packs/${pack.id}`)}>
+                  <td className="pl-10 pr-10 pt-4 pb-4">{pack.id}</td>
+                  <td className="pl-10 pr-10 pt-4 pb-4">{pack.name}</td>
+                  <td className="pl-10 pr-10 pt-4 pb-4">{pack.price}€</td>
+                  <td className="pl-10 pr-10 pt-4 pb-4 text-center">
+                    <div className={`${pack.status ? "bg-green-200 text-green-700" : "bg-red-200 text-red-700"} rounded-2xl`}>
+                      {pack.status ? "activo" : "inactivo"}
+                    </div>
+                  </td>
+                  <td className="pl-10 pr-10 pt-4 pb-4 flex gap-2 justify-end">
+                    <button
+                      onClick={e => {
+                        e.stopPropagation();
+                        editPack(pack);
+                      }}
+                      className="bg-blue-500 text-white px-2 py-1 rounded cursor-pointer"
+                    >
+                      Editar
+                    </button>
+                    <button
+                      onClick={e => {
+                        e.stopPropagation();
+                        togglePackStatus(pack);
+                      }}
+                      className={`${pack.status ? "bg-red-500" : "bg-green-500"} text-white px-2 py-1 rounded cursor-pointer`}
+                    >
+                      {pack.status ? "Desactivar" : "Activar"}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
 
+          </table>
+        </div>
       </div>
     </MainLayout>
   );
