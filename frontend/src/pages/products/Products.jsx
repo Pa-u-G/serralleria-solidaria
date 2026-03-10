@@ -1,10 +1,11 @@
 import MainLayout from "../../layouts/Main_layout";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Products() {
 
+  const navigate = useNavigate();
   const deleteProduct = (id, name) => {
 
     const confirmDelete = window.confirm(
@@ -43,8 +44,8 @@ function Products() {
           Gestió de Productes
         </h1>
 
-        <button className="bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90 shadow">
-          <Link to="/products/create">+ Afegir Producte</Link>
+        <button onClick={() => navigate("/products/create")} className="bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90 shadow cursor-pointer">
+          + Afegir Producte
         </button>
 
       </div>
