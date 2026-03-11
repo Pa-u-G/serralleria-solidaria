@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('characteristics_type', function (Blueprint $table) {
             $table->id();
             $table->string('type', 255);
+            $table->boolean("status")->default(true);
             $table->timestamps();
         });
     }

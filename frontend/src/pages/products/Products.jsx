@@ -71,7 +71,7 @@ function Products() {
 
         <table className="w-full text-sm">
 
-          <thead className="bg-gray-50 text-gray-600 border-b border-gray-300">
+          <thead className="bg-gray-200 text-gray-600 border-b border-gray-300">
 
             <tr>
 
