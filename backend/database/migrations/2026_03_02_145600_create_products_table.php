@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('price', 8, 2);
             $table->integer('stock');
             $table->boolean('star');
-            $table->boolean('status');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
