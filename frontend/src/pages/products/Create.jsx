@@ -106,7 +106,7 @@ function CreateProduct() {
             >
               <option value="">Selecciona categoria</option>
               {categories.map(cat => (
-                <option key={cat.id} value={cat.id}>{cat.name}</option>
+                cat.status ? <option key={cat.id} value={cat.id}>{cat.name}</option> : ""
               ))}
             </select>
           </div>
@@ -122,7 +122,7 @@ function CreateProduct() {
               name="price"
               value={form.price}
               onChange={handleChange}
-              className="border rounded-lg px-4 py-2 w-full" required
+              className="border rounded-lg px-4 py-2 w-full" required min={0}
             />
           </div>
 
@@ -137,7 +137,7 @@ function CreateProduct() {
               name="stock"
               value={form.stock}
               onChange={handleChange}
-              className="border rounded-lg px-4 py-2 w-full" required
+              className="border rounded-lg px-4 py-2 w-full" required min={0}
             />
           </div>
 

@@ -28,12 +28,10 @@ class ProductsController extends Controller
             'name' => 'required',
             'description' => 'required',
             'category_id' => 'required',
-            'price' => 'required',
-            'stock' => 'required',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
             'star' => 'required'
         ]);
-
-        $validated["img"] = "Aun nada";
 
         $product = Product::create($validated);
 
@@ -62,8 +60,8 @@ class ProductsController extends Controller
             'name' => 'required',
             'description' => 'required',
             'category_id' => 'required',
-            'price' => 'required',
-            'stock' => 'required',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
             'star' => 'required'
         ]);
 
@@ -77,12 +75,20 @@ class ProductsController extends Controller
      */
     public function destroy(string $id)
     {
+        //
+    }
+
+    public function change_status(Request $request, string $id) 
+    {
         $product = Product::findOrFail($id);
 
-        $product->delete();
+        if ($request->has('status')) {
+            $product->status = $request->status;
+        }
 
-        return response()->json([
-            "message" => "Product deleted"
-        ]);
+        $product->save();
+
+        return response()->json($product);
     }
+
 }
