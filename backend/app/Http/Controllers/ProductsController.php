@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Product_img;
+use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
 {
@@ -23,19 +25,36 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validatedProduct = $request->validate([
             'code' => 'required',
             'name' => 'required',
             'description' => 'required',
-            'category_id' => 'required',
+            'category_id' => 'required|exists:categories,id',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'star' => 'required'
+            'star' => 'required|boolean'
         ]);
 
-        $product = Product::create($validated);
+        $product = Product::create($validatedProduct);
 
-        return response()->json($product, 201);
+        if ($request->hasFile('images')) {
+            $request->validate([
+                'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048'
+            ]);
+
+            foreach ($request->file('images') as $image) {
+                $filename = time().'_'.$image->getClientOriginalName();
+                $path = $image->storeAs('products', $filename, 'public');
+
+                Product_img::create([
+                    'product_id' => $product->id,
+                    'name_img' => $filename,
+                    'path' => $path
+                ]);
+            }
+        }
+
+        return response()->json($product->load('images'), 201);
     }
 
     /**
@@ -43,7 +62,7 @@ class ProductsController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::with('images')->findOrFail($id);
 
         return response()->json($product);
     }
@@ -59,15 +78,30 @@ class ProductsController extends Controller
             'code' => 'required',
             'name' => 'required',
             'description' => 'required',
-            'category_id' => 'required',
+            'category_id' => 'required|exists:categories,id',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'star' => 'required'
+            'star' => 'required|boolean',
+            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
         ]);
 
         $product->update($validated);
 
-        return response()->json($product);
+        // Subir nuevas imágenes
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $filename = time().'_'.$image->getClientOriginalName();
+                $path = $image->storeAs('products', $filename, 'public');
+
+                Product_img::create([
+                    'product_id' => $product->id,
+                    'name_img' => $filename,
+                    'path' => $path
+                ]);
+            }
+        }
+
+        return response()->json($product->load('images'));
     }
 
     /**
@@ -91,4 +125,15 @@ class ProductsController extends Controller
         return response()->json($product);
     }
 
+    public function delete_image($image_id)
+    {
+        $image = Product_img::findOrFail($image_id);
+
+        // Borrar archivo del storage
+        Storage::disk('public')->delete($image->path);
+
+        $image->delete();
+
+        return response()->json(['message' => 'Imagen eliminada']);
+}
 }

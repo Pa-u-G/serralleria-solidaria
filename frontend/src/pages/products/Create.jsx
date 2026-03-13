@@ -4,22 +4,20 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function CreateProduct() {
-
   const navigate = useNavigate();
-
+  const [images, setImages] = useState([]);
   const [form, setForm] = useState({
     code: "",
     name: "",
     category_id: "",
     price: "",
     stock: "",
-    star: false
+    star: false,
+    description: ""
   });
 
-  // Estado para categorías
   const [categories, setCategories] = useState([]);
 
-  // Traer categorías de la API
   useEffect(() => {
     axios.get("http://localhost:8000/api/categories")
       .then(res => setCategories(res.data))
@@ -27,150 +25,149 @@ function CreateProduct() {
   }, []);
 
   const handleChange = (e) => {
-
     const { name, value, type, checked } = e.target;
-
     setForm({
       ...form,
       [name]: type === "checkbox" ? checked : value
     });
-
   };
 
   const submitProduct = (e) => {
-
     e.preventDefault();
 
-    axios.post("http://localhost:8000/api/create_product", form)
-      .then(res => {
+    if (!form.category_id) {
+      alert("Selecciona una categoría");
+      return;
+    }
 
-        console.log(res.data);
+    const formData = new FormData();
+    formData.append("code", form.code);
+    formData.append("name", form.name);
+    formData.append("description", form.description);
+    formData.append("category_id", form.category_id);
+    formData.append("price", form.price);
+    formData.append("stock", form.stock);
+    formData.append("star", form.star ? 1 : 0);
 
-        navigate("/products"); // volver a la lista
+    for (let i = 0; i < images.length; i++) {
+      formData.append("images[]", images[i]);
+    }
 
-      })
-      .catch(err => console.log(err));
-
+    axios.post("http://localhost:8000/api/create_product", formData, {
+      headers: { "Content-Type": "multipart/form-data" }
+    })
+    .then(res => navigate("/products"))
+    .catch(err => {
+      if (err.response && err.response.data) {
+        console.log("Errores de validación:", err.response.data);
+        alert("Hay errores en los datos enviados. Revisa la consola.");
+      }
+    });
   };
 
   return (
-
     <MainLayout>
-
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">
-        Afegir Producte
-      </h1>
+      <h1 className="text-3xl font-bold text-gray-800 mb-6">Afegir Producte</h1>
 
       <div className="bg-white p-6 rounded-lg shadow-sm">
-
         <form onSubmit={submitProduct} className="grid grid-cols-2 gap-6">
-
-          
           <div>
-            <label className="block text-sm font-medium mb-1">
-              Codi
-            </label>
-
+            <label className="block text-sm font-medium mb-1">Codi</label>
             <input
               type="text"
               name="code"
               value={form.code}
               onChange={handleChange}
-              className="border rounded-lg px-4 py-2 w-full" required
+              className="border rounded-lg px-4 py-2 w-full"
+              required
             />
           </div>
 
-          
           <div>
-            <label className="block text-sm font-medium mb-1">
-              Nom
-            </label>
-
+            <label className="block text-sm font-medium mb-1">Nom</label>
             <input
               type="text"
               name="name"
               value={form.name}
               onChange={handleChange}
-              className="border rounded-lg px-4 py-2 w-full" required
+              className="border rounded-lg px-4 py-2 w-full"
+              required
             />
           </div>
 
-          
           <div>
             <label className="block text-sm font-medium mb-1">Categoria</label>
             <select
               name="category_id"
               value={form.category_id}
               onChange={handleChange}
-              className="border rounded-lg px-4 py-2 w-full" required
+              className="border rounded-lg px-4 py-2 w-full"
+              required
             >
               <option value="">Selecciona categoria</option>
               {categories.map(cat => (
-                cat.status ? <option key={cat.id} value={cat.id}>{cat.name}</option> : ""
+                cat.status ? <option key={cat.id} value={cat.id}>{cat.name}</option> : null
               ))}
             </select>
           </div>
 
-          
           <div>
-            <label className="block text-sm font-medium mb-1">
-              Preu
-            </label>
-
+            <label className="block text-sm font-medium mb-1">Preu</label>
             <input
               type="number"
               name="price"
               value={form.price}
               onChange={handleChange}
-              className="border rounded-lg px-4 py-2 w-full" required min={0}
+              className="border rounded-lg px-4 py-2 w-full"
+              required
+              min={0}
             />
           </div>
 
-          
           <div>
-            <label className="block text-sm font-medium mb-1">
-              Stock
-            </label>
-
+            <label className="block text-sm font-medium mb-1">Stock</label>
             <input
               type="number"
               name="stock"
               value={form.stock}
               onChange={handleChange}
-              className="border rounded-lg px-4 py-2 w-full" required min={0}
+              className="border rounded-lg px-4 py-2 w-full"
+              required
+              min={0}
             />
           </div>
 
-          
           <div className="flex items-center gap-2 mt-6">
-
             <input
               type="checkbox"
               name="star"
               checked={form.star}
               onChange={handleChange}
             />
-
-            <label>
-              Producte destacat
-            </label>
-
+            <label>Producte destacat</label>
           </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Descripció
-            </label>
 
+          <div>
+            <label className="block text-sm font-medium mb-1">Descripció</label>
             <textarea
               name="description"
               value={form.description}
               onChange={handleChange}
-              className="border rounded-lg px-4 py-2 w-full" required
-            ></textarea>
+              className="border rounded-lg px-4 py-2 w-full"
+              required
+            />
           </div>
-          
-          <div className="col-span-2 flex gap-4 mt-4">
 
+          <div className="flex items-center gap-2 mt-6">
+            <input
+              type="file"
+              multiple
+              onChange={(e) => setImages(e.target.files)}
+              className="border rounded-lg px-4 py-2 w-full"
+            />
+          </div>
+
+          <div className="col-span-2 flex gap-4 mt-4">
             <button
               type="submit"
               className="bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90"
@@ -185,17 +182,11 @@ function CreateProduct() {
             >
               Cancel·lar
             </button>
-
           </div>
-
         </form>
-
       </div>
-
     </MainLayout>
-
   );
-
 }
 
 export default CreateProduct;
