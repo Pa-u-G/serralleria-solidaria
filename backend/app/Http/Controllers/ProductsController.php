@@ -25,6 +25,9 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
+        $request->merge([
+            'star' => filter_var($request->star, FILTER_VALIDATE_BOOLEAN)
+        ]);
         $validatedProduct = $request->validate([
             'code' => 'required',
             'name' => 'required',
@@ -36,10 +39,12 @@ class ProductsController extends Controller
         ]);
 
         $product = Product::create($validatedProduct);
-
+        if ($request->has('characteristics')) {
+            $product->characteristics()->sync($request->characteristics);
+        }
         if ($request->hasFile('images')) {
             $request->validate([
-                'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048'
+                'images.*' => 'image|mimes:jpg,jpeg,png,webp'
             ]);
 
             foreach ($request->file('images') as $image) {
@@ -62,7 +67,7 @@ class ProductsController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::with('images')->findOrFail($id);
+        $product = Product::with(['images','characteristics.type'])->findOrFail($id);
 
         return response()->json($product);
     }
@@ -82,10 +87,15 @@ class ProductsController extends Controller
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'star' => 'required|boolean',
-            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
+            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp'
         ]);
 
         $product->update($validated);
+        if ($request->has('characteristics')) {
+            $product->characteristics()->sync($request->characteristics);
+        } else {
+            $product->characteristics()->sync([]); // elimina todas si no vienen
+        }
 
         // Subir nuevas imágenes
         if ($request->hasFile('images')) {

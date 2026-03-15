@@ -18,18 +18,38 @@ function EditProduct() {
   });
 
   const [categories, setCategories] = useState([]);
-
+  const [characteristicTypes, setCharacteristicTypes] = useState([]);
+  const [selectedCharacteristics, setSelectedCharacteristics] = useState({});
   useEffect(() => {
     axios.get("http://localhost:8000/api/categories")
       .then(res => setCategories(res.data))
       .catch(err => console.log(err));
+    axios.get("http://localhost:8000/api/characteristics-types")
+    .then(res => {
+      const activeTypes = res.data.filter(type => type.status);
+      setCharacteristicTypes(activeTypes);
+    })
+    .catch(err => console.log(err));
   }, []);
 
 
   useEffect(() => {
     axios.get(`http://localhost:8000/api/products/${id}`)
-      .then(res => setForm(res.data))
-      .catch(err => console.log(err));
+    .then(res => {
+      const product = res.data;
+
+      setForm(product);
+      setImages(product.images);
+
+      const selected = {};
+
+      product.characteristics?.forEach(c => {
+        selected[c.type.id] = c.id; // <-- usar c.type.id
+      });
+
+      setSelectedCharacteristics(selected);
+    })
+    .catch(err => console.log(err));
   }, [id]);
   
   const [images, setImages] = useState([]);
@@ -46,6 +66,12 @@ function EditProduct() {
     setForm({
       ...form,
       [name]: type === "checkbox" ? checked : value
+    });
+  };
+  const handleCharacteristicChange = (typeId, value) => {
+    setSelectedCharacteristics({
+      ...selectedCharacteristics,
+      [typeId]: value
     });
   };
   const [newImages, setNewImages] = useState([]);
@@ -67,7 +93,11 @@ function EditProduct() {
     for (let i = 0; i < newImages.length; i++) {
       formData.append("images[]", newImages[i]);
     }
-
+    Object.values(selectedCharacteristics).forEach(id => {
+      if (id) {
+        formData.append("characteristics[]", id);
+      }
+    });
     // Simular PUT porque axios FormData y PUT a veces falla
     formData.append('_method', 'PUT');
 
@@ -203,7 +233,34 @@ function EditProduct() {
               className="border rounded-lg px-4 py-2 w-full"
             />
           </div>
+          {characteristicTypes.map(type => (
+            type.status && (
+              <div key={type.id}>
+                <label className="block text-sm font-medium mb-1">
+                  {type.type}
+                </label>
 
+                <select
+                  className="border rounded-lg px-4 py-2 w-full"
+                  value={selectedCharacteristics[type.id] || ""}
+                  onChange={(e) =>
+                    handleCharacteristicChange(type.id, e.target.value)
+                  }
+                >
+                  <option value="">Selecciona {type.type}</option>
+
+                  {type.characteristics
+                    ?.filter(c => c.status)
+                    .map(c => (
+                      <option key={c.id} value={c.id}>
+                        {c.description}
+                      </option>
+                  ))}
+
+                </select>
+              </div>
+            )
+          ))}
           <div className="col-span-2 flex gap-4 mt-4">
             <button
               type="submit"

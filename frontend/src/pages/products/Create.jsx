@@ -17,11 +17,19 @@ function CreateProduct() {
   });
 
   const [categories, setCategories] = useState([]);
-
+  const [characteristicTypes, setCharacteristicTypes] = useState([]);
+  const [selectedCharacteristics, setSelectedCharacteristics] = useState({});
   useEffect(() => {
     axios.get("http://localhost:8000/api/categories")
       .then(res => setCategories(res.data))
       .catch(err => console.log(err));
+    
+    axios.get("http://localhost:8000/api/characteristics-types")
+    .then(res => {
+      const activeTypes = res.data.filter(type => type.status);
+      setCharacteristicTypes(activeTypes);
+    })
+    .catch(err => console.log(err));
   }, []);
 
   const handleChange = (e) => {
@@ -31,7 +39,12 @@ function CreateProduct() {
       [name]: type === "checkbox" ? checked : value
     });
   };
-
+  const handleCharacteristicChange = (typeId, value) => {
+    setSelectedCharacteristics({
+      ...selectedCharacteristics,
+      [typeId]: value
+    });
+  };
   const submitProduct = (e) => {
     e.preventDefault();
 
@@ -52,7 +65,11 @@ function CreateProduct() {
     for (let i = 0; i < images.length; i++) {
       formData.append("images[]", images[i]);
     }
-
+    Object.values(selectedCharacteristics).forEach(id => {
+      if (id) {
+        formData.append("characteristics[]", id);
+      }
+    });
     axios.post("http://localhost:8000/api/create_product", formData, {
       headers: { "Content-Type": "multipart/form-data" }
     })
@@ -166,7 +183,34 @@ function CreateProduct() {
               className="border rounded-lg px-4 py-2 w-full"
             />
           </div>
+          {characteristicTypes.map(type => (
+            type.status && (
+              <div key={type.id}>
+                <label className="block text-sm font-medium mb-1">
+                  {type.type}
+                </label>
 
+                <select
+                  className="border rounded-lg px-4 py-2 w-full"
+                  value={selectedCharacteristics[type.id] || ""}
+                  onChange={(e) =>
+                    handleCharacteristicChange(type.id, e.target.value)
+                  }
+                >
+                  <option value="">Selecciona {type.type}</option>
+
+                  {type.characteristics
+                    ?.filter(c => c.status)
+                    .map(c => (
+                      <option key={c.id} value={c.id}>
+                        {c.description}
+                      </option>
+                  ))}
+
+                </select>
+              </div>
+            )
+          ))}
           <div className="col-span-2 flex gap-4 mt-4">
             <button
               type="submit"
