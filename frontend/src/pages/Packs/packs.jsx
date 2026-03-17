@@ -14,41 +14,41 @@ function Packs() {
       .catch(err => console.log(err));
   }, []);
 
-  const createPack = () => {
-    const name = prompt("Nombre del pack:");
-    if (!name) return;
+  // const createPack = () => {
+  //   const name = prompt("Nombre del pack:");
+  //   if (!name) return;
 
-    const description = prompt("Descripción:");
-    if (!description) return;
+  //   const description = prompt("Descripción:");
+  //   if (!description) return;
 
-    const price = prompt("Precio:");
-    if (!price) return;
+  //   const price = prompt("Precio:");
+  //   if (!price) return;
 
-    axios.post("http://localhost:8000/api/packs", { name, description, price })
-      .then(res => setPacks([...packs, res.data]))
-      .catch(err => console.log(err));
-  };
+  //   axios.post("http://localhost:8000/api/packs", { name, description, price })
+  //     .then(res => setPacks([...packs, res.data]))
+  //     .catch(err => console.log(err));
+  // };
 
-  const editPack = (pack) => {
-    const newName = prompt("Nuevo nombre del pack:", pack.name);
-    if (!newName) return;
+  // const editPack = (pack) => {
+  //   const newName = prompt("Nuevo nombre del pack:", pack.name);
+  //   if (!newName) return;
 
-    const newDescription = prompt("Nueva descripción:", pack.description);
-    if (!newDescription) return;
+  //   const newDescription = prompt("Nueva descripción:", pack.description);
+  //   if (!newDescription) return;
 
-    const newPrice = prompt("Nuevo precio:", pack.price);
-    if (!newPrice) return;
+  //   const newPrice = prompt("Nuevo precio:", pack.price);
+  //   if (!newPrice) return;
 
-    axios.put(`http://localhost:8000/api/packs/${pack.id}`, {
-      name: newName,
-      description: newDescription,
-      price: newPrice
-    })
-    .then(() => {
-      setPacks(packs.map(p => p.id === pack.id ? { ...p, name: newName, description: newDescription, price: newPrice } : p));
-    })
-    .catch(err => console.log(err));
-  };
+  //   axios.put(`http://localhost:8000/api/packs/${pack.id}`, {
+  //     name: newName,
+  //     description: newDescription,
+  //     price: newPrice
+  //   })
+  //   .then(() => {
+  //     setPacks(packs.map(p => p.id === pack.id ? { ...p, name: newName, description: newDescription, price: newPrice } : p));
+  //   })
+  //   .catch(err => console.log(err));
+  // };
 
   const togglePackStatus = async (pack) => {
     try {
@@ -69,7 +69,7 @@ function Packs() {
           <h1 className="text-3xl">Packs</h1>
 
           <button
-            onClick={createPack}
+            onClick={() => navigate("/packs/create")}
             className="bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90 shadow mb-4 cursor-pointer"
           >
             Crear Pack
@@ -102,7 +102,7 @@ function Packs() {
                     <button
                       onClick={e => {
                         e.stopPropagation();
-                        editPack(pack);
+                        navigate(`/packs/edit/${pack.id}`);
                       }}
                       className="bg-blue-500 text-white px-2 py-1 rounded cursor-pointer"
                     >

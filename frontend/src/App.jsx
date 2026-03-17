@@ -4,11 +4,14 @@ import Dashboard from "./pages/dashboard";
 import Categories from "./pages/categorias/categories";
 import Caracteristicas from "./pages/caracteristicas/caracteristicas";
 import CharacteristicTypeShow from "./pages/caracteristicas/show";
-import Packs from "./pages/Packs/packs"
-import PackShow from "./pages/Packs/packShow"
 import Products from "./pages/products/Products";
 import Create_product from "./pages/products/Create";
 import Edit_product from "./pages/products/Edit";
+
+import Packs from "./pages/Packs/packs"
+import PackShow from "./pages/Packs/packShow"
+import Pack_create from "./pages/Packs/create";
+import Pack_edit from "./pages/Packs/edit";
 
 function App() {
 
@@ -31,6 +34,8 @@ function App() {
         <Route path="/packs" element={<Packs />} />
 
         <Route path="/packs/:id" element={<PackShow />} />
+        <Route path="/packs/create" element={<Pack_create />} />
+        <Route path="/packs/edit/:id" element={<Pack_edit />} />
         
 
       </Routes>
