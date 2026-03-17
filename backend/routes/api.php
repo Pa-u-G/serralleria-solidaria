@@ -15,8 +15,8 @@ Route::get('/products/{id}', [ProductsController::class, 'show']);
 
 Route::post('/create_product', [ProductsController::class, 'store']);
 Route::put('/edit_product/{id}', [ProductsController::class, 'update']);
-
-Route::delete('/delete_product/{id}', [ProductsController::class, 'destroy']);
+Route::patch('/product/{id}', [ProductsController::class, 'change_status']);
+Route::delete('/product_image/{id}', [ProductsController::class, 'delete_image']);
 Route::put('/categories/{id}', [CategoriesController::class, 'update']);
 Route::patch('/categories/{id}', [CategoriesController::class, 'update']);
 Route::post('/categories', [CategoriesController::class, 'store']);

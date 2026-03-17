@@ -17,11 +17,11 @@ return new class extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade')->onDelete('cascade');
             $table->string('code', 255);
             $table->string('name', 255);
-            $table->string('img', 255);
             $table->text('description');
             $table->decimal('price', 8, 2);
             $table->integer('stock');
             $table->boolean('star');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
