@@ -19,4 +19,8 @@ class Pack extends Model
                     ->withPivot('amount')
                     ->withTimestamps();
     }
+
+    public function images(): HasMany {
+        return $this->hasMany(Pack_img::class);
+    }
 }

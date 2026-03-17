@@ -1,10 +1,11 @@
 import MainLayout from "../../layouts/Main_layout";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Products() {
 
+  const navigate = useNavigate();
   const toggleStatus = async (id) => {
       console.log("a")
       try {
@@ -40,8 +41,8 @@ function Products() {
           Gestió de Productes
         </h1>
 
-        <button className="bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90 shadow">
-          <Link to="/products/create">+ Afegir Producte</Link>
+        <button onClick={() => navigate("/products/create")} className="bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90 shadow cursor-pointer">
+          + Afegir Producte
         </button>
 
       </div>
@@ -143,8 +144,8 @@ function Products() {
                 
                 <td className="p-4 flex gap-3">
 
-                  <button className="text-blue-500 hover:text-blue-700">
-                    <Link to={`/products/edit/${product.id}`}>✏️</Link>
+                  <button onClick={() => navigate("/products/edit")} className="text-blue-500 hover:text-blue-700 cursor-pointer">
+                    ✏️
                   </button>
 
                   <button onClick={() => toggleStatus(product.id)} className={`${product.status ? "bg-red-500" : "bg-green-500"} text-white px-2 py-1 rounded cursor-pointer`}>

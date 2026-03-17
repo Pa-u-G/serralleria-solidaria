@@ -1,6 +1,7 @@
   import MainLayout from "../../layouts/Main_layout";
   import { useEffect, useState } from "react";
   import axios from "axios";
+  import "../../styles/categories.scss";
 
   function Categories() {
     const [posts, setPosts] = useState([]);
@@ -55,16 +56,23 @@
 
     return (
       <MainLayout>
-        <div className="w-full flex flex-col justify-center items-center">
-          <div className="flex items-center justify-between w-4/5">
-            <h1 className="text-3xl">Categorias</h1>
-            <button onClick={createCategory} className="bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90 shadow mb-4 cursor-pointer">
+        <div className="categories">
+
+          <div className="categories__header">
+            <h1 className="categories__title">Categorias</h1>
+
+            <button
+              onClick={createCategory}
+              className="categories__add-btn"
+            >
               Añadir Categoría
             </button>
           </div>
-          <div className="bg-white rounded-lg shadow-sm overflow-hidden w-4/5">
-            <table className="p-10 w-full">
-              <thead className="bg-gray-200 text-gray-600 border-b border-gray-300">
+
+          <div className="categories__table-box">
+
+            <table>
+              <thead>
                 <tr>
                   <th>ID</th>
                   <th>Categoria</th>
@@ -72,29 +80,57 @@
                   <th>Acciones</th>
                 </tr>
               </thead>
+
               <tbody>
                 {posts.map(post => (
-                  <tr key={post.id} id={post.id} className="border-b border-gray-300 hover:bg-gray-50 transition">
-                    <td className="pl-10 pr-10 pt-4 pb-4">{post.id}</td>
-                    <td className="pl-10 pr-10 pt-4 pb-4">{post.name}</td>
-                    <td className="pl-10 pr-10 pt-4 pb-4 text-center">
-                      <div className={`${post.status ? "bg-green-200 text-green-700" : "bg-red-200 text-red-700"} rounded-2xl`}>
+                  <tr key={post.id}>
+
+                    <td>{post.id}</td>
+
+                    <td>{post.name}</td>
+
+                    <td>
+                      <div
+                        className={
+                          post.status
+                            ? "status status--active"
+                            : "status status--inactive"
+                        }
+                      >
                         {post.status ? "activo" : "inactivo"}
                       </div>
                     </td>
-                    <td className="pl-10 pr-10 pt-4 pb-4 flex gap-2 justify-end">
-                      <button onClick={() => editCategory(post.id)} className="bg-blue-500 text-white px-2 py-1 rounded cursor-pointer">
+
+                    <td className="acction_btn">
+
+                      <button
+                        onClick={() => editCategory(post.id)}
+                        className="btn btn--edit"
+                      >
                         Editar
                       </button>
-                      <button onClick={() => toggleStatus(post.id)} className={`${post.status ? "bg-red-500" : "bg-green-500"} text-white px-2 py-1 rounded cursor-pointer`}>
+
+                      <button
+                        onClick={() => toggleStatus(post.id)}
+                        className={
+                          post.status
+                            ? "btn btn--off"
+                            : "btn btn--on"
+                        }
+                      >
                         {post.status ? "Desactivar" : "Activar"}
                       </button>
+
                     </td>
+
                   </tr>
                 ))}
               </tbody>
+
             </table>
+
           </div>
+
         </div>
       </MainLayout>
     );
