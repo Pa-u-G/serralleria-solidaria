@@ -22,7 +22,7 @@ class PackController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|min:0',
         ]);
 
         $pack = Pack::create([
@@ -39,26 +39,32 @@ class PackController extends Controller
     {
         $pack = Pack::findOrFail($id);
 
-        // Solo actualizamos los campos que vengan
-        if ($request->has('name')) {
-            $pack->name = $request->name;
-        }
+        // if ($request->has('name')) {
+        //     $pack->name = $request->name;
+        // }
 
-        if ($request->has('description')) {
-            $pack->description = $request->description;
-        }
+        // if ($request->has('description')) {
+        //     $pack->description = $request->description;
+        // }
 
-        if ($request->has('price')) {
-            $pack->price = $request->price;
-        }
+        // if ($request->has('price')) {
+        //     $pack->price = $request->price;
+        // }
 
         if ($request->has('status')) {
             $pack->status = $request->status;
+            $pack->save();
+        } else {
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'required|string',
+                'price' => 'required|numeric|min:0',
+            ]);
+            $pack->update($validated);
         }
 
-        $pack->save();
 
-        return $pack;
+        return $request;
     }
 
     public function destroy($id)

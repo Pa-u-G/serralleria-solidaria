@@ -17,7 +17,17 @@ function Pack_edit() {
   // cargar pack
   useEffect(() => {
     axios.get(`http://localhost:8000/api/packs/${id}`)
-      .then(res => setForm(res.data))
+      .then(res => {
+
+        const pack = res.data;
+
+        setForm({
+          name: pack.name,
+          price: pack.price,
+          description: pack.description
+        });
+
+      })
       .catch(err => console.log(err));
   }, [id]);
 
