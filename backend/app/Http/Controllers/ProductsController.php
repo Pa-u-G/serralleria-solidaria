@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Product_img;
+use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
 {
@@ -23,21 +25,41 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->merge([
+            'star' => filter_var($request->star, FILTER_VALIDATE_BOOLEAN)
+        ]);
+        $validatedProduct = $request->validate([
             'code' => 'required',
             'name' => 'required',
             'description' => 'required',
-            'category_id' => 'required',
-            'price' => 'required',
-            'stock' => 'required',
-            'star' => 'required'
+            'category_id' => 'required|exists:categories,id',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'star' => 'required|boolean'
         ]);
 
-        $validated["img"] = "Aun nada";
+        $product = Product::create($validatedProduct);
+        if ($request->has('characteristics')) {
+            $product->characteristics()->sync($request->characteristics);
+        }
+        if ($request->hasFile('images')) {
+            $request->validate([
+                'images.*' => 'image|mimes:jpg,jpeg,png,webp'
+            ]);
 
-        $product = Product::create($validated);
+            foreach ($request->file('images') as $image) {
+                $filename = time().'_'.$image->getClientOriginalName();
+                $path = $image->storeAs('products', $filename, 'public');
 
-        return response()->json($product, 201);
+                Product_img::create([
+                    'product_id' => $product->id,
+                    'name_img' => $filename,
+                    'path' => $path
+                ]);
+            }
+        }
+
+        return response()->json($product->load('images'), 201);
     }
 
     /**
@@ -45,7 +67,7 @@ class ProductsController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::with(['images','characteristics.type'])->findOrFail($id);
 
         return response()->json($product);
     }
@@ -61,15 +83,35 @@ class ProductsController extends Controller
             'code' => 'required',
             'name' => 'required',
             'description' => 'required',
-            'category_id' => 'required',
-            'price' => 'required',
-            'stock' => 'required',
-            'star' => 'required'
+            'category_id' => 'required|exists:categories,id',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'star' => 'required|boolean',
+            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp'
         ]);
 
         $product->update($validated);
+        if ($request->has('characteristics')) {
+            $product->characteristics()->sync($request->characteristics);
+        } else {
+            $product->characteristics()->sync([]); // elimina todas si no vienen
+        }
 
-        return response()->json($product);
+        // Subir nuevas imágenes
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $filename = time().'_'.$image->getClientOriginalName();
+                $path = $image->storeAs('products', $filename, 'public');
+
+                Product_img::create([
+                    'product_id' => $product->id,
+                    'name_img' => $filename,
+                    'path' => $path
+                ]);
+            }
+        }
+
+        return response()->json($product->load('images'));
     }
 
     /**
@@ -77,12 +119,31 @@ class ProductsController extends Controller
      */
     public function destroy(string $id)
     {
+        //
+    }
+
+    public function change_status(Request $request, string $id) 
+    {
         $product = Product::findOrFail($id);
 
-        $product->delete();
+        if ($request->has('status')) {
+            $product->status = $request->status;
+        }
 
-        return response()->json([
-            "message" => "Product deleted"
-        ]);
+        $product->save();
+
+        return response()->json($product);
     }
+
+    public function delete_image($image_id)
+    {
+        $image = Product_img::findOrFail($image_id);
+
+        // Borrar archivo del storage
+        Storage::disk('public')->delete($image->path);
+
+        $image->delete();
+
+        return response()->json(['message' => 'Imagen eliminada']);
+}
 }

@@ -6,25 +6,22 @@ import { Link, useNavigate } from "react-router-dom";
 function Products() {
 
   const navigate = useNavigate();
-  const deleteProduct = (id, name) => {
+  const toggleStatus = async (id) => {
+      console.log("a")
+      try {
+        const post = posts.find(p => p.id === id);
 
-    const confirmDelete = window.confirm(
-      `¿Estás seguro de eliminar el producto "${name}"?`
-    );
+        const res = await axios.patch(`http://localhost:8000/api/product/${id}`, {
+          status: !post.status
+        });
 
-    if (confirmDelete) {
+        // Actualizamos localmente el estado
+        setPosts(posts.map(p => p.id === id ? { ...p, status: !p.status } : p));
 
-      axios.delete(`http://localhost:8000/api/delete_product/${id}`)
-        .then(res => {
-
-          setPosts(posts.filter(product => product.id !== id));
-
-        })
-        .catch(err => console.log(err));
-
-    }
-
-  };
+      } catch (err) {
+        console.log(err);
+      }
+    };
   
   const [posts, setPosts] = useState([]);
 
@@ -82,6 +79,7 @@ function Products() {
               <th className="text-left p-4 font-medium">Preu</th>
               <th className="text-left p-4 font-medium">Stock</th>
               <th className="text-left p-4 font-medium">Destacat</th>
+              <th className="text-left p-4 font-medium">Estat</th>
               <th className="text-left p-4 font-medium">Accions</th>
 
             </tr>
@@ -116,6 +114,7 @@ function Products() {
                 <td className="p-4">
                   {product.stock}
                 </td>
+                
 
 
                 
@@ -136,7 +135,11 @@ function Products() {
                   )}
 
                 </td>
-
+                <td className="p-4 text-center">
+                  <div className={`${product.status ? "bg-green-200 text-green-700" : "bg-red-200 text-red-700"} rounded-2xl`}>
+                    {product.status ? "activo" : "inactivo"}
+                  </div>
+                </td>
 
                 
                 <td className="p-4 flex gap-3">
@@ -145,11 +148,8 @@ function Products() {
                     ✏️
                   </button>
 
-                  <button
-                    onClick={() => deleteProduct(product.id, product.name)}
-                    className="text-red-500 hover:text-red-700"
-                  >
-                    🗑️
+                  <button onClick={() => toggleStatus(product.id)} className={`${product.status ? "bg-red-500" : "bg-green-500"} text-white px-2 py-1 rounded cursor-pointer`}>
+                    {product.status ? "Desactivar" : "Activar"}
                   </button>
 
                 </td>
