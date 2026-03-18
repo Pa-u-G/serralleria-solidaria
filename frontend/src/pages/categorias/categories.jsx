@@ -25,27 +25,28 @@
 
     const editCategory = (id) => {
       const newName = prompt("Nuevo nombre de la categoría:");
-      if (!newName) return;
+      if (newName) {
+        axios.put(`http://localhost:8000/api/categories/${id}`, { name: newName })
+          .then(res => {
+            setPosts(posts.map(p => p.id === id ? { ...p, name: newName } : p));
+          })
+          .catch(err => console.log(err));
+      }
 
-      axios.put(`http://localhost:8000/api/categories/${id}`, { name: newName })
-        .then(res => {
-          setPosts(posts.map(p => p.id === id ? { ...p, name: newName } : p));
-        })
-        .catch(err => console.log(err));
     };
 
 
     // Crear nueva categoría
     const createCategory = () => {
       const name = prompt("Nombre de la nueva categoría:");
-      if (!name) return;
-
-      axios.post("http://localhost:8000/api/categories", { name })
-        .then(res => {
-          // Añadimos la nueva categoría a la lista
-          setPosts([...posts, res.data]);
-        })
-        .catch(err => console.log(err));
+      if (name) {
+        axios.post("http://localhost:8000/api/categories", { name })
+          .then(res => {
+            // Añadimos la nueva categoría a la lista
+            setPosts([...posts, res.data]);
+          })
+          .catch(err => console.log(err));
+      }
     };
 
     useEffect(() => {
