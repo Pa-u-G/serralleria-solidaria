@@ -18,7 +18,7 @@ function Packs() {
   //   const name = prompt("Nombre del pack:");
   //   if (!name) return;
 
-  //   const description = prompt("Descripción:");
+  //   const description = prompt("Descripció:");
   //   if (!description) return;
 
   //   const price = prompt("Precio:");
@@ -33,7 +33,7 @@ function Packs() {
   //   const newName = prompt("Nuevo nombre del pack:", pack.name);
   //   if (!newName) return;
 
-  //   const newDescription = prompt("Nueva descripción:", pack.description);
+  //   const newDescription = prompt("Nueva Descripció:", pack.description);
   //   if (!newDescription) return;
 
   //   const newPrice = prompt("Nuevo precio:", pack.price);
@@ -80,10 +80,10 @@ function Packs() {
             <thead className="bg-gray-200 text-gray-600 border-b border-gray-300">
               <tr>
                 <th>ID</th>
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Estado</th>
-                <th>Acciones</th>
+                <th>Nom</th>
+                <th>Preu</th>
+                <th>Estat</th>
+                <th>Accions</th>
               </tr>
             </thead>
 
@@ -95,7 +95,7 @@ function Packs() {
                   <td className="pl-10 pr-10 pt-4 pb-4">{pack.price}€</td>
                   <td className="pl-10 pr-10 pt-4 pb-4 text-center">
                     <div className={`${pack.status ? "bg-green-200 text-green-700" : "bg-red-200 text-red-700"} rounded-2xl`}>
-                      {pack.status ? "activo" : "inactivo"}
+                      {pack.status ? "actiu" : "inactiu"}
                     </div>
                   </td>
                   <td className="pl-10 pr-10 pt-4 pb-4 flex gap-2 justify-end">
@@ -115,7 +115,7 @@ function Packs() {
                       }}
                       className={`${pack.status ? "bg-red-500" : "bg-green-500"} text-white px-2 py-1 rounded cursor-pointer`}
                     >
-                      {pack.status ? "Desactivar" : "Activar"}
+                      {pack.status ? "Desactivar" : "Activa"}
                     </button>
                   </td>
                 </tr>

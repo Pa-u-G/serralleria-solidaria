@@ -77,7 +77,7 @@ function PackShow(){
   };
 
 
-  if(!pack) return <MainLayout>Cargando...</MainLayout>;
+  if(!pack) return <MainLayout>Carregant...</MainLayout>;
 
 
 
@@ -93,7 +93,7 @@ function PackShow(){
             onClick={()=>navigate("/packs")}
             className="bg-gray-500 text-white px-4 py-2 rounded cursor-pointer"
           >
-            Volver
+            Tornar
           </button>
         </div>
 
@@ -107,10 +107,10 @@ function PackShow(){
 
             <thead className="bg-gray-200 text-gray-600 border-b border-gray-300">
               <tr>
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th>Acciones</th>
+                <th>Nom</th>
+                <th>Preu</th>
+                <th>Quantitat</th>
+                <th>Accions</th>
               </tr>
             </thead>
 
@@ -160,9 +160,9 @@ function PackShow(){
 
             <thead className="bg-gray-200 text-gray-600 border-b border-gray-300">
               <tr>
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Añadir</th>
+                <th>Nom</th>
+                <th>Preu</th>
+                <th>Afegir</th>
               </tr>
             </thead>
 
@@ -183,7 +183,7 @@ function PackShow(){
                         onClick={() => addProduct(product.id)}
                         className="bg-green-500 text-white px-3 py-1 rounded cursor-pointer"
                       >
-                        Añadir
+                        Afegir
                       </button>
 
                     </td>
