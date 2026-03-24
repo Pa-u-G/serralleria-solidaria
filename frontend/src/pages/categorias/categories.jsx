@@ -24,7 +24,7 @@
     };
 
     const editCategory = (id) => {
-      const newName = prompt("Nuevo nombre de la categoría:");
+      const newName = prompt("Nou nom de la categoria:");
       if (newName) {
         axios.put(`http://localhost:8000/api/categories/${id}`, { name: newName })
           .then(res => {
@@ -38,7 +38,7 @@
 
     // Crear nueva categoría
     const createCategory = () => {
-      const name = prompt("Nombre de la nueva categoría:");
+      const name = prompt("Nom de la nova categoria:");
       if (name) {
         axios.post("http://localhost:8000/api/categories", { name })
           .then(res => {
@@ -66,7 +66,7 @@
               onClick={createCategory}
               className="categories__add-btn"
             >
-              Añadir Categoría
+              Afegir Categoria
             </button>
           </div>
 
@@ -77,8 +77,8 @@
                 <tr>
                   <th>ID</th>
                   <th>Categoria</th>
-                  <th>Estado</th>
-                  <th>Acciones</th>
+                  <th>Estat</th>
+                  <th>Accions</th>
                 </tr>
               </thead>
 
@@ -98,7 +98,7 @@
                             : "status status--inactive"
                         }
                       >
-                        {post.status ? "activo" : "inactivo"}
+                        {post.status ? "actiu" : "inactiu"}
                       </div>
                     </td>
 
@@ -119,7 +119,7 @@
                             : "btn btn--on"
                         }
                       >
-                        {post.status ? "Desactivar" : "Activar"}
+                        {post.status ? "Desactivar" : "Activa"}
                       </button>
 
                     </td>

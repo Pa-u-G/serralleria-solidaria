@@ -22,7 +22,7 @@ function CharacteristicTypeShow() {
   }, [id]);
 
   const createCharacteristic = () => {
-    const desc = prompt("Descripción de la nueva característica:");
+    const desc = prompt("Descripció de la nova característica:");
     if (!desc) return;
 
     axios.post("http://localhost:8000/api/characteristics", {
@@ -33,7 +33,7 @@ function CharacteristicTypeShow() {
     .catch(err => console.log(err));
   };
 
-  if (!type) return <MainLayout>Cargando...</MainLayout>;
+  if (!type) return <MainLayout>Carregant...</MainLayout>;
 
   const toggleCharacteristicStatus = async (id) => {
     try {
@@ -56,7 +56,7 @@ function CharacteristicTypeShow() {
   };
 
   const edit = (id) => {
-    const newName = prompt("Nueva Descripcion de la caracteristica:");
+    const newName = prompt("Nova descripció de la caracteristica:");
     if (!newName) return;
 
     axios.put(`http://localhost:8000/api/characteristics/${id}`, { description: newName })
@@ -77,10 +77,10 @@ function CharacteristicTypeShow() {
         <div className="flex items-center justify-between mb-4 w-full">
           <h1 className="text-3xl">{type.type}</h1>
           <button onClick={createCharacteristic} className="bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90 shadow mb-4 cursor-pointer">
-            Añadir Característica
+            Afegir Característica
           </button>
           <button onClick={() => navigate("/caracteristicas")} className="bg-gray-500 text-white px-4 py-2 rounded cursor-pointer">
-            Volver
+            Tornar
           </button>
         </div>
 
@@ -89,9 +89,9 @@ function CharacteristicTypeShow() {
             <thead className="bg-gray-200 text-gray-600 border-b border-gray-300">
               <tr>
                 <th>ID</th>
-                <th>Descripción</th>
-                <th>Estado</th>
-                <th>Acciones</th>
+                <th>Descripció</th>
+                <th>Estat</th>
+                <th>Accions</th>
               </tr>
             </thead>
             <tbody>
@@ -101,7 +101,7 @@ function CharacteristicTypeShow() {
                   <td className="pl-10 pr-10 pt-4 pb-4">{c.description}</td>
                   <td className="pl-10 pr-10 pt-4 pb-4 text-center">
                     <div className={`${c.status ? "bg-green-200 text-green-700" : "bg-red-200 text-red-700"} rounded-2xl`}>
-                      {c.status ? "activo" : "inactivo"}
+                      {c.status ? "actiu" : "inactiu"}
                     </div>
                   </td>
                   <td className="pl-10 pr-10 pt-4 pb-4 flex gap-2 justify-end">
@@ -112,7 +112,7 @@ function CharacteristicTypeShow() {
                       Editar
                     </button>
                     <button onClick={() => toggleCharacteristicStatus(c.id)} className={`${c.status ? "bg-red-500" : "bg-green-500"} text-white px-3 py-1 rounded cursor-pointer`}>
-                      {c.status ? "Desactivar" : "Activar"}
+                      {c.status ? "Desactivar" : "Activa"}
                     </button>
                   </td>
                 </tr>

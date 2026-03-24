@@ -77,7 +77,7 @@ function CreateProduct() {
     .catch(err => {
       if (err.response && err.response.data) {
         console.log("Errores de validación:", err.response.data);
-        alert("Hay errores en los datos enviados. Revisa la consola.");
+        alert("Hi ha errors a les dades enviades. Revisa la consola.");
       }
     });
   };
