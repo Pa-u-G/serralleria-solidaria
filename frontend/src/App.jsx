@@ -13,34 +13,38 @@ import PackShow from "./pages/Packs/packShow"
 import Pack_create from "./pages/Packs/create";
 import Pack_edit from "./pages/Packs/edit";
 
+import Icons from "./assets/icons";
+
 function App() {
 
   return (
+    <>
+      <Icons />
+      <BrowserRouter>
 
-    <BrowserRouter>
+        <Routes>
 
-      <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/create" element={<Create_product />} />
+          <Route path="/products/edit/:id" element={<Edit_product />} />
 
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/categories" element={<Categories />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/products/create" element={<Create_product />} />
-        <Route path="/products/edit/:id" element={<Edit_product />} />
+          <Route path="/caracteristicas" element={<Caracteristicas />} />
 
-        <Route path="/caracteristicas" element={<Caracteristicas />} />
+          <Route path="/caracteristicas/:id" element={<CharacteristicTypeShow />} />
 
-        <Route path="/caracteristicas/:id" element={<CharacteristicTypeShow />} />
+          <Route path="/packs" element={<Packs />} />
 
-        <Route path="/packs" element={<Packs />} />
+          <Route path="/packs/:id" element={<PackShow />} />
+          <Route path="/packs/create" element={<Pack_create />} />
+          <Route path="/packs/edit/:id" element={<Pack_edit />} />
+          
 
-        <Route path="/packs/:id" element={<PackShow />} />
-        <Route path="/packs/create" element={<Pack_create />} />
-        <Route path="/packs/edit/:id" element={<Pack_edit />} />
-        
+        </Routes>
 
-      </Routes>
-
-    </BrowserRouter>
+      </BrowserRouter>
+    </>
 
   )
 
