@@ -15,7 +15,7 @@
   &__title {
     font-size: 28px;
   }
-
+// bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90 shadow cursor-pointer flex gap-2
   &__add-btn {
     background: #F07057;
     color: white;
@@ -24,6 +24,9 @@
     font-weight: 500;
     cursor: pointer;
     margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
 
     &:hover {
       opacity: 0.9;
@@ -79,7 +82,7 @@
     cursor: pointer;
 
     &--edit {
-      background: #3b82f6;
+      color: #F07057;
     }
 
     &--on {
@@ -96,5 +99,10 @@
     justify-content: right;
     flex-direction: row;
     gap: 8px;
+  }
+
+  .icono{
+    width: 24px;
+    height: 24px;
   }
 }
