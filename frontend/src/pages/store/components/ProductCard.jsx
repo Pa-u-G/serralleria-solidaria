@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import styles from '../styles/ProductCard.module.scss';
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
+    const navigate = useNavigate();
     const [imageError, setImageError] = useState(false);
     
     const formatPrice = (price) => {
@@ -20,15 +22,17 @@ const ProductCard = ({ product }) => {
     const stockStatus = getStockStatus();
 
     return (
-        <div className={styles.productCard}>
-            {product.star && (
+        <div className={styles.productCard} onClick={() => navigate(`/store/product/${product.id}`)}>
+            {product.star ? (
                 <div className={styles.starBadge}>
-                    ⭐ Destacado
+                    Destacado
                 </div>
+            ) : (
+                <div></div>
             )}
             
             <div className={styles.productImage}>
-                {!imageError ? (
+                { product.images[0] ? (
                     <img 
                         src={`http://localhost:8000/storage/${product.images[0].path}`}
                         alt={product.name}

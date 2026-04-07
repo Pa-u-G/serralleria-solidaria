@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import ProductGrid from './components/ProductGrid';
+import ProductGrid from '../components/ProductGrid';
 import { categoryApi } from './services/categoryApi';
-import styles from './styles/CategoryPage.module.scss';
+import styles from '../styles/CategoryPage.module.scss';
 
 const CategoryPage = () => {
     const { id } = useParams();
@@ -73,9 +73,9 @@ const CategoryPage = () => {
         <div className={styles.categoryPage}>
             {/* Header de la categoría */}
             <div className={styles.categoryHeader}>
-                <button onClick={handleGoBack} className={styles.backButton}>
+                {/* <button onClick={handleGoBack} className={styles.backButton}>
                     ← Volver
-                </button>
+                </button> */}
                 <div className={styles.categoryInfo}>
                     <h1>{category.name}</h1>
                     <p className={styles.productCount}>
