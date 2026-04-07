@@ -14,6 +14,7 @@ import Pack_create from "./pages/Packs/create";
 import Pack_edit from "./pages/Packs/edit";
 
 import Icons from "./assets/icons";
+import CategoryPage from './pages/store/category/CategoryPage';
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
           <Route path="/packs/create" element={<Pack_create />} />
           <Route path="/packs/edit/:id" element={<Pack_edit />} />
           
+          <Route path="/store/category/:id" element={<CategoryPage />} />
 
         </Routes>
 

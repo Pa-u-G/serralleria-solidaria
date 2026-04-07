@@ -38,3 +38,12 @@ Route::apiResource('packs', PackController::class);
 Route::post('/product-pack', [ProductPackController::class, 'store']);
 Route::put('/product-pack', [ProductPackController::class, 'update']);
 Route::delete('/product-pack/{product}/{pack}', [ProductPackController::class, 'destroy']);
+
+
+// tienda:
+
+
+// prodctos-categoria
+
+Route::get('/store/category/{categoryId}/products', [ProductsController::class, 'getProductsByCategory']);
+Route::get('/store/category/{categoryId}/info', [ProductsController::class, 'getCategoryInfo']);
