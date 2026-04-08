@@ -1,4 +1,4 @@
-import MainLayout from "../../../layouts/layoutTienda/Main_layout";
+import MainLayout from "../../../layouts/layoutTienda/Main_layout_tienda";
 import { useEffect, useState } from "react";
 import axios from "axios";
 

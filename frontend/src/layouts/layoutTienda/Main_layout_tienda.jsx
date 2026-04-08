@@ -1,8 +1,8 @@
 import Navbar from "../../components/tienda/navbarTienda/Navbar";
-import './Main_layout.scss';
+import './Main_layout_tienda.scss';
 function MainLayout({ children }) {
   return (
-    <div>
+    <div className="divTienda">
 
       <Navbar />
 
