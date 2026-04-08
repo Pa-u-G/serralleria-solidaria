@@ -7,7 +7,7 @@ import CharacteristicTypeShow from "./pages/caracteristicas/show";
 import Products from "./pages/products/Products";
 import Create_product from "./pages/products/Create";
 import Edit_product from "./pages/products/Edit";
-import DashboardTienda from "./pages/tienda/dashboardTienda/dashboard";
+import DashboardTienda from "./pages/store/dashboardTienda/dashboard";
 
 import Packs from "./pages/Packs/packs"
 import PackShow from "./pages/Packs/packShow"
