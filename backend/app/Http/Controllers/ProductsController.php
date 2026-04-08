@@ -148,7 +148,7 @@ class ProductsController extends Controller
     }
     
 
-        public function getProductsByCategory($categoryId)
+    public function getProductsByCategory($categoryId)
     {
         $category = Category::with('products.images')->find($categoryId);
         
