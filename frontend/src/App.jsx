@@ -9,6 +9,7 @@ import PackShow from "./pages/Packs/packShow"
 import Products from "./pages/products/Products";
 import Create_product from "./pages/products/Create";
 import Edit_product from "./pages/products/Edit";
+import DashboardTienda from "./pages/tienda/dashboardTienda/dashboard";
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
 
         <Route path="/packs/:id" element={<PackShow />} />
         
+        <Route path="/dashboardTienda" element={<DashboardTienda />} />
 
       </Routes>
 
