@@ -11,6 +11,8 @@ function Navbar() {
             <li>Packs</li>
         </ul>
         <input type="text" placeholder='Busca alguna cosa'/>
+        <button>Cesta</button>
+        <button>Perfil</button>
     </nav>
   );
 }
