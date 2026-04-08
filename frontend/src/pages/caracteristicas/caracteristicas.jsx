@@ -14,7 +14,7 @@ function Characteristics() {
   }, []);
 
   const createType = () => {
-    const name = prompt("Nombre del nuevo tipo de característica:");
+    const name = prompt("Nom del nou tipus de característica:");
     if (!name) return;
 
     axios.post("http://localhost:8000/api/characteristics-types", { type: name })
@@ -40,7 +40,7 @@ function Characteristics() {
   };
 
   const edit = (id) => {
-    const newName = prompt("Nuevo nombre del tipo de caracteristica:");
+    const newName = prompt("Nou nom del tipus de característica:");
     if (!newName) return;
 
     axios.put(`http://localhost:8000/api/characteristics-types/${id}`, { type: newName }) 
@@ -64,9 +64,9 @@ function Characteristics() {
             <thead className="bg-gray-200 text-gray-600 border-b border-gray-300">
               <tr>
                 <th>ID</th>
-                <th>Tipo</th>
-                <th>Estado</th>
-                <th>Acciones</th>
+                <th>Tipus</th>
+                <th>Estat</th>
+                <th>Accions</th>
               </tr>
             </thead>
             <tbody>
@@ -76,7 +76,7 @@ function Characteristics() {
                   <td className="pl-10 pr-10 pt-4 pb-4">{type.type}</td>
                   <td className="pl-10 pr-10 pt-4 pb-4 text-center">
                     <div className={`${type.status ? "bg-green-200 text-green-700" : "bg-red-200 text-red-700"} rounded-2xl`}>
-                      {type.status ? "activo" : "inactivo"}
+                      {type.status ? "actiu" : "inactiu"}
                     </div>
                   </td>
                   <td className="pl-10 pr-10 pt-4 pb-4 flex gap-2 justify-end">
@@ -90,7 +90,7 @@ function Characteristics() {
                       e.stopPropagation();
                       toggleTypeStatus(type.id);
                     } } className={`${type.status ? "bg-red-500" : "bg-green-500"} text-white px-2 py-1 rounded cursor-pointer`}>
-                      {type.status ? "Desactivar" : "Activar"}
+                      {type.status ? "Desactivar" : "Activa"}
                     </button>
                   </td>
                 </tr>
