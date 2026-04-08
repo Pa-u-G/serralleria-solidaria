@@ -74,7 +74,7 @@ function CharacteristicTypeShow() {
   return (
     <MainLayout>
       <div className="w-4/5 mx-auto mt-6 flex flex-col gap-2">
-          <button onClick={() => navigate("/caracteristicas")} className="text-gray-500 rounded cursor-pointer flex gap-2">
+          <button onClick={() => navigate("/admin/caracteristicas")} className="text-gray-500 rounded cursor-pointer flex gap-2">
             <svg className="w-6 h-6">
               <use href="#icon-arrow-left"></use>
             </svg>

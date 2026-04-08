@@ -42,8 +42,8 @@ function App() {
           <Route path="/admin/packs/create" element={<Pack_create />} />
           <Route path="/admin/packs/edit/:id" element={<Pack_edit />} />
           
-          <Route path="/" element={<DashboardTienda />} />
-          <Route path="/category/:id" element={<CategoryPage />} />
+          <Route path="/dashboardTienda" element={<DashboardTienda />} />
+          <Route path="/store/category/:id" element={<CategoryPage />} />
 
         </Routes>
 

@@ -73,7 +73,7 @@ function CreateProduct() {
     axios.post("http://localhost:8000/api/create_product", formData, {
       headers: { "Content-Type": "multipart/form-data" }
     })
-    .then(res => navigate("/products"))
+    .then(res => navigate("/admin/products"))
     .catch(err => {
       if (err.response && err.response.data) {
         console.log("Errores de validación:", err.response.data);
@@ -221,7 +221,7 @@ function CreateProduct() {
 
             <button
               type="button"
-              onClick={() => navigate("/products")}
+              onClick={() => navigate("/admin/products")}
               className="bg-gray-200 px-5 py-2 rounded-lg"
             >
               Cancel·lar

@@ -41,7 +41,7 @@ function Products() {
           Gestió de Productes
         </h1>
 
-        <button onClick={() => navigate("/products/create")} className="bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90 shadow cursor-pointer flex gap-2">
+        <button onClick={() => navigate("/admin/products/create")} className="bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90 shadow cursor-pointer flex gap-2">
           <svg className="w-6 h-6">
             <use href="#icon-plus"></use>
           </svg>
@@ -147,7 +147,7 @@ function Products() {
                 
                 <td className="p-4 flex gap-3 justify-center">
 
-                  <button onClick={() => navigate(`/products/edit/${product.id}`)} className="text-[#F07057] cursor-pointer">
+                  <button onClick={() => navigate(`/admin/products/edit/${product.id}`)} className="text-[#F07057] cursor-pointer">
                     <svg className="w-6 h-6">
                       <use href="#icon-square-pen"></use>
                     </svg>

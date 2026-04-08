@@ -69,7 +69,7 @@ function Pack_edit() {
         console.log(res.data);
         setImages(res.data.images);
         setNewImages([]);
-        navigate("/packs");
+        navigate("/admin/packs");
       })
       .catch(err => console.log(err));
 
@@ -180,7 +180,7 @@ function Pack_edit() {
 
             <button
               type="button"
-              onClick={() => navigate("/packs")}
+              onClick={() => navigate("/admin/packs")}
               className="bg-gray-200 px-5 py-2 rounded-lg"
             >
               Cancel·lar

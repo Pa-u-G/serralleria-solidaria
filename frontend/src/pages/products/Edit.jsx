@@ -107,7 +107,7 @@ function EditProduct() {
     .then(res => {
       setImages(res.data.images); // actualizar imágenes
       setNewImages([]);
-      navigate("/products");
+      navigate("/admin/products");
     })
     .catch(err => console.log(err.response?.data || err));
   };
@@ -270,7 +270,7 @@ function EditProduct() {
             </button>
             <button
               type="button"
-              onClick={() => navigate("/products")}
+              onClick={() => navigate("/admin/products")}
               className="bg-gray-200 px-5 py-2 rounded-lg"
             >
               Cancel·lar

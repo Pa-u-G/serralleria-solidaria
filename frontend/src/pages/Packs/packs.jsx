@@ -69,7 +69,7 @@ function Packs() {
           <h1 className="text-3xl">Packs</h1>
 
           <button
-            onClick={() => navigate("/packs/create")}
+            onClick={() => navigate("/admin/packs/create")}
             className="bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90 shadow mb-4 cursor-pointer"
           >
             Crear Pack
@@ -89,7 +89,7 @@ function Packs() {
 
             <tbody>
               {packs.map(pack => (
-                <tr key={pack.id} className="border-b border-gray-300 hover:bg-gray-50 transition cursor-pointer" onClick={() => navigate(`/packs/${pack.id}`)}>
+                <tr key={pack.id} className="border-b border-gray-300 hover:bg-gray-50 transition cursor-pointer" onClick={() => navigate(`/admin/packs/${pack.id}`)}>
                   <td className="pl-10 pr-10 pt-4 pb-4">{pack.id}</td>
                   <td className="pl-10 pr-10 pt-4 pb-4">{pack.name}</td>
                   <td className="pl-10 pr-10 pt-4 pb-4">{pack.price}€</td>
@@ -102,7 +102,7 @@ function Packs() {
                     <button
                       onClick={e => {
                         e.stopPropagation();
-                        navigate(`/packs/edit/${pack.id}`);
+                        navigate(`/admin/packs/edit/${pack.id}`);
                       }}
                       className="bg-blue-500 text-white px-2 py-1 rounded cursor-pointer"
                     >
