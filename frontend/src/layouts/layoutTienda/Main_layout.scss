@@ -1,0 +1,14 @@
+div{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    div{
+        display: flex;
+        flex: 1;
+        main{
+            flex: 1;
+            background-color: #FFF7ED;
+            padding: 2%;
+        }
+    }
+}

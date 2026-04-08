@@ -1,0 +1,36 @@
+nav{
+    padding: 2%;
+    border: 2%;
+    border-color: gray;
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    img{
+        width: 10%;
+    }
+    ul{
+        display: flex;
+        width: 50%;
+        margin-left: 10px;
+        gap: 50px;
+        li{
+            width: 40%;
+            
+        }
+    }
+    input{
+        border: 1px solid black;
+        border-radius: 15px;
+        width: 40%;
+        height: fit-content;
+        padding: 3px;
+        padding-left: 5px;
+    }
+    button{
+        color: red;
+        border: 1px solid black;
+        width: 10%;
+        height: 10%;
+        padding: 3px;
+    }
+}
