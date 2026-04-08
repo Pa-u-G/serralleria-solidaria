@@ -73,14 +73,20 @@ function CharacteristicTypeShow() {
 
   return (
     <MainLayout>
-      <div className="w-4/5 mx-auto mt-6">
+      <div className="w-4/5 mx-auto mt-6 flex flex-col gap-2">
+          <button onClick={() => navigate("/caracteristicas")} className="text-gray-500 rounded cursor-pointer flex gap-2">
+            <svg className="w-6 h-6">
+              <use href="#icon-arrow-left"></use>
+            </svg>
+            Tornar enrrere
+          </button>
         <div className="flex items-center justify-between mb-4 w-full">
           <h1 className="text-3xl">{type.type}</h1>
-          <button onClick={createCharacteristic} className="bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90 shadow mb-4 cursor-pointer">
+          <button onClick={createCharacteristic} className="bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90 shadow cursor-pointer flex gap-2">
+            <svg className="w-6 h-6">
+              <use href="#icon-plus"></use>
+            </svg>
             Afegir Característica
-          </button>
-          <button onClick={() => navigate("/caracteristicas")} className="bg-gray-500 text-white px-4 py-2 rounded cursor-pointer">
-            Tornar
           </button>
         </div>
 
@@ -108,8 +114,10 @@ function CharacteristicTypeShow() {
                     <button onClick={(e) => {
                       e.stopPropagation();
                       edit(c.id)
-                    }} className="bg-blue-500 text-white px-2 py-1 rounded cursor-pointer">
-                      Editar
+                    }} className="text-[#F07057] cursor-pointer">
+                      <svg className="w-6 h-6">
+                        <use href="#icon-square-pen"></use>
+                      </svg>
                     </button>
                     <button onClick={() => toggleCharacteristicStatus(c.id)} className={`${c.status ? "bg-red-500" : "bg-green-500"} text-white px-3 py-1 rounded cursor-pointer`}>
                       {c.status ? "Desactivar" : "Activa"}

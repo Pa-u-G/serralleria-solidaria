@@ -66,6 +66,9 @@
               onClick={createCategory}
               className="categories__add-btn"
             >
+              <svg className="icono">
+                <use href="#icon-plus"></use>
+              </svg>
               Afegir Categoria
             </button>
           </div>
@@ -108,7 +111,9 @@
                         onClick={() => editCategory(post.id)}
                         className="btn btn--edit"
                       >
-                        Editar
+                        <svg className="icono">
+                          <use href="#icon-square-pen"></use>
+                        </svg>
                       </button>
 
                       <button

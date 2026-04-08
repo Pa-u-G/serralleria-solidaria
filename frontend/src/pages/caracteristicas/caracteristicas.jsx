@@ -55,7 +55,10 @@ function Characteristics() {
       <div className="w-full flex flex-col justify-center items-center">
         <div className="flex items-center justify-between w-4/5 mb-4">
           <h1 className="text-3xl">Tipos de Características</h1>
-          <button onClick={createType} className="bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90 shadow mb-4 cursor-pointer">
+          <button onClick={createType} className="bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90 shadow cursor-pointer flex gap-2">
+            <svg className="w-6 h-6">
+              <use href="#icon-plus"></use>
+            </svg>
             Añadir Tipo
           </button>
         </div>
@@ -83,8 +86,10 @@ function Characteristics() {
                     <button onClick={(e) => {
                       e.stopPropagation();
                       edit(type.id)
-                    }} className="bg-blue-500 text-white px-2 py-1 rounded cursor-pointer">
-                      Editar
+                    }} className="text-[#F07057] cursor-pointer">
+                      <svg className="w-6 h-6">
+                        <use href="#icon-square-pen"></use>
+                      </svg>
                     </button>
                     <button onClick={(e) =>{
                       e.stopPropagation();

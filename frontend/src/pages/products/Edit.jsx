@@ -33,24 +33,24 @@ function EditProduct() {
   }, []);
 
 
-  useEffect(() => {
-    axios.get(`http://localhost:8000/api/products/${id}`)
-    .then(res => {
-      const product = res.data;
+  // useEffect(() => {
+  //   axios.get(`http://localhost:8000/api/products/${id}`)
+  //   .then(res => {
+  //     const product = res.data;
 
-      setForm(product);
-      setImages(product.images);
+  //     setForm(product);
+  //     setImages(product.images);
 
-      const selected = {};
+  //     const selected = {};
 
-      product.characteristics?.forEach(c => {
-        selected[c.type.id] = c.id; // <-- usar c.type.id
-      });
+  //     product.characteristics?.forEach(c => {
+  //       selected[c.type.id] = c.id; // <-- usar c.type.id
+  //     });
 
-      setSelectedCharacteristics(selected);
-    })
-    .catch(err => console.log(err));
-  }, [id]);
+  //     setSelectedCharacteristics(selected);
+  //   })
+  //   .catch(err => console.log(err));
+  // }, [id]);
   
   const [images, setImages] = useState([]);
   useEffect(() => {

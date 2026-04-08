@@ -145,5 +145,37 @@ class ProductsController extends Controller
         $image->delete();
 
         return response()->json(['message' => 'Imagen eliminada']);
-}
+    }
+    
+
+    public function getProductsByCategory($categoryId)
+    {
+        $category = Category::with('products.images')->find($categoryId);
+        
+        if (!$category) {
+            return response()->json(['message' => 'Categoría no encontrada'], 404);
+        }
+        
+        $products = $category->products()
+            ->where('status', true)
+            ->with('images')
+            ->get();
+        
+        return response()->json([
+            'category' => $category,
+            'products' => $products
+        ]);
+    }
+    
+    public function getCategoryInfo($categoryId)
+    {
+        $category = Category::where('status', true)->find($categoryId);
+        
+        if (!$category) {
+            return response()->json(['message' => 'Categoría no encontrada'], 404);
+        }
+        
+        return response()->json($category);
+    }
+
 }

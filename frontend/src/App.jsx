@@ -14,35 +14,41 @@ import PackShow from "./pages/Packs/packShow"
 import Pack_create from "./pages/Packs/create";
 import Pack_edit from "./pages/Packs/edit";
 
+import Icons from "./assets/icons";
+import CategoryPage from './pages/store/category/CategoryPage';
+
 function App() {
 
   return (
+    <>
+      <Icons />
+      <BrowserRouter>
 
-    <BrowserRouter>
+        <Routes>
 
-      <Routes>
+          <Route path="/admin/" element={<Dashboard />} />
+          <Route path="/admin/categories" element={<Categories />} />
+          <Route path="/admin/products" element={<Products />} />
+          <Route path="/admin/products/create" element={<Create_product />} />
+          <Route path="/admin/products/edit/:id" element={<Edit_product />} />
 
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/categories" element={<Categories />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/products/create" element={<Create_product />} />
-        <Route path="/products/edit/:id" element={<Edit_product />} />
+          <Route path="/admin/caracteristicas" element={<Caracteristicas />} />
 
-        <Route path="/caracteristicas" element={<Caracteristicas />} />
+          <Route path="/admin/caracteristicas/:id" element={<CharacteristicTypeShow />} />
 
-        <Route path="/caracteristicas/:id" element={<CharacteristicTypeShow />} />
+          <Route path="/admin/packs" element={<Packs />} />
 
-        <Route path="/packs" element={<Packs />} />
+          <Route path="/admin/packs/:id" element={<PackShow />} />
+          <Route path="/admin/packs/create" element={<Pack_create />} />
+          <Route path="/admin/packs/edit/:id" element={<Pack_edit />} />
+          
+          <Route path="/" element={<DashboardTienda />} />
+          <Route path="/category/:id" element={<CategoryPage />} />
 
-        <Route path="/packs/:id" element={<PackShow />} />
-        <Route path="/packs/create" element={<Pack_create />} />
-        <Route path="/packs/edit/:id" element={<Pack_edit />} />
-        
-        <Route path="/dashboardTienda" element={<DashboardTienda />} />
+        </Routes>
 
-      </Routes>
-
-    </BrowserRouter>
+      </BrowserRouter>
+    </>
 
   )
 
