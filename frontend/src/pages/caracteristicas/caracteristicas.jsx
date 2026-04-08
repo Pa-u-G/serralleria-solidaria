@@ -74,7 +74,7 @@ function Characteristics() {
             </thead>
             <tbody>
               {types.map(type => (
-                <tr key={type.id} className="border-b border-gray-300 hover:bg-gray-50 transition cursor-pointer" onClick={() => navigate(`/caracteristicas/${type.id}`)}>
+                <tr key={type.id} className="border-b border-gray-300 hover:bg-gray-50 transition cursor-pointer" onClick={() => navigate(`/admin/caracteristicas/${type.id}`)}>
                   <td className="pl-10 pr-10 pt-4 pb-4">{type.id}</td>
                   <td className="pl-10 pr-10 pt-4 pb-4">{type.type}</td>
                   <td className="pl-10 pr-10 pt-4 pb-4 text-center">

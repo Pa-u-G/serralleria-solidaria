@@ -90,7 +90,7 @@ function PackShow(){
           <h1 className="text-3xl">{pack.name}</h1>
 
           <button
-            onClick={()=>navigate("/packs")}
+            onClick={()=>navigate("/admin/packs")}
             className="bg-gray-500 text-white px-4 py-2 rounded cursor-pointer"
           >
             Tornar
