@@ -3,12 +3,13 @@
 .productCarousel {
     position: relative;
     width: 100%;
-    padding: 1rem 0;
+    padding: 1rem 40px;
 
     .carouselContainer {
         overflow-x: auto;
         overflow-y: hidden;
         scroll-behavior: smooth;
+        width: 100%;
         
         &::-webkit-scrollbar {
             height: 6px;
@@ -27,6 +28,7 @@
 
     .carouselTrack {
         display: flex;
+        flex-direction: row;
         gap: 2rem;
         padding: 0.5rem 0;
     }
@@ -52,6 +54,8 @@
         justify-content: center;
         transition: all 0.3s ease;
         z-index: 10;
+        background-color: white;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         
         &:hover {
             background: #3498db;
@@ -60,11 +64,11 @@
         }
         
         &.arrowLeft {
-            left: clamp(-20px, -2vw, 5px);
+            left: 0px;
         }
         
         &.arrowRight {
-            right: clamp(-20px, -2vw, 5px);
+            right: 0px;
         }
     }
 }
