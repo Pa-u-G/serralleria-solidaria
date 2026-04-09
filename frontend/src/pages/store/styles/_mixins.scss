@@ -1,0 +1,47 @@
+// Mixin para scrollbar personalizada
+@mixin custom-scrollbar($height: 6px, $track-color: #f1f1f1, $thumb-color: #c1c1c1) {
+    &::-webkit-scrollbar {
+        height: $height;
+    }
+    
+    &::-webkit-scrollbar-track {
+        background: $track-color;
+        border-radius: 10px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        background: $thumb-color;
+        border-radius: 10px;
+    }
+}
+
+// Mixin para flechas de carrusel
+@mixin carousel-arrow($position: left) {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: $carousel-arrow-size;
+    height: $carousel-arrow-size;
+    background: $carousel-arrow-bg;
+    border: 2px solid $carousel-arrow-border;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+    
+    @if $position == left {
+        left: clamp(-20px, -2vw, -10px);
+    } @else {
+        right: clamp(-20px, -2vw, -10px);
+    }
+    
+    &:hover {
+        background: $carousel-arrow-hover-bg;
+        border-color: $carousel-arrow-hover-bg;
+        color: $carousel-arrow-hover-color;
+    }
+}

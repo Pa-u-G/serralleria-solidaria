@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from '../styles/ProductCard.module.scss';
+import styles from './ProductCard.module.scss';
 import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
