@@ -1,6 +1,6 @@
 import React from 'react';
-import ProductCard from './ProductCard';
-import styles from '../styles/ProductGrid.module.scss';
+import ProductCard from '../productCard/ProductCard';
+import styles from './ProductGrid.module.scss';
 
 const ProductGrid = ({ products }) => {
     return (

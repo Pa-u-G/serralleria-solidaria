@@ -1,0 +1,70 @@
+@import '../../styles/main.scss';
+
+.productCarousel {
+    position: relative;
+    width: 100%;
+    padding: 1rem 0;
+
+    .carouselContainer {
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-behavior: smooth;
+        
+        &::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        &::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+    }
+
+    .carouselTrack {
+        display: flex;
+        gap: 2rem;
+        padding: 0.5rem 0;
+    }
+
+    .carouselItem {
+        flex: 0 0 auto;
+        width: clamp(280px, 30vw, 320px);
+    }
+
+    .arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        background: white;
+        border: 2px solid #e0e0e0;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        z-index: 10;
+        
+        &:hover {
+            background: #3498db;
+            border-color: #3498db;
+            color: white;
+        }
+        
+        &.arrowLeft {
+            left: clamp(-20px, -2vw, 5px);
+        }
+        
+        &.arrowRight {
+            right: clamp(-20px, -2vw, 5px);
+        }
+    }
+}
