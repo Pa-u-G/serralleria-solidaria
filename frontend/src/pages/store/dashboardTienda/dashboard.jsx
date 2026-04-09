@@ -1,6 +1,8 @@
 import MainLayout from "../../../layouts/layoutTienda/Main_layout_tienda";
 import { useEffect, useState } from "react";
 import axios from "axios";
+//import ProductGrid from '../components/productGrid/ProductGrid';
+import Carousel from '../components/carousel/Carousel';
 
 function Dashboard() {
   const [products, setProducts] = useState([]);
@@ -13,6 +15,7 @@ function Dashboard() {
 
   return(
     <MainLayout>
+      <Carousel products={products} limit={10} />
       
     </MainLayout>
   )

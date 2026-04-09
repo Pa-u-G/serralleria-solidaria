@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import ProductGrid from '../components/ProductGrid';
+import ProductGrid from '../components/productGrid/ProductGrid';
 import { categoryApi } from './services/categoryApi';
-import styles from '../styles/CategoryPage.module.scss';
+import styles from './CategoryPage.module.scss';
 
 const CategoryPage = () => {
     const { id } = useParams();
