@@ -28,7 +28,7 @@ const ProductCard = ({ product }) => {
                     Destacado
                 </div>
             ) : (
-                <div></div>
+                ""
             )}
             
             <div className={styles.productImage}>
