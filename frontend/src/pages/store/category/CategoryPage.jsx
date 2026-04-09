@@ -87,7 +87,11 @@ const CategoryPage = () => {
             {/* Grid de productos */}
             {products.length === 0 ? (
                 <div className={styles.emptyState}>
-                    <div className={styles.emptyIcon}>📦</div>
+                    <div className={`${styles.emptyIcon} category-box flex justify-center`}>
+                        <svg>
+                            <use href="#icon-box?"></use>
+                        </svg>
+                    </div>
                     <h3>No hay productos disponibles</h3>
                     <p>Pronto tendremos nuevos productos en esta categoría</p>
                 </div>

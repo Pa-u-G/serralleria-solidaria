@@ -41,7 +41,9 @@ const ProductCard = ({ product }) => {
                     />
                 ) : (
                     <div className={styles.imagePlaceholder}>
-                        📦
+                        <svg>
+                            <use href="#icon-box?"></use>
+                        </svg>
                     </div>
                 )}
             </div>
