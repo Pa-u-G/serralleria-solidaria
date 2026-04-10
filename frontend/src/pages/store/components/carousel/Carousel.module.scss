@@ -37,38 +37,41 @@
         flex: 0 0 auto;
         width: clamp(280px, 30vw, 320px);
     }
-
-    .arrow {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 40px;
-        height: 40px;
-        background: white;
-        border: 2px solid #e0e0e0;
-        border-radius: 50%;
-        cursor: pointer;
-        font-size: 20px;
+    .divButtons{
         display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-        z-index: 10;
-        background-color: white;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        
-        &:hover {
-            background: #3498db;
-            border-color: #3498db;
-            color: white;
-        }
-        
-        &.arrowLeft {
-            left: 0px;
-        }
-        
-        &.arrowRight {
-            right: 0px;
+        gap: 10px;
+        margin-bottom: 10px;
+        justify-content: end;
+        .arrow {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            
+            &:hover {
+                background: #3498db;
+                border-color: #3498db;
+                color: white;
+            }
+            
+            &.arrowLeft {
+                left: 0px;
+            }
+            
+            &.arrowRight {
+                right: 0px;
+            }
         }
     }
+    
 }

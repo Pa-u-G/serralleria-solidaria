@@ -25,13 +25,21 @@ const ProductCarousel = ({ products, limit = 10 }) => {
 
     return (
         <div className={styles.productCarousel}>
-            <button 
-                className={`${styles.arrow} ${styles.arrowLeft}`}
-                onClick={() => scroll('left')}
-            >
-                ❮
-            </button>
-
+            <div className={styles.divButtons}>
+                <button 
+                    className={`${styles.arrow} ${styles.arrowLeft}`}
+                    onClick={() => scroll('left')}
+                >
+                    ❮
+                </button>
+                <button 
+                    className={`${styles.arrow} ${styles.arrowRight}`}
+                    onClick={() => scroll('right')}
+                >
+                    ❯
+                </button>
+            </div>
+            
             <div className={styles.carouselContainer} ref={carouselRef}>
                 <div className={styles.carouselTrack}>
                     {limitedProducts.map(product => (
@@ -42,12 +50,7 @@ const ProductCarousel = ({ products, limit = 10 }) => {
                 </div>
             </div>
             
-            <button 
-                className={`${styles.arrow} ${styles.arrowRight}`}
-                onClick={() => scroll('right')}
-            >
-                ❯
-            </button>
+            
         </div>
     );
 };

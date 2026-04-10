@@ -18,15 +18,24 @@ function Dashboard() {
   console.log(longitud);
   return(
     <MainLayout>
-      <h1>Productos destacados</h1>
+
+      <section className={styles.carouselBanners}>
+
+      </section>
+
+
+      <section className={styles.productosDestacados}>
+        <h1>Productos destacados</h1>
       
-      {featuredProducts.length > 0 ? (
-        <Carousel products={featuredProducts} limit={10} />
-      ) : (
-        <div className={styles.emptyState}>
-          <p>Actualmente no hay productos destacados</p>
-        </div>
-      )}
+        {featuredProducts.length > 0 ? (
+          <Carousel products={featuredProducts} limit={10} />
+        ) : (
+          <div className={styles.emptyState}>
+            <p>Actualmente no hay productos destacados</p>
+          </div>
+        )}
+      </section>
+      
       
     </MainLayout>
   )
