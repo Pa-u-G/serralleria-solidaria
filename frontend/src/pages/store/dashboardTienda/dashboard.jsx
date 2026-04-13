@@ -56,7 +56,7 @@ function Dashboard() {
           
       <section className={styles.productsPopular}>
         <h1>Productos Populares</h1>
-        <Products products={products} limit={10} />
+        <Products products={selledProducts} limit={10} />
       </section>
     </MainLayout>
   )

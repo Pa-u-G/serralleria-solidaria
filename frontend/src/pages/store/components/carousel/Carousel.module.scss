@@ -37,7 +37,7 @@
 
     .carouselItem {
         flex: 0 0 auto;
-        width: clamp(260px, 20vw + 100px, 350px);
+        width: clamp(260px, 20vw + 100px, 100%);
     }
     .divButtons{
         display: flex;
