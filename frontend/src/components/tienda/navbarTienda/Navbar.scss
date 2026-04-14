@@ -4,6 +4,7 @@ nav{
     gap: clamp(10px, 3vw, 50px);
     align-items: center;
     flex-wrap: wrap; // 🔥 clave sin media queries
+    z-index: 100;
 
     img {
         width: clamp(80px, 10vw, 150px);
