@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./carouselBanners.module.scss";
+import { useNavigate } from "react-router-dom";
 
 const BannerCarousel = ({ banners = [] }) => {
-    const [index, setIndex] = useState(0);
+      const navigate = useNavigate();
+    const [index, setIndex] = useState(1);
+    const [isPaused, setIsPaused] = useState(false);
 
     const total = banners.length;
 
@@ -14,13 +17,28 @@ const BannerCarousel = ({ banners = [] }) => {
         setIndex((prev) => (prev - 1 + total) % total);
     };
 
+    useEffect(() => {
+        let interval;
+
+        if (total > 0 && !isPaused) {
+            interval = setInterval(() => {
+                setIndex((prev) => (prev + 1) % total);
+            }, 5000);
+        }
+
+        return () => clearInterval(interval);
+    }, [index, total, isPaused]);
+
     const getPosition = (i) => {
-        if (!total) return 0;
         return (i - index + total) % total;
     };
 
     return (
-        <div className={styles.carousel}>
+        <div 
+            className={styles.carousel}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+        >
 
             <button className={styles.arrowLeft} onClick={prev}>
                 ❮
@@ -43,7 +61,21 @@ const BannerCarousel = ({ banners = [] }) => {
                                     : styles.hidden
                             }`}
                         >
-                            <img src={banner.url} alt="" />
+                            <img src={banner.image} alt="" />
+
+                            {/* 🔥 SOLO SI EXISTE OVERLAY */}
+                            {banner.title && (
+                                <div className={styles.overlay}>
+                                    <div className={styles.content}>
+                                        <h2>{banner.title}</h2>
+                                        <p>{banner.subtitle}</p>
+
+                                        <button onClick={() => navigate(banner.link)} >
+                                            {banner.button}
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     );
                 })}

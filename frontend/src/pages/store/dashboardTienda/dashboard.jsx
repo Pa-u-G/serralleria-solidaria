@@ -23,18 +23,29 @@ function Dashboard() {
   const featuredProducts = products.filter(product => product.star === 1 && product.status == true);
   const selledProducts = products.filter(product => product.stock > 80 && product.status == true);
   const banners = [
-    { id: 1, url: banner1 },
-    { id: 2, url: banner2 },
-    { id: 3, url: banner3 },
+    {
+      id: 1,
+      image: banner2
+    },
+    {
+      id: 2,
+      image: banner1,
+      title: "Solucions Personalitzades",
+      subtitle: "Si tens dubtes contacta amb nosaltres",
+      button: "Contacte'm",
+      link: "/novedades",
+      overlayColor: "rgba(0,0,0,0.4)"
+    },
+    {
+      id: 3,
+      image: banner3
+    }
   ];
   return(
     <MainLayout>
 
-      
       <BannerCarousel banners={banners} />
       
-
-
       <section className={styles.productsDestacados}>
         <h1>Productos destacados</h1>
         
