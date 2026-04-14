@@ -37,15 +37,15 @@ function Dashboard() {
 
       <section className={styles.productsDestacados}>
         <h1>Productos destacados</h1>
-        <div>
-          {featuredProducts.length > 0 ? (
-            <Carousel products={featuredProducts} limit={10} />
-          ) : (
-            <div className={styles.emptyState}>
-              <p>Actualmente no hay productos destacados</p>
-            </div>
-          )}
-        </div>
+        
+        {featuredProducts.length > 0 ? (
+          <Carousel products={featuredProducts} limit={10} />
+        ) : (
+          <div className={styles.emptyState}>
+            <p>Actualmente no hay productos destacados</p>
+          </div>
+        )}
+        
       </section>
 
       <section className={styles.bannersCard}>

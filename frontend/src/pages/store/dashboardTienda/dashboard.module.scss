@@ -1,6 +1,17 @@
 @import '../styles/main.scss';
 
-.productsDestacados, .productsPopular {
+.productsDestacados{
+  h1 {
+    position: relative;
+    top: 40px;
+    // Título fluido: entre 24px y 36px
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    margin-left: 5%;
+    color: gray;
+    font-weight: 600;
+  }
+}
+.productsPopular {
   h1 {
     // Título fluido: entre 24px y 36px
     font-size: clamp(1.5rem, 4vw, 2.25rem);
@@ -10,7 +21,6 @@
     font-weight: 600;
   }
 }
-
 .bannersCard {
   padding: clamp(1rem, 5%, 3rem);
   display: flex;
