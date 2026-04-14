@@ -70,8 +70,11 @@ function Packs() {
 
           <button
             onClick={() => navigate("/admin/packs/create")}
-            className="bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90 shadow mb-4 cursor-pointer"
+            className="bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90 shadow cursor-pointer flex gap-2"
           >
+            <svg className="w-6 h-6">
+              <use href="#icon-plus"></use>
+            </svg>
             Crear Pack
           </button>
         </div>
@@ -104,9 +107,11 @@ function Packs() {
                         e.stopPropagation();
                         navigate(`/admin/packs/edit/${pack.id}`);
                       }}
-                      className="bg-blue-500 text-white px-2 py-1 rounded cursor-pointer"
+                      className="text-[#F07057] cursor-pointer"
                     >
-                      Editar
+                      <svg className="w-6 h-6">
+                        <use href="#icon-square-pen"></use>
+                      </svg>
                     </button>
                     <button
                       onClick={e => {

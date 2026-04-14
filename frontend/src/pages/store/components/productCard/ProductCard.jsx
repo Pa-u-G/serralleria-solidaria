@@ -68,9 +68,6 @@ const ProductCard = ({ product }) => {
                             </button>
                         )}
                     </div>
-                    <div className={`${styles.stockStatus} ${stockStatus.class}`}>
-                        {stockStatus.text}
-                    </div>
                 </div>
             </div>
         </div>

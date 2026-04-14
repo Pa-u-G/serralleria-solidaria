@@ -87,14 +87,15 @@ function PackShow(){
       <div className="w-4/5 mx-auto mt-6">
 
         <div className="flex items-center justify-between mb-4 w-full">
-          <h1 className="text-3xl">{pack.name}</h1>
 
           <button
-            onClick={()=>navigate("/admin/packs")}
-            className="bg-gray-500 text-white px-4 py-2 rounded cursor-pointer"
-          >
-            Tornar
+            onClick={()=>navigate("/admin/packs")} className="text-gray-500 rounded cursor-pointer flex gap-2">
+            <svg className="w-6 h-6">
+              <use href="#icon-arrow-left"></use>
+            </svg>
+            Tornar enrrere
           </button>
+          <h1 className="text-3xl">{pack.name}</h1>
         </div>
 
 
@@ -127,16 +128,20 @@ function PackShow(){
 
                     <button
                       onClick={()=>editAmount(product)}
-                      className="bg-blue-500 text-white px-2 py-1 rounded cursor-pointer"
+                      className="text-blue-500 cursor-pointer"
                     >
-                      Editar
+                      <svg className="w-6 h-6">
+                        <use href="#icon-square-pen"></use>
+                      </svg>
                     </button>
 
                     <button
                       onClick={()=>removeProduct(product.id)}
-                      className="bg-red-500 text-white px-2 py-1 rounded cursor-pointer"
+                      className="text-red-500 px-2 py-1 rounded cursor-pointer"
                     >
-                      Eliminar
+                      <svg className="w-6 h-6">
+                        <use href="#icon-trash"></use>
+                      </svg>
                     </button>
 
                   </td>
@@ -181,9 +186,11 @@ function PackShow(){
 
                       <button
                         onClick={() => addProduct(product.id)}
-                        className="bg-green-500 text-white px-3 py-1 rounded cursor-pointer"
+                        className="bg-[#F07057] text-white px-3 py-1 rounded cursor-pointer"
                       >
-                        Afegir
+                        <svg className="w-6 h-6">
+                          <use href="#icon-plus"></use>
+                        </svg>
                       </button>
 
                     </td>
