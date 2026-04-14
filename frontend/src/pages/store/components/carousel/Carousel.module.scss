@@ -3,12 +3,15 @@
 .productCarousel {
     position: relative;
     width: 100%;
-    padding: 1rem 0;
+    padding: 0 clamp(10px, 4vw, 40px);
 
     .carouselContainer {
         overflow-x: auto;
         overflow-y: hidden;
         scroll-behavior: smooth;
+        scroll-snap-type: x mandatory; // Mejor experiencia táctil
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
         
         &::-webkit-scrollbar {
             height: 6px;
@@ -27,44 +30,50 @@
 
     .carouselTrack {
         display: flex;
-        gap: 2rem;
+        flex-direction: row;
+        gap: clamp(1rem, 2.5vw, 2rem); 
         padding: 0.5rem 0;
     }
 
     .carouselItem {
         flex: 0 0 auto;
-        width: clamp(280px, 30vw, 320px);
+        width: clamp(260px, 20vw + 100px, 100%);
     }
-
-    .arrow {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 40px;
-        height: 40px;
-        background: white;
-        border: 2px solid #e0e0e0;
-        border-radius: 50%;
-        cursor: pointer;
-        font-size: 20px;
+    .divButtons{
         display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-        z-index: 10;
-        
-        &:hover {
-            background: #3498db;
-            border-color: #3498db;
-            color: white;
-        }
-        
-        &.arrowLeft {
-            left: clamp(-20px, -2vw, 5px);
-        }
-        
-        &.arrowRight {
-            right: clamp(-20px, -2vw, 5px);
+        gap: 10px;
+        margin-bottom: 10px;
+        justify-content: end;
+        .arrow {
+            width: clamp(35px, 8vw, 45px);
+            height: clamp(35px, 8vw, 45px);
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            
+            &:hover {
+                background: #3498db;
+                border-color: #3498db;
+                color: white;
+            }
+            
+            &.arrowLeft {
+                left: 0px;
+            }
+            
+            &.arrowRight {
+                right: 0px;
+            }
         }
     }
+    
 }
