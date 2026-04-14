@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import ProductGrid from '../components/productGrid/ProductGrid';
 import { categoryApi } from './services/categoryApi';
 import styles from './CategoryPage.module.scss';
+import MainLayout from "../../../layouts/layoutTienda/Main_layout_tienda";
 
 const CategoryPage = () => {
     const { id } = useParams();
@@ -70,31 +71,37 @@ const CategoryPage = () => {
     }
 
     return (
-        <div className={styles.categoryPage}>
-            {/* Header de la categoría */}
-            <div className={styles.categoryHeader}>
-                {/* <button onClick={handleGoBack} className={styles.backButton}>
-                    ← Volver
-                </button> */}
-                <div className={styles.categoryInfo}>
-                    <h1>{category.name}</h1>
-                    <p className={styles.productCount}>
-                        {products.length} {products.length === 1 ? 'producto' : 'productos'} disponibles
-                    </p>
+        <MainLayout>
+            <div className={`${styles.categoryPage}`}>
+                {/* Header de la categoría */}
+                <div className={styles.categoryHeader}>
+                    {/* <button onClick={handleGoBack} className={styles.backButton}>
+                        ← Volver
+                    </button> */}
+                    <div className={styles.categoryInfo}>
+                        <h1>{category.name}</h1>
+                        <p className={styles.productCount}>
+                            {products.length} {products.length === 1 ? 'producto' : 'productos'} disponibles
+                        </p>
+                    </div>
                 </div>
-            </div>
 
-            {/* Grid de productos */}
-            {products.length === 0 ? (
-                <div className={styles.emptyState}>
-                    <div className={styles.emptyIcon}>📦</div>
-                    <h3>No hay productos disponibles</h3>
-                    <p>Pronto tendremos nuevos productos en esta categoría</p>
-                </div>
-            ) : (
-                <ProductGrid products={products} />
-            )}
-        </div>
+                {/* Grid de productos */}
+                {products.length === 0 ? (
+                    <div className={styles.emptyState}>
+                        <div className={`${styles.emptyIcon} category-box`}>
+                            <svg>
+                                <use href="#icon-box?"></use>
+                            </svg>
+                        </div>
+                        <h3>No hay productos disponibles</h3>
+                        <p>Pronto tendremos nuevos productos en esta categoría</p>
+                    </div>
+                ) : (
+                    <ProductGrid products={products} />
+                )}
+            </div>
+        </MainLayout>
     );
 };
 

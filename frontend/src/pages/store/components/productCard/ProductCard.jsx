@@ -28,7 +28,7 @@ const ProductCard = ({ product }) => {
                     Destacado
                 </div>
             ) : (
-                <div></div>
+                ""
             )}
             
             <div className={styles.productImage}>
@@ -41,7 +41,9 @@ const ProductCard = ({ product }) => {
                     />
                 ) : (
                     <div className={styles.imagePlaceholder}>
-                        📦
+                        <svg>
+                            <use href="#icon-box?"></use>
+                        </svg>
                     </div>
                 )}
             </div>
@@ -65,9 +67,6 @@ const ProductCard = ({ product }) => {
                                 Añadir al carrito
                             </button>
                         )}
-                    </div>
-                    <div className={`${styles.stockStatus} ${stockStatus.class}`}>
-                        {stockStatus.text}
                     </div>
                 </div>
             </div>

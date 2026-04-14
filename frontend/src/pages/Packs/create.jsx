@@ -21,7 +21,7 @@ function Pack_create() {
         axios.post("http://localhost:8000/api/packs", form)
             .then(res => setPacks([...packs, res.data]))
 
-        navigate("/packs");
+        navigate("/admin/packs");
     };
 
     const handleChange = (e) => {
@@ -101,7 +101,7 @@ function Pack_create() {
 
             <button
               type="button"
-              onClick={() => navigate("/packs")}
+              onClick={() => navigate("/admin/packs")}
               className="bg-gray-200 px-5 py-2 rounded-lg"
             >
               Cancel·lar

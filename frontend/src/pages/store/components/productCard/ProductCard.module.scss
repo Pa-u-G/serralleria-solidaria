@@ -5,7 +5,10 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     position: relative;
-    
+    display: grid;
+    grid-template-rows: .75fr 1fr;
+    height: 100%;
+
     &:hover {
         transform: translateY(-5px);
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
@@ -19,7 +22,7 @@
         position: absolute;
         top: 1rem;
         right: 1rem;
-        background: #ffd700;
+        background: #f78c77;
         color: #333;
         padding: 0.25rem 0.75rem;
         border-radius: 20px;
@@ -55,6 +58,9 @@
     
     .productInfo {
         padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         
         .productName {
             margin: 0 0 0.5rem 0;
