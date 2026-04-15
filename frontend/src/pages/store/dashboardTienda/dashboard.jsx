@@ -21,7 +21,7 @@ function Dashboard() {
       .catch(err => console.log(err));
   }, []);
   const featuredProducts = products.filter(product => product.star === 1 && product.status == true);
-  const selledProducts = products.filter(product => product.stock > 80 && product.status == true);
+  const popularProducts = products.filter(product => product.stock > 80 && product.status == true);
   const banners = [
     {
       id: 1,
@@ -53,7 +53,12 @@ function Dashboard() {
           <Carousel products={featuredProducts} limit={10} />
         ) : (
           <div className={styles.emptyState}>
-            <p>Actualmente no hay productos destacados</p>
+            <div className={`${styles.emptyIcon} category-box`}>
+                <svg>
+                    <use href="#icon-box?"></use>
+                </svg>
+            </div>
+            <h3>No hay productos destacados disponibles</h3>
           </div>
         )}
         
@@ -67,7 +72,19 @@ function Dashboard() {
           
       <section className={styles.productsPopular}>
         <h1>Productos Populares</h1>
-        <Products products={selledProducts} limit={10} />
+        
+        {popularProducts.length > 0 ? (
+          <Products products={popularProducts} limit={20} />
+        ) : (
+          <div className={styles.emptyState}>
+            <div className={`${styles.emptyIcon} category-box`}>
+                <svg>
+                    <use href="#icon-box?"></use>
+                </svg>
+            </div>
+            <h3>No hay productos populares disponibles</h3>
+          </div>
+        )}
       </section>
     </MainLayout>
   )

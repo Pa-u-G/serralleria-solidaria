@@ -16,6 +16,7 @@ import Pack_edit from "./pages/Packs/edit";
 
 import Icons from "./assets/icons";
 import CategoryPage from './pages/store/category/CategoryPage';
+import Solutions from './pages/store/solutions/solutions';
 
 function App() {
 
@@ -44,7 +45,7 @@ function App() {
           
           <Route path="/" element={<DashboardTienda />} />
           <Route path="/category/:id" element={<CategoryPage />} />
-
+          <Route path="/solutions" element={<Solutions />} />
         </Routes>
 
       </BrowserRouter>
