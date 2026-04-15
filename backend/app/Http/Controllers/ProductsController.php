@@ -178,4 +178,10 @@ class ProductsController extends Controller
         return response()->json($category);
     }
 
+    public function getProductInfo($id) {
+        $product = Product::findOrFail($id);
+
+        return response()->json($product);
+    }
+
 }

@@ -17,6 +17,8 @@ import Pack_edit from "./pages/Packs/edit";
 import Icons from "./assets/icons";
 import CategoryPage from './pages/store/category/CategoryPage';
 
+import Show_products from './pages/store/products/Show_products'
+
 function App() {
 
   return (
@@ -44,6 +46,7 @@ function App() {
           
           <Route path="/" element={<DashboardTienda />} />
           <Route path="/category/:id" element={<CategoryPage />} />
+          <Route path="/product/:id" element={< Show_products />}/>
 
         </Routes>
 

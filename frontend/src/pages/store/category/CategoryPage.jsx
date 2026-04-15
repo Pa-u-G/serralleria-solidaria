@@ -57,6 +57,7 @@ const CategoryPage = () => {
 
     if (error || !category) {
         return (
+            <MainLayout>
             <div className={styles.categoryPage}>
                 <div className={styles.errorContainer}>
                     <div className={styles.errorIcon}>⚠️</div>
@@ -67,6 +68,7 @@ const CategoryPage = () => {
                     </button>
                 </div>
             </div>
+            </MainLayout>
         );
     }
 
@@ -95,7 +97,6 @@ const CategoryPage = () => {
                             </svg>
                         </div>
                         <h3>No hay productos disponibles</h3>
-                        <p>Pronto tendremos nuevos productos en esta categoría</p>
                     </div>
                 ) : (
                     <ProductGrid products={products} />
