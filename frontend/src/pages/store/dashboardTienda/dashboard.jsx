@@ -33,7 +33,7 @@ function Dashboard() {
       title: "Solucions Personalitzades",
       subtitle: "Si tens dubtes contacta amb nosaltres",
       button: "Contacte'm",
-      link: "/novedades",
+      link: "/solutions",
       overlayColor: "rgba(0,0,0,0.4)"
     },
     {
