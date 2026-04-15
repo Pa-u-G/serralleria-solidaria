@@ -36,18 +36,56 @@
     inset: 0;
     display: flex;
     align-items: center;
-    padding: 5%;
+    padding: clamp(1.5rem, 4vw, 3rem);
     color: white;
     z-index: 2;
-    
+
+    /* 🔥 fondo más pro tipo glass */
     background: linear-gradient(
         to right,
-        rgba(0,0,0,0.6),
-        rgba(0,0,0,0.1)
+        rgba(0, 0, 0, 0.75),
+        rgba(0, 0, 0, 0.2)
     );
     .content{
+        max-width: 500px;
+        padding: clamp(1rem, 2vw, 2rem);
+
+        /* 🔥 efecto tarjeta flotante */
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
         button{
+            margin-top: 10px;
+            padding: clamp(10px, 1vw, 14px) clamp(18px, 2vw, 28px);
+            border-radius: 999px;
+            border: none;
+            background: #3498db;
+            color: white;
+            font-weight: 600;
             cursor: pointer;
+            transition: all 0.3s ease;
+            width: fit-content;
+        }
+        button:hover {
+            background: #217dbb;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.4);
+        }
+        h2 {
+            font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.2;
+        }
+        p {
+            font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+            opacity: 0.9;
+            margin: 0;
         }
     }
 }
