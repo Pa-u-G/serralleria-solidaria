@@ -47,3 +47,5 @@ Route::delete('/product-pack/{product}/{pack}', [ProductPackController::class, '
 
 Route::get('/store/category/{categoryId}/products', [ProductsController::class, 'getProductsByCategory']);
 Route::get('/store/category/{categoryId}/info', [ProductsController::class, 'getCategoryInfo']);
+
+Route::get('/store/product/{id}', [ProductsController::class, 'getProduct']);

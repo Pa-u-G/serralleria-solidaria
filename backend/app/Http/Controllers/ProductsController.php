@@ -178,10 +178,18 @@ class ProductsController extends Controller
         return response()->json($category);
     }
 
-    public function getProductInfo($id) {
-        $product = Product::findOrFail($id);
-
+    public function getProduct($id)
+    {
+        $product = Product::with(['category', 'images', 'characteristics'])
+            ->where('status', true)
+            ->find($id);
+        
+        if (!$product) {
+            return response()->json(['message' => 'Producto no encontrado'], 404);
+        }
+        
         return response()->json($product);
     }
+
 
 }
