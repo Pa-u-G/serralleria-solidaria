@@ -1,8 +1,13 @@
 .layoutFlex {
   display: flex;
+  justify-content: center;
   gap: clamp(1rem, 4vw, 3rem);
   align-items: stretch;
-  flex-wrap: wrap; // 🔥 responsive automático
+  flex-wrap: wrap; 
+  width: 100%;
+  max-width: 1200px;         
+  margin: 0 auto;            
+  padding: 2rem;
 }
 
 /* IMAGEN */
@@ -11,32 +16,34 @@
   height: auto;
   object-fit: cover;
   border-radius: 12px;
+  flex: 1;
+  max-width: 450px;
 }
 .formSolutions {
-    flex: 1;
+    flex: 1.2;
     background-color: white;
     border-radius: 8px;
     h1{
-        font-size: clamp(1.5rem, 2vw, 2rem);
-        font-weight: 700;
-        color: #1f2937;
-        padding: clamp(1rem, 3vw, 2rem);
+      font-size: clamp(1.5rem, 2vw, 2rem);
+      font-weight: 700;
+      color: #1f2937;
+      padding: clamp(1rem, 3vw, 2rem);
     }
     form{
-        padding: 2rem 3rem;
-        section{
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            padding-bottom: 2rem;
-            input{
-                width: 100%;
-                border: 1px solid black;
-                border-radius: 8px;
-                padding: clamp(6px, 0.8vw, 10px);
-                margin-top: 5px;
-            }
+      padding: 2rem 3rem;
+      section{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        padding-bottom: 2rem;
+        input{
+          width: 100%;
+          border: 1px solid black;
+          border-radius: 8px;
+          padding: clamp(6px, 0.8vw, 10px);
+          margin-top: 5px;
         }
+      }
         /*textarea{
             border: 1px solid black;
             border-radius: 8px;
@@ -117,8 +124,16 @@
 }
 .uploadWrapper {
   margin-top: 1.5rem;
+  max-width: 600px;
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
 }
-
+.dragging {
+  border-color: #3498db;
+  background: rgba(52, 152, 219, 0.1);
+}
 .uploadLabel {
   display: inline-block;
   padding: 10px 14px;
@@ -139,9 +154,10 @@
 
 .preview {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-top: 10px;
-  flex-wrap: wrap;
+  
 }
 
 .previewItem {

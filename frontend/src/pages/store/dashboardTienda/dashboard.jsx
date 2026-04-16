@@ -7,9 +7,9 @@ import styles from './dashboard.module.scss';
 import banner1 from "./bannersCarousel/banner1.jpg";
 import banner2 from "./bannersCarousel/banner2.jpg";
 import banner3 from "./bannersCarousel/banner3.jpg";
-import miniBanner1 from "./bannersCard/miniBanner1.jpg";
-import miniBanner2 from "./bannersCard/miniBanner2.jpg";
-import miniBanner3 from "./bannersCard/miniBanner3.jpg";
+// import miniBanner1 from "./bannersCard/miniBanner1.jpg";
+// import miniBanner2 from "./bannersCard/miniBanner2.jpg";
+// import miniBanner3 from "./bannersCard/miniBanner3.jpg";
 import Products from '../components/productGrid/ProductGrid';
 
 function Dashboard() {
@@ -64,11 +64,11 @@ function Dashboard() {
         
       </section>
 
-      <section className={styles.bannersCard}>
+      {/* <section className={styles.bannersCard}>
         <img src={miniBanner1} alt="Prueba" />
         <img src={miniBanner2} alt="Prueba" />
         <img src={miniBanner3} alt="Prueba" />
-      </section>
+      </section> */}
           
       <section className={styles.productsPopular}>
         <h1>Productos Populares</h1>

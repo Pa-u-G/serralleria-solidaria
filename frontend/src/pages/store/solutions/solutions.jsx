@@ -1,5 +1,5 @@
 import MainLayout from "../../../layouts/layoutTienda/Main_layout_tienda";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import styles from "./solutions.module.scss";
 import img from "./prueba.jpg"
@@ -8,18 +8,39 @@ function Solutions() {
   const [details, setDetails] = useState("");
   const maxDetails = 1500;
   const [files, setFiles] = useState([]);
+  const addFiles = (newFiles) => {
+    setFiles(prev => {
+      const total = [...prev, ...newFiles].slice(0, 3);
+
+      if (prev.length + newFiles.length > 3) {
+        alert("Solo puedes subir un máximo de 3 imágenes");
+      }
+
+      return total;
+    });
+  };
   const handleFiles = (e) => {
     const selected = Array.from(e.target.files || []);
-    const total = [...files, ...selected].slice(0, 3);
-
-    setFiles(total);
-
-    if (selected.length + files.length > 3) {
-      alert("Solo puedes subir un máximo de 3 imágenes");
-    }
+    addFiles(selected);
   };
   const removeFile = (index) => {
     setFiles(files.filter((_, i) => i !== index));
+  };
+  const [isDragging, setIsDragging] = useState(false);
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const dropped = Array.from(e.dataTransfer.files || []);
+    addFiles(dropped);
   };
   return (
     <MainLayout>
@@ -63,7 +84,10 @@ function Solutions() {
                 {details.length} / {maxDetails}
               </div>
             </div>
-            <div className={styles.uploadWrapper}>
+            <div className={`${styles.uploadWrapper} ${isDragging ? styles.dragging : ""}`}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}>
               <label className={styles.uploadLabel}>
                 📎 Subir imágenes (máx 3)
                 <input
