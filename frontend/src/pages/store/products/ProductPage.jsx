@@ -108,7 +108,7 @@ const ProductPage = () => {
                             <div className={styles.productGallery}>
                                 <div className={styles.mainImage}>
                                     <img 
-                                        src={product.images?.[selectedImage]?.url || '/api/placeholder/500/500'} 
+                                        src={product.images[selectedImage] ? `http://localhost:8000/storage/${product.images[selectedImage].path}` : "#"}
                                         alt={product.name}
                                     />
                                 </div>
@@ -120,7 +120,7 @@ const ProductPage = () => {
                                                 className={`${styles.thumbnail} ${selectedImage === index ? styles.active : ''}`}
                                                 onClick={() => setSelectedImage(index)}
                                             >
-                                                <img src={img.url} alt={`${product.name} - ${index + 1}`} />
+                                                <img src={`http://localhost:8000/storage/${img.path}`} alt={`${product.name} - ${index + 1}`} />
                                             </button>
                                         ))}
                                     </div>
@@ -131,7 +131,7 @@ const ProductPage = () => {
                             <div className={styles.productInfo}>
                                 {product.star && (
                                     <div className={styles.starBadge}>
-                                        ⭐ Producto Destacado
+                                        Producto Destacado
                                     </div>
                                 )}
                                 

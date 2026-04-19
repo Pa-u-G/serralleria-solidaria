@@ -14,9 +14,7 @@
     }
 
     .backButton {
-        position: absolute;
-        top: 1.5rem;
-        left: 1.5rem;
+        position: relative;
         background: none;
         border: none;
         font-size: 1rem;
@@ -104,7 +102,7 @@
 
         .starBadge {
             display: inline-block;
-            background: #ffd700;
+            background: #f78c77;
             color: #333;
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
