@@ -52,28 +52,25 @@ function Pack_edit() {
 
     const formData = new FormData();
 
-    // Convertir tipos para Laravel
     formData.append('name', form.name);
     formData.append('description', form.description);
     formData.append('price', parseFloat(form.price));
 
-    // Agregar nuevas imágenes
     for (let i = 0; i < newImages.length; i++) {
-      formData.append("images[]", newImages[i]);
+        formData.append("images[]", newImages[i]);
     }
-    // Simular PUT porque axios FormData y PUT a veces falla
+    
     formData.append('_method', 'PUT');
 
-    axios.put(`http://localhost:8000/api/packs/${id}`, form)
-      .then(res => {
-        console.log(res.data);
-        setImages(res.data.images);
-        setNewImages([]);
-        navigate("/admin/packs");
-      })
-      .catch(err => console.log(err));
-
-  };
+    axios.post(`http://localhost:8000/api/packs/${id}`, formData)
+        .then(res => {
+            console.log(res.data);
+            setImages(res.data.images);
+            setNewImages([]);
+            navigate("/admin/packs");
+        })
+        .catch(err => console.log(err));
+};
 
 
   return (
@@ -145,7 +142,7 @@ function Pack_edit() {
                 <button
                   type="button"
                   onClick={() => {
-                    axios.delete(`http://localhost:8000/api/product_image/${img.id}`)
+                    axios.delete(`http://localhost:8000/api/packs/image/${img.id}`)
                       .then(() => setImages(images.filter(i => i.id !== img.id)))
                       .catch(err => console.log(err));
                   }}

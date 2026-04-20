@@ -38,6 +38,7 @@ Route::apiResource('packs', PackController::class);
 Route::post('/product-pack', [ProductPackController::class, 'store']);
 Route::put('/product-pack', [ProductPackController::class, 'update']);
 Route::delete('/product-pack/{product}/{pack}', [ProductPackController::class, 'destroy']);
+Route::delete('/packs/image/{image_id}', [PackController::class, 'delete_image']);
 
 
 // tienda:
