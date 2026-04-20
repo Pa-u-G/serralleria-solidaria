@@ -7,6 +7,7 @@ use App\Http\Controllers\CharacteristicTypeController;
 use App\Http\Controllers\CharacteristicController;
 use App\Http\Controllers\PackController;
 use App\Http\Controllers\ProductPackController;
+use App\Http\Controllers\SolutionsController;
 
 Route::get('/categories', [CategoriesController::class, 'index']);
 
@@ -40,8 +41,9 @@ Route::put('/product-pack', [ProductPackController::class, 'update']);
 Route::delete('/product-pack/{product}/{pack}', [ProductPackController::class, 'destroy']);
 
 
-// tienda:
-
+// TIENDA:
+// Solutions:
+Route::post('/solutions', [SolutionsController::class, 'store']);
 
 // prodctos-categoria
 
