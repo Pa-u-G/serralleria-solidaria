@@ -192,4 +192,20 @@ class ProductsController extends Controller
     }
 
 
+    public function getAllProducts()
+    {
+        $products = Product::with(['category', 'images'])
+            ->where('status', true)
+            ->orderBy('star', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        
+        return response()->json([
+            'products' => $products,
+            'total' => $products->count()
+        ]);
+    }
+
+
+
 }

@@ -46,6 +46,7 @@ Route::delete('/packs/image/{image_id}', [PackController::class, 'delete_image']
 
 // prodctos-categoria
 
+Route::get('/store/products', [ProductsController::class, 'getAllProducts']);
 Route::get('/store/category/{categoryId}/products', [ProductsController::class, 'getProductsByCategory']);
 Route::get('/store/category/{categoryId}/info', [ProductsController::class, 'getCategoryInfo']);
 

@@ -18,6 +18,7 @@ import Icons from "./assets/icons";
 import CategoryPage from './pages/store/category/CategoryPage';
 
 import ProductPage from './pages/store/products/ProductPage'
+import ProductsPage from './pages/store/products/Products';
 
 function App() {
 
@@ -47,6 +48,7 @@ function App() {
           <Route path="/" element={<DashboardTienda />} />
           <Route path="/category/:id" element={<CategoryPage />} />
           <Route path="/product/:id" element={< ProductPage />}/>
+          <Route path="/products/" element={< ProductsPage />}/>
 
         </Routes>
 

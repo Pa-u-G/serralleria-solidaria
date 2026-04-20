@@ -53,7 +53,7 @@ function Navbar() {
           </div>
         </li>
 
-        <li>Productes</li>
+        <div onClick={() => navigate(`/products/`)} >Productes</div>
         <li>Packs</li>
       </ul>
 
