@@ -44,6 +44,7 @@ Route::delete('/product-pack/{product}/{pack}', [ProductPackController::class, '
 // TIENDA:
 // Solutions:
 Route::post('/solutions', [SolutionsController::class, 'store']);
+Route::get('/solutions-admin', [SolutionsController::class, 'index']);
 
 // prodctos-categoria
 
