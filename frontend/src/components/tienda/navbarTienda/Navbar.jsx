@@ -32,7 +32,7 @@ function Navbar() {
 
   return (
     <nav>
-      <img src={logo} alt="logo" />
+      <img src={logo} alt="logo" onClick={() => navigate("/")}/>
 
       <ul>
         
@@ -46,7 +46,7 @@ function Navbar() {
 
           <div className={`dropdown-menu ${open ? "active" : ""}`}>
             {CategoriesActive.map(cat => (
-              <div key={cat.id} className="dropdown-item" onClick={() => navigate(`../pages/store/category/CategoryPage/${cat.id}`)}>
+              <div key={cat.id} className="dropdown-item" onClick={() => navigate(`/category/${cat.id}`)}>
                 {cat.name}
               </div>
             ))}

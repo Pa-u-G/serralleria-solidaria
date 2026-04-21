@@ -16,11 +16,12 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 60%;
-    height: 80%;
+    width: 80%;
+    height: 100%;
     transition: all 0.5s ease;
     opacity: 0;
-    pointer-events: none;
+    overflow: hidden;   // 🔥 IMPORTANTE
+    border-radius: 12px; // 🔥 para que el overlay respete bordes
 
     img {
         width: 100%;
@@ -29,18 +30,77 @@
         border-radius: 12px;
     }
 }
+.overlay {
+    
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    color: white;
+    z-index: 2;
 
+    /* 🔥 fondo más pro tipo glass */
+    background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.75),
+        rgba(0, 0, 0, 0.2)
+    );
+    .content{
+        max-width: 500px;
+        padding: clamp(1rem, 2vw, 2rem);
+
+        /* 🔥 efecto tarjeta flotante */
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        button{
+            margin-top: 10px;
+            padding: clamp(10px, 1vw, 14px) clamp(18px, 2vw, 28px);
+            border-radius: 999px;
+            border: none;
+            background: #3498db;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: fit-content;
+        }
+        button:hover {
+            background: #217dbb;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.4);
+        }
+        h2 {
+            font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.2;
+        }
+        p {
+            font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+            opacity: 0.9;
+            margin: 0;
+        }
+    }
+}
 /* CENTRO (principal) */
 .center {
     left: 50%;
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
     z-index: 3;
+    pointer-events: auto;
 }
 
 /* IZQUIERDA (se ve un trozo) */
 .left {
-    left: 10%;
+    left: -20%;
     transform: translate(-50%, -50%) scale(0.85);
     opacity: 0.6;
     z-index: 2;
@@ -48,7 +108,7 @@
 
 /* DERECHA (se ve un trozo) */
 .right {
-    left: 90%;
+    left: 120%;
     transform: translate(-50%, -50%) scale(0.85);
     opacity: 0.6;
     z-index: 2;
@@ -66,12 +126,18 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
+    width: clamp(35px, 8vw, 45px);
+    height: clamp(35px, 8vw, 45px);
     border-radius: 50%;
     background: white;
     border: 1px solid #ddd;
     z-index: 10;
+    cursor: pointer;
+    &:hover {
+        background: #3498db;
+        border-color: #3498db;
+        color: white;
+    }
 }
 
 .arrowLeft {
