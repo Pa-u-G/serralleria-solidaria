@@ -172,10 +172,10 @@ const ProductPage = () => {
                                     <div className={styles.productCharacteristics}>
                                         <h3>Características</h3>
                                         <ul>
-                                            {product.characteristics.map((char, index) => (
+                                            {product.characteristics.map((char, index) => ( 
                                                 <li key={index}>
-                                                    <span className={styles.charName}>{char.name}:</span>
-                                                    <span className={styles.charValue}>{char.value}</span>
+                                                    <span className={styles.charName}>{char.type.type}:</span>
+                                                    <span className={styles.charValue}>{char.description}</span>
                                                 </li>
                                             ))}
                                         </ul>

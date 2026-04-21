@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Product_img;
+use App\Models\CharacteristicType;
 use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
@@ -148,18 +149,25 @@ class ProductsController extends Controller
     }
     
 
-    public function getProductsByCategory($categoryId)
+    public function getProductsByCategory($categoryId, Request $request)
     {
-        $category = Category::with('products.images')->find($categoryId);
+        $category = Category::find($categoryId);
         
         if (!$category) {
             return response()->json(['message' => 'Categoría no encontrada'], 404);
         }
         
-        $products = $category->products()
-            ->where('status', true)
-            ->with('images')
-            ->get();
+        $query = $category->products()->where('status', true)->with(['images', 'characteristics']);
+        
+        // Filtrar por características
+        if ($request->has('characteristics') && !empty($request->characteristics)) {
+            $characteristicIds = $request->characteristics;
+            $query->whereHas('characteristics', function($q) use ($characteristicIds) {
+                $q->whereIn('characteristic.id', $characteristicIds);
+            });
+        }
+        
+        $products = $query->get();
         
         return response()->json([
             'category' => $category,
@@ -180,7 +188,7 @@ class ProductsController extends Controller
 
     public function getProduct($id)
     {
-        $product = Product::with(['category', 'images', 'characteristics'])
+        $product = Product::with(['category', 'images', 'characteristics.type'])
             ->where('status', true)
             ->find($id);
         
@@ -192,18 +200,63 @@ class ProductsController extends Controller
     }
 
 
-    public function getAllProducts()
+    public function getAllProducts(Request $request)
     {
-        $products = Product::with(['category', 'images'])
-            ->where('status', true)
-            ->orderBy('star', 'desc')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $query = Product::with(['category', 'images', 'characteristics'])
+            ->where('status', true);
+        
+        // Filtrar por características
+        if ($request->has('characteristics') && !empty($request->characteristics)) {
+            $characteristicIds = $request->characteristics;
+            $query->whereHas('characteristics', function($q) use ($characteristicIds) {
+                $q->whereIn('characteristic.id', $characteristicIds);
+            });
+        }
+        
+        // Filtrar por categoría
+        if ($request->has('category_id') && $request->category_id) {
+            $query->where('category_id', $request->category_id);
+        }
+        
+        // Filtrar por destacados
+        if ($request->has('star') && $request->star) {
+            $query->where('star', true);
+        }
+        
+        // Ordenar
+        $sortBy = $request->get('sort_by', 'newest');
+        switch($sortBy) {
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'name':
+                $query->orderBy('name', 'asc');
+                break;
+            case 'newest':
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+        
+        $products = $query->get();
         
         return response()->json([
             'products' => $products,
             'total' => $products->count()
         ]);
+    }
+    
+    public function getFilters()
+    {
+        // Obtener todos los tipos de características con sus características
+        $characteristicsTypes = CharacteristicType::with(['characteristics' => function($q) {
+            $q->where('status', true);  
+        }])->where('status', true)->get();
+        
+        return response()->json($characteristicsTypes);
     }
 
 
