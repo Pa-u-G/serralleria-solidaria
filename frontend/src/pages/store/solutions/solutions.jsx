@@ -1,10 +1,12 @@
 import MainLayout from "../../../layouts/layoutTienda/Main_layout_tienda";
 import { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./solutions.module.scss";
 import img from "./prueba.jpg"
 
 function Solutions() {
+  const navigate = useNavigate();
   const maxDetails = 1500;
   const [form, setForm] = useState({
     name: "",
@@ -16,19 +18,25 @@ function Solutions() {
 
   const [details, setDetails] = useState("");
   const [files, setFiles] = useState([]);
-  const [previews, setPreviews] = useState([]);
+  const [imageUrls, setImageUrls] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  
+  // Generar URLs quan els fitxers canvien
   useEffect(() => {
-    const newPreviews = files.map(file => ({
-      file,
-      url: URL.createObjectURL(file),
-    }));
-
-    setPreviews(newPreviews);
-
+    // Netejar URLs anteriors
+    imageUrls.forEach(url => URL.revokeObjectURL(url));
+    
+    // Crear noves URLs
+    const urls = files.map(file => URL.createObjectURL(file));
+    setImageUrls(urls);
+    
+    // Netejar quan es desmonta el component
     return () => {
-      newPreviews.forEach(p => URL.revokeObjectURL(p.url));
+      urls.forEach(url => URL.revokeObjectURL(url));
     };
   }, [files]);
+  
   const addFiles = (newFiles) => {
     setFiles(prev => {
       const total = [...prev, ...newFiles].slice(0, 3);
@@ -40,14 +48,17 @@ function Solutions() {
       return total;
     });
   };
+  
   const handleFiles = (e) => {
     const selected = Array.from(e.target.files || []);
     addFiles(selected);
     e.target.value = "";
   };
+  
   const removeFile = (index) => {
     setFiles(files.filter((_, i) => i !== index));
   };
+  
   const [isDragging, setIsDragging] = useState(false);
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -64,9 +75,11 @@ function Solutions() {
     const dropped = Array.from(e.dataTransfer.files || []);
     addFiles(dropped);
   };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("SUBMIT EJECUTADO");
+    setLoading(true);
+    
     const data = new FormData();
 
     data.append("name", form.name);
@@ -80,20 +93,46 @@ function Solutions() {
       data.append("images[]", file);
     });
 
-    await axios.post("http://localhost:8000/api/solutions", data, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    // RESET SOLO AQUÍ
-    setForm({
-      name: "",
-      surname: "",
-      email: "",
-      phone_number: "",
-      issue: "",
-    });
-    setDetails("");
-    setFiles([]);
+    try {
+      await axios.post("http://localhost:8000/api/solutions", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      
+      // Mostrar missatge d'èxit
+      setShowSuccess(true);
+      
+      // Redirigir a la pàgina principal després de 3 segons
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
+      
+    } catch (error) {
+      console.error("Error enviant el formulari:", error);
+      alert("Hi ha hagut un error. Si us plau, torna a intentar-ho.");
+      setLoading(false);
+    }
   };
+  
+  // Si s'ha enviat correctament, mostrar la targeta d'èxit
+  if (showSuccess) {
+    return (
+      <MainLayout>
+        <div className={styles.successContainer}>
+          <div className={styles.successCard}>
+            <div className={styles.successIcon}>✅</div>
+            <h2>Sol·licitud enviada correctament!</h2>
+            <p>Gràcies per contactar amb nosaltres.</p>
+            <p>En breu ens posarem en contacte amb tu per donar solució al teu problema.</p>
+            <div className={styles.successLoader}>
+              <div className={styles.spinner}></div>
+              <p>Redirigint a la pàgina principal...</p>
+            </div>
+          </div>
+        </div>
+      </MainLayout>
+    );
+  }
+  
   return (
     <MainLayout>
       <div className={styles.layoutFlex}>
@@ -161,10 +200,14 @@ function Solutions() {
               </label>
 
               <div className={styles.preview}>
-                {previews.map((item, index) => (
+                {imageUrls.map((url, index) => (
                   <div key={index} className={styles.previewItem}>
-                    <img src={item.url} alt="preview" />
-
+                    <img 
+                      src={url} 
+                      alt={`preview-${index}`}
+                      onError={(e) => console.log('Error carregant imatge:', e)}
+                      onLoad={() => console.log('Imatge carregada:', url)}
+                    />
                     <button
                       type="button"
                       onClick={() => removeFile(index)}
@@ -176,8 +219,8 @@ function Solutions() {
               </div>
             </div>
             <div className={styles.actions}>
-              <button type="submit" className={styles.primary}>
-                Enviar
+              <button type="submit" className={styles.primary} disabled={loading}>
+                {loading ? "Enviant..." : "Enviar"}
               </button>
 
               <button type="reset" className={styles.secondary} onClick={() => {
