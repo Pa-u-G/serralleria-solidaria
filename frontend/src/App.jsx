@@ -22,12 +22,12 @@ import Pack_edit from "./pages/Packs/edit";
 import SolutionsShow from "./pages/solutions/solutions";
 
 // Components de client (protegits - només usuaris loguejats)
-import PerfilCliente from "./pages/store/perfil/Perfil"; // Haurem de crear-lo
-// import MisCompras from "./pages/store/compras/MisCompras"; // Haurem de crear-lo
+import PerfilCliente from "./pages/store/perfil/Perfil";
 
 // Altres
 import Icons from "./assets/icons";
-import Login from "./pages/Login";
+import Login from "./pages/login/Login";
+import Register from "./pages/login/Register"; // ← AFEGIR AIXÒ
 
 function App() {
   return (
@@ -40,8 +40,9 @@ function App() {
           <Route path="/category/:id" element={<CategoryPage />} />
           <Route path="/solutions" element={<Solutions />} />
           
-          {/* RUTES DE LOGIN */}
+          {/* RUTES DE LOGIN I REGISTER */}
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} /> {/* ← AFEGIR AIXÒ */}
           
           {/* RUTES PROTEGIDES D'ADMIN (només admin) */}
           <Route path="/admin" element={
@@ -122,12 +123,6 @@ function App() {
               <PerfilCliente />
             </ProtectedRoute>
           } />
-          
-          {/*<Route path="/mis-compras" element={
-            <ProtectedRoute allowedRoles={['cliente', 'admin']}>
-              <MisCompras />
-            </ProtectedRoute>
-          } />*/}
         </Routes>
       </BrowserRouter>
     </AuthProvider>

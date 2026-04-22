@@ -14,6 +14,7 @@ use App\Http\Controllers\SolutionsController;
 // RUTAS PÚBLICAS (No requereixen autenticació)
 // ============================================
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']); 
 
 // ----------------------------------------- TIENDA (PÚBLICO) ----------------------------------------- //
 // Productos - PÚBLICOS
