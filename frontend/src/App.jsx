@@ -41,10 +41,8 @@ function App() {
           {/* RUTES PÚBLIQUES (tothom pot veure) */}
           <Route path="/" element={<DashboardTienda />} />
           <Route path="/category/:id" element={<CategoryPage />} />
-<<<<<<< HEAD
           <Route path="/product/:id" element={< ProductPage />}/>
           <Route path="/products/" element={< ProductsPage />}/>
-=======
           <Route path="/solutions" element={<Solutions />} />
           
           {/* RUTES DE LOGIN I REGISTER */}
@@ -81,7 +79,6 @@ function App() {
               <Edit_product />
             </ProtectedRoute>
           } />
->>>>>>> main
 
           <Route path="/admin/caracteristicas" element={
             <ProtectedRoute allowedRoles={['admin']}>

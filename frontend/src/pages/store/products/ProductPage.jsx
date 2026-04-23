@@ -107,10 +107,14 @@ const ProductPage = () => {
                             {/* Galería de imágenes */}
                             <div className={styles.productGallery}>
                                 <div className={styles.mainImage}>
-                                    <img 
-                                        src={product.images[selectedImage] ? `http://localhost:8000/storage/${product.images[selectedImage].path}` : "#"}
-                                        alt={product.name}
-                                    />
+                                    {product.images[selectedImage] ? 
+                                        <img src={`http://localhost:8000/storage/${product.images[selectedImage].path}`} alt={product.name} /> :
+                                        <div className={styles.imagePlaceholder}>
+                                            <svg>
+                                                <use href="#icon-box?"></use>
+                                            </svg>
+                                        </div>
+                                    }
                                 </div>
                                 {product.images && product.images.length > 1 && (
                                     <div className={styles.thumbnailList}>

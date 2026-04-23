@@ -129,15 +129,10 @@ function Navbar() {
             ))}
           </div>
         </li>
-<<<<<<< HEAD
 
-        <div onClick={() => navigate(`/products/`)} >Productes</div>
-        <li>Packs</li>
-=======
         <li onClick={() => navigate("/products")}>Productes</li>
         <li onClick={() => navigate("/packs")}>Packs</li>
         <li onClick={() => navigate("/solutions")}>Solucions</li>
->>>>>>> main
       </ul>
 
       {/* Cercador Desktop */}
