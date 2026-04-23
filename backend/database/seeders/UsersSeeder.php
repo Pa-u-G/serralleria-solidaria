@@ -17,14 +17,14 @@ class UsersSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'email' => 'admin@admin.com',
-                'password' => '1234',
+                'password' => Hash::make('1234'),
                 'role' => 'admin',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'email' => 'cliente@cliente.com',
-                'password' => '1234',
+                'password' => Hash::make('1234'),
                 'role' => 'cliente',
                 'created_at' => now(),
                 'updated_at' => now(),

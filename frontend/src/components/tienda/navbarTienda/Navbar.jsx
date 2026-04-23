@@ -1,22 +1,27 @@
+// components/tienda/navbarTienda/Navbar.jsx
 import './Navbar.scss';
 import logo from './logoweb.png';
 import logoPequeño from './logo-sin-texto.png';
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from '../../../contexts/AuthContext';
 
 function Navbar() {
   const navigate = useNavigate();
+  const { isAuthenticated, user, logout } = useAuth();
   const [categories, setCategories] = useState([]);
   const [open, setOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
   const mobileMenuRef = useRef(null);
   const searchRef = useRef(null);
   const hamburgerRef = useRef(null); 
+  const userMenuRef = useRef(null);
 
   useEffect(() => {
     axios.get("http://localhost:8000/api/categories")
@@ -50,6 +55,9 @@ function Navbar() {
         setSearchOpen(false);
         setSearchTerm('');
       }
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
+        setUserMenuOpen(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -68,6 +76,11 @@ function Navbar() {
       setSearchOpen(false);
       setSearchTerm('');
     }
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
   };
 
   return (

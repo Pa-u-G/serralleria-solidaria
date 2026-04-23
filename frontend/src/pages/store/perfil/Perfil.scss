@@ -1,0 +1,50 @@
+// pages/store/perfil/Perfil.scss
+.perfil-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+
+  h1 {
+    margin-bottom: 2rem;
+    color: #1f2937;
+  }
+
+  .perfil-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+
+    .perfil-avatar {
+      span {
+        font-size: 80px;
+      }
+    }
+
+    .perfil-info {
+      flex: 1;
+
+      .info-group {
+        margin-bottom: 1.5rem;
+
+        label {
+          display: block;
+          font-size: 12px;
+          color: #6b7280;
+          margin-bottom: 4px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        p {
+          font-size: 16px;
+          color: #1f2937;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
