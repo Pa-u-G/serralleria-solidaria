@@ -1,12 +1,12 @@
-// pages/Login.jsx
+// pages/login/Login.jsx
 import { useState } from 'react';
-import { useNavigate, useLocation, Navigate } from 'react-router-dom'; // ← Afegir Navigate
+import { useNavigate, useLocation, Navigate, Link } from 'react-router-dom'; 
 import axios from 'axios';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 import './Login.scss';
 
 function Login() {
-  const { isAuthenticated, user, login } = useAuth(); // ← Juntar tot en una línia
+  const { isAuthenticated, user, login } = useAuth(); 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -14,15 +14,12 @@ function Login() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Configurar axios
   axios.defaults.baseURL = 'http://localhost:8000/api';
 
-  // Si ja està loguejat, redirigeix
   if (isAuthenticated) {
     return <Navigate to={user?.role === 'admin' ? '/admin' : '/'} replace />;
   }
 
-  // De quin lloc ve? (per redirigir després)
   const from = location.state?.from?.pathname || '/';
 
   const handleSubmit = async (e) => {
@@ -36,14 +33,12 @@ function Login() {
         password
       });
 
-      const { token, user: userData, role } = response.data; // ← canviar nom per evitar conflicte
+      const { token, user: userData, role } = response.data; 
       login(token, userData);
 
-      // Redirigir segons el rol
       if (role === 'admin') {
         navigate('/admin');
       } else {
-        // Si és client, redirigeix a la pàgina on anava o a l'inici
         navigate(from === '/login' ? '/' : from);
       }
 
@@ -86,9 +81,13 @@ function Login() {
             {loading ? 'Carregant...' : 'Iniciar Sessió'}
           </button>
         </form>
+        
+        <div className="login-footer">
+          <p>No tens compte? <Link to="/register">Registra't aquí</Link></p>
+        </div>
       </div>
     </div>
   );
 }
 
-export default Login;
+export default Login; // ← Això és OBLIGATORI

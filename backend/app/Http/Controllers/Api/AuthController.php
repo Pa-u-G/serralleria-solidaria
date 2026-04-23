@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
@@ -26,7 +27,6 @@ class AuthController extends Controller
             ], 401);
         }
 
-        // Generar token manual
         $token = Str::random(60);
         $user->api_token = $token;
         $user->save();
@@ -40,6 +40,36 @@ class AuthController extends Controller
             'token' => $token,
             'role' => $user->role,
         ]);
+    }
+    
+    // REGISTER - Només email i contrasenya
+    public function register(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|unique:users,email',
+            'password' => ['required', 'confirmed', Password::min(6)],
+        ]);
+
+        $user = User::create([
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'cliente',
+        ]);
+
+        $token = Str::random(60);
+        $user->api_token = $token;
+        $user->save();
+
+        return response()->json([
+            'message' => 'Usuari registrat correctament',
+            'user' => [
+                'id' => $user->id,
+                'email' => $user->email,
+                'role' => $user->role,
+            ],
+            'token' => $token,
+            'role' => $user->role,
+        ], 201);
     }
 
     // Logout
