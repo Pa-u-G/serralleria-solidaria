@@ -1,28 +1,51 @@
 @import '../styles/main.scss';
 
-.productsDestacados, .productsPopular {
+// Secció de productes destacats
+.productsDestacados {
+  margin: clamp(1rem, 4vw, 2rem) 0;
+  
   h1 {
-    // Título fluido: entre 24px y 36px
+    position: relative;
+    top: clamp(20px, 3vw, 40px);
     font-size: clamp(1.5rem, 4vw, 2.25rem);
-    margin-left: 5%;
-    margin-top: clamp(20px, 5vh, 40px); // En lugar de 'top' relativo, usamos margin
+    margin-left: clamp(1rem, 5%, 5%);
+    margin-bottom: clamp(1.5rem, 4vw, 2rem);
     color: gray;
     font-weight: 600;
+    padding: 0 clamp(0.5rem, 2vw, 1rem);
   }
 }
 
+// Secció de productes populars
+.productsPopular {
+  margin: clamp(2rem, 5vw, 4rem) 0;
+  
+  h1 {
+    position: relative;
+    top: clamp(5px, 2vw, 10px);
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    margin-left: clamp(1rem, 5%, 5%);
+    margin-bottom: clamp(1rem, 3vw, 1.5rem);
+    color: gray;
+    font-weight: 600;
+    padding: 0 clamp(0.5rem, 2vw, 1rem);
+  }
+}
+
+// Banner cards (comentat però preparat)
 .bannersCard {
-  padding: clamp(1rem, 5%, 3rem);
+  padding: clamp(1rem, 4%, 3rem);
   display: flex;
-  flex-wrap: wrap; // Importante para que bajen en móvil
+  flex-wrap: wrap;
   gap: clamp(1rem, 3vw, 2.5rem);
   justify-content: center;
+  align-items: center;
 
   img {
-    // El ancho ahora es flexible: mínimo 280px, ideal 30% del ancho, máximo 450px
-    width: clamp(280px, 30%, 450px);
-    height: auto; // Mantener proporción
-    aspect-ratio: 4 / 3; // Mantiene la forma 400x300 original de forma fluida
+    width: clamp(250px, 80%, 400px);
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
     border-radius: clamp(10px, 2vw, 20px);
     object-fit: cover;
     transition: transform 0.3s ease;
@@ -33,13 +56,118 @@
   }
 }
 
+// Estat buit (quan no hi ha productes)
 .emptyState {
-  margin: 2rem auto;
-  width: 90%;
-  padding: clamp(1rem, 5vw, 3rem);
   text-align: center;
-  background: #f5f5f5;
-  border-radius: 12px;
-  color: #666;
-  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  padding: clamp(2rem, 8vw, 4rem) clamp(1rem, 4vw, 2rem);
+  background: white;
+  margin: clamp(1rem, 5vw, 4rem) clamp(0.5rem, 3vw, 2rem);
+  border-radius: clamp(12px, 2vw, 20px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  
+  .emptyIcon {
+    font-size: clamp(3rem, 10vw, 4rem);
+    margin-bottom: clamp(0.5rem, 2vw, 1rem);
+    display: flex;
+    justify-content: center;
+    
+    svg {
+      width: clamp(60px, 15vw, 80px);
+      height: clamp(60px, 15vw, 80px);
+    }
+  }
+  
+  h3 {
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-size: clamp(1rem, 4vw, 1.25rem);
+  }
+  
+  p {
+    color: #666;
+    font-size: clamp(0.875rem, 3vw, 1rem);
+  }
+}
+
+// Ajustos per al carousel (si necessites)
+:global {
+  .carousel-container {
+    padding: clamp(0.5rem, 2vw, 1rem);
+    
+    .slick-slide {
+      padding: clamp(0.25rem, 1vw, 0.5rem);
+    }
+    
+    .slick-prev,
+    .slick-next {
+      width: clamp(30px, 5vw, 40px);
+      height: clamp(30px, 5vw, 40px);
+      
+      &:before {
+        font-size: clamp(20px, 4vw, 30px);
+      }
+    }
+  }
+  
+  // Grid de productes responsive
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(clamp(150px, 25vw, 250px), 1fr));
+    gap: clamp(0.75rem, 2vw, 1.5rem);
+    padding: clamp(0.5rem, 2vw, 1rem);
+    
+    .product-card {
+      padding: clamp(0.5rem, 2vw, 1rem);
+      
+      img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+      }
+      
+      h3 {
+        font-size: clamp(0.875rem, 3vw, 1rem);
+      }
+      
+      .price {
+        font-size: clamp(0.875rem, 3vw, 1.125rem);
+      }
+    }
+  }
+}
+
+// Ajustos per al banner carousel
+:global {
+  .banner-carousel {
+    .slick-slide {
+      div {
+        width: 100%;
+      }
+    }
+    
+    img {
+      width: 100%;
+      height: auto;
+      max-height: clamp(200px, 40vh, 500px);
+      object-fit: cover;
+    }
+    
+    .banner-content {
+      padding: clamp(1rem, 4vw, 2rem);
+      
+      h2 {
+        font-size: clamp(1.25rem, 5vw, 2.5rem);
+      }
+      
+      p {
+        font-size: clamp(0.75rem, 3vw, 1rem);
+      }
+      
+      button {
+        padding: clamp(0.5rem, 2vw, 0.75rem) clamp(1rem, 4vw, 1.5rem);
+        font-size: clamp(0.75rem, 3vw, 1rem);
+      }
+    }
+  }
 }
