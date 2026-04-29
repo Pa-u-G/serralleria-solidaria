@@ -125,7 +125,7 @@ const FiltersSidebar = ({ onFilterChange, visible, onClose, selectedFilters: ext
                                 checked={selectedStar}
                                 onChange={handleStarChange}
                             />
-                            <span>⭐ Productos Destacados</span>
+                            <span>Productos Destacados</span>
                         </label>
                     </div>
 
@@ -138,7 +138,9 @@ const FiltersSidebar = ({ onFilterChange, visible, onClose, selectedFilters: ext
                             >
                                 <h4>{type.type}</h4>
                                 <span className={`${styles.expandIcon} ${expandedTypes[type.id] ? styles.expanded : ''}`}>
-                                    ▼
+                                    <svg className={styles.icon}>
+                                        <use href="#icon-arrow-down"></use>
+                                    </svg>
                                 </span>
                             </div>
                             
