@@ -73,4 +73,8 @@ Route::middleware('api.token')->group(function () {
 
     // Soluciones (Admin)
     Route::get('/solutions-admin', [SolutionsController::class, 'index']);
+    Route::get('/solutions-admin/{id}', [SolutionsController::class, 'show']);
+    Route::put('/solutions-admin/{id}', [SolutionsController::class, 'update']);
+    Route::get('/solutions-admin/download-image/{id}', [SolutionsController::class, 'downloadImage']);
+    Route::get('/solutions-admin/download-file/{id}', [SolutionsController::class, 'downloadFile']);
 });

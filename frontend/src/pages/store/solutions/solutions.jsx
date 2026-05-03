@@ -42,7 +42,7 @@ function Solutions() {
       const total = [...prev, ...newFiles].slice(0, 3);
 
       if (prev.length + newFiles.length > 3) {
-        alert("Solo puedes subir un máximo de 3 imágenes");
+        alert("Solo puedes subir un máximo de 3 archivos (imágenes o PDF)");
       }
 
       return total;
@@ -190,32 +190,42 @@ function Solutions() {
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}>
               <label className={styles.uploadLabel}>
-                📎 Subir imágenes (máx 3)
+                📎 Adjuntar arxius (màx 3 - imatges o PDF)
                 <input
                   type="file"
-                  accept="image/*"
+                  accept="image/*,application/pdf"
                   multiple
                   onChange={handleFiles}
                 />
               </label>
 
               <div className={styles.preview}>
-                {imageUrls.map((url, index) => (
-                  <div key={index} className={styles.previewItem}>
-                    <img 
-                      src={url} 
-                      alt={`preview-${index}`}
-                      onError={(e) => console.log('Error carregant imatge:', e)}
-                      onLoad={() => console.log('Imatge carregada:', url)}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removeFile(index)}
-                    >
-                      ✕
-                    </button>
-                  </div>
-                ))}
+                {imageUrls.map((url, index) => {
+                  const file = files[index];
+                  const isPdf = file?.type === 'application/pdf';
+                  const fileName = file?.name || 'arxiu';
+                  
+                  return (
+                    <div key={index} className={styles.previewItem}>
+                      {isPdf ? (
+                        <div className={styles.filePreview}>
+                          <div className={styles.fileIcon}>📄</div>
+                          <div className={styles.fileName}>
+                            {fileName.length > 15 ? fileName.substring(0, 12) + '...' : fileName}
+                          </div>
+                        </div>
+                      ) : (
+                        <img 
+                          src={url} 
+                          alt={`preview-${index}`}
+                          onError={(e) => console.log('Error carregant imatge:', e)}
+                          onLoad={() => console.log('Imatge carregada:', url)}
+                        />
+                      )}
+                      <button type="button" onClick={() => removeFile(index)}>✕</button>
+                    </div>
+                  );
+                })}
               </div>
             </div>
             <div className={styles.actions}>

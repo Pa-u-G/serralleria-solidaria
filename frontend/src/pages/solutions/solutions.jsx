@@ -1,9 +1,11 @@
 import MainLayout from "../../layouts/Main_layout";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./solutions.module.scss";
 import axios from "axios";
 
 function Solutions() {
+  const navigate = useNavigate();
   const [solutions, setSolutions] = useState([]);
 
   useEffect(() => {
@@ -11,6 +13,22 @@ function Solutions() {
       .then(res => setSolutions(res.data))
       .catch(err => console.log(err));
   }, []);
+
+  const handleRowClick = (id) => {
+    navigate(`/admin/solutions/${id}`);
+  };
+
+  // Funció per obtenir la classe de l'estat
+  const getStatusClass = (status) => {
+    const statusMap = {
+      "Pendent de revisar": "pending",
+      "Revisat": "reviewed",
+      "En procés": "in_process",
+      "Finalitzat": "completed"
+    };
+    return statusMap[status] || "pending";
+  };
+
   return (
     <MainLayout>
       <div className={styles["solutions-table-container"]}>
@@ -29,7 +47,11 @@ function Solutions() {
           <div className={styles["solutions-table__body"]}>
             {solutions.length > 0 ? (
               solutions.map(solution => (
-                <div key={solution.id} className={styles["solutions-table__row"]}>
+                <div 
+                  key={solution.id} 
+                  className={`${styles["solutions-table__row"]} ${styles[`row--${getStatusClass(solution.status)}`]}`}
+                  onClick={() => handleRowClick(solution.id)}
+                >
                   <div className={styles["solutions-table__cell"]}>{solution.name}</div>
                   <div className={styles["solutions-table__cell"]}>{solution.surname}</div>
                   <div className={styles["solutions-table__cell"]}>{solution.email}</div>
