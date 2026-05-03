@@ -38,7 +38,6 @@ function Register() {
 
     } catch (err) {
       if (err.response?.data?.errors) {
-        // Mostrar error específic del camp
         const firstError = Object.values(err.response.data.errors)[0];
         setError(firstError[0]);
       } else {
@@ -51,50 +50,56 @@ function Register() {
 
   return (
     <div className="register-container">
+      <div className="register-overlay"></div>
+      <div className="register-back-link">
+        <Link to="/" className="back-home">
+          ← Tornar a la botiga
+        </Link>
+      </div>
       <div className="register-card">
-        <h2>Crear compte</h2>
+        <div className="register-brand">
+          <h2>Crear compte</h2>
+          <p>Registra't per començar</p>
+        </div>
         
         {error && <div className="error-message">{error}</div>}
         
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Email:</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="exemple@correu.com"
+              placeholder="Correu electrònic"
               required
             />
           </div>
 
           <div className="form-group">
-            <label>Contrasenya:</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Mínim 6 caràcters"
+              placeholder="Contrasenya (mínim 6 caràcters)"
               required
             />
           </div>
 
           <div className="form-group">
-            <label>Confirmar contrasenya:</label>
             <input
               type="password"
               value={password_confirmation}
               onChange={(e) => setPasswordConfirmation(e.target.value)}
-              placeholder="Repeteix la contrasenya"
+              placeholder="Confirmar contrasenya"
               required
             />
           </div>
 
           <button type="submit" disabled={loading}>
-            {loading ? 'Creant compte...' : 'Registrar-se'}
+            {loading ? 'Carregant...' : 'Registrar-se'}
           </button>
         </form>
-
+        
         <div className="register-footer">
           <p>Ja tens compte? <Link to="/login">Inicia sessió</Link></p>
         </div>

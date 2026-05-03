@@ -24,8 +24,15 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    e.stopPropagation();
+    
+    if (!email || !password) {
+      setError('Si us plau, omple tots els camps');
+      return;
+    }
+    
     setLoading(true);
-    setError('');
+    setError(''); // Netejar error anterior
 
     try {
       const response = await axios.post('/login', {
@@ -43,7 +50,21 @@ function Login() {
       }
 
     } catch (err) {
-      setError(err.response?.data?.message || 'Error al iniciar sessió');
+      console.log('Error capturat:', err);
+      
+      if (err.code === 'ERR_NETWORK') {
+        setError('Error de connexió. Comprova que el servidor estigui actiu.');
+      } else if (err.response?.status === 401) {
+        setError('Credencials incorrectes. Revisa el teu email i contrasenya.');
+      } else {
+        setError(err.response?.data?.message || 'Error al iniciar sessió. Torna-ho a intentar.');
+      }
+      
+      // Assegurar que l'error es manté visible
+      setTimeout(() => {
+        console.log('Error encara visible:', error);
+      }, 100);
+      
     } finally {
       setLoading(false);
     }
@@ -51,30 +72,51 @@ function Login() {
 
   return (
     <div className="login-container">
+      <div className="login-overlay"></div>
+      <div className="login-back-link">
+        <Link to="/" className="back-home" onClick={(e) => {
+          e.preventDefault();
+          navigate('/');
+        }}>
+          ← Tornar a la botiga
+        </Link>
+      </div>
       <div className="login-card">
-        <h2>Iniciar Sessió</h2>
+        <div className="login-brand">
+          <h2>Iniciar Sessió</h2>
+          <p>Benvingut de nou</p>
+        </div>
         
-        {error && <div className="error-message">{error}</div>}
+        {error && (
+          <div className="error-message">
+            <span>⚠️ </span>
+            {error}
+          </div>
+        )}
         
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Email:</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="Correu electrònic"
               required
             />
           </div>
 
           <div className="form-group">
-            <label>Contrasenya:</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="Contrasenya"
               required
             />
+          </div>
+
+          <div className="forgot-password">
+            <Link to="/forgot-password">Has oblidat la contrasenya?</Link>
           </div>
 
           <button type="submit" disabled={loading}>
@@ -83,11 +125,11 @@ function Login() {
         </form>
         
         <div className="login-footer">
-          <p>No tens compte? <Link to="/register">Registra't aquí</Link></p>
+          <p>No tens compte? <Link to="/register">Registra't</Link></p>
         </div>
       </div>
     </div>
   );
 }
 
-export default Login; // ← Això és OBLIGATORI
+export default Login;

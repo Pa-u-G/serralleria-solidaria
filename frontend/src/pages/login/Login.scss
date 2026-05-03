@@ -1,66 +1,140 @@
 // pages/Login.scss
 .login-container {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: clamp(1rem, 5vw, 2rem);
+  background-image: url('./cerrajeria-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: clamp(0.5rem, 4vw, 2rem);
+}
+
+.login-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.85) 100%);
+  z-index: 1;
+}
+
+.login-back-link {
+  position: absolute;
+  top: clamp(0.8rem, 5vw, 2rem);
+  left: clamp(0.8rem, 5vw, 2rem);
+  z-index: 3;
+  
+  .back-home {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(0.25rem, 2vw, 0.5rem);
+    color: white;
+    text-decoration: none;
+    font-size: clamp(0.7rem, 3.5vw, 0.875rem);
+    font-weight: 500;
+    padding: clamp(0.3rem, 2vw, 0.5rem) clamp(0.6rem, 3vw, 1rem);
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border-radius: 40px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateX(clamp(-2px, -1vw, -4px));
+    }
+  }
 }
 
 .login-card {
-  background: white;
-  border-radius: 10px;
-  padding: clamp(1.5rem, 5vw, 2rem);
-  width: 100%;
-  max-width: 400px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 2;
+  background: #ffffff;
+  border-radius: clamp(20px, 6vw, 28px);
+  padding: clamp(1.8rem, 6vw, 3rem);
+  width: clamp(300px, 85%, 420px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
   
-  h2 {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: #333;
-    font-size: clamp(1.5rem, 5vw, 1.8rem);
+  .login-brand {
+    margin-bottom: clamp(1.5rem, 5vw, 2rem);
+    
+    h2 {
+      font-size: clamp(1.5rem, 6vw, 2rem);
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: clamp(0.25rem, 2vw, 0.5rem);
+      letter-spacing: -0.5px;
+    }
+    
+    p {
+      font-size: clamp(0.75rem, 4vw, 0.9rem);
+      color: #666;
+    }
   }
   
   .form-group {
-    margin-bottom: 1.5rem;
-    
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      color: #555;
-      font-weight: 500;
-      font-size: clamp(0.75rem, 4vw, 0.875rem);
-    }
+    margin-bottom: clamp(0.8rem, 3vw, 1.25rem);
     
     input {
       width: 100%;
-      padding: clamp(0.6rem, 4vw, 0.75rem);
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      font-size: clamp(0.875rem, 4vw, 1rem);
+      padding: clamp(0.7rem, 2.5vw, 1rem);
+      border: 1px solid #e0e0e0;
+      border-radius: clamp(12px, 4vw, 14px);
+      font-size: clamp(0.85rem, 4vw, 1rem);
+      background-color: #f8f9fa;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
       
       &:focus {
         outline: none;
-        border-color: #667eea;
+        border-color: #3b82f6;
+        background-color: white;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      }
+      
+      &::placeholder {
+        color: #aaa;
+        font-size: clamp(0.7rem, 3.5vw, 0.85rem);
       }
     }
   }
   
-  button {
+  .forgot-password {
+    text-align: right;
+    margin-bottom: clamp(1.2rem, 4vw, 1.8rem);
+    
+    a {
+      font-size: clamp(0.7rem, 3.5vw, 0.8rem);
+      color: #888;
+      text-decoration: none;
+      transition: color 0.2s;
+      
+      &:hover {
+        color: #3b82f6;
+      }
+    }
+  }
+  
+  button[type="submit"] {
     width: 100%;
-    padding: clamp(0.6rem, 4vw, 0.75rem);
-    background: #667eea;
+    padding: clamp(0.7rem, 2.5vw, 1rem);
+    background: #3b82f6;
     color: white;
     border: none;
-    border-radius: 5px;
-    font-size: clamp(0.875rem, 4vw, 1rem);
+    border-radius: 40px;
+    font-size: clamp(0.85rem, 4vw, 1rem);
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: all 0.3s ease;
     
     &:hover:not(:disabled) {
-      background: #5a67d8;
+      background: #2563eb;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
     }
     
     &:disabled {
@@ -70,25 +144,26 @@
   }
   
   .error-message {
-    background: #fed7d7;
-    color: #c53030;
-    padding: clamp(0.5rem, 4vw, 0.75rem);
-    border-radius: 5px;
-    margin-bottom: 1rem;
+    background: #eff6ff;
+    color: #3b82f6;
+    padding: clamp(0.6rem, 2.5vw, 0.9rem);
+    border-radius: clamp(12px, 4vw, 14px);
+    margin-bottom: clamp(1rem, 4vw, 1.5rem);
     text-align: center;
-    font-size: clamp(0.75rem, 4vw, 0.875rem);
+    font-size: clamp(0.7rem, 3.5vw, 0.85rem);
+    border: 1px solid #bfdbfe;
   }
   
   .login-footer {
-    margin-top: 1.5rem;
+    margin-top: clamp(1.2rem, 4vw, 1.8rem);
     text-align: center;
-    font-size: clamp(0.75rem, 4vw, 0.875rem);
-    color: #666;
+    font-size: clamp(0.7rem, 3.5vw, 0.85rem);
+    color: #888;
     
     a {
-      color: #667eea;
+      color: #3b82f6;
       text-decoration: none;
-      font-weight: 500;
+      font-weight: 600;
       
       &:hover {
         text-decoration: underline;
