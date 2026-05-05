@@ -157,7 +157,9 @@ class ProductsController extends Controller
             return response()->json(['message' => 'Categoría no encontrada'], 404);
         }
         
-        $query = $category->products()->where('status', true)->with(['images', 'characteristics']);
+        $query = $category->products()
+            ->where('status', true)
+            ->with(['images', 'characteristics']);
         
         // Filtrar por características
         if ($request->has('characteristics') && !empty($request->characteristics)) {
@@ -167,11 +169,35 @@ class ProductsController extends Controller
             });
         }
         
+        // Filtrar por destacados
+        if ($request->has('star') && $request->star) {
+            $query->where('star', true);
+        }
+        
+        // Ordenar
+        $sortBy = $request->get('sort_by', 'newest');
+        switch($sortBy) {
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'name':
+                $query->orderBy('name', 'asc');
+                break;
+            case 'newest':
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+        
         $products = $query->get();
         
         return response()->json([
             'category' => $category,
-            'products' => $products
+            'products' => $products,
+            'total' => $products->count()
         ]);
     }
     

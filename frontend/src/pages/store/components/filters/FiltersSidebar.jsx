@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styles from './FiltersSidebar.module.scss';
 
-const FiltersSidebar = ({ onFilterChange, visible, onClose, selectedFilters: externalFilters }) => {
+const FiltersSidebar = ({ 
+    onFilterChange, 
+    visible, 
+    onClose, 
+    selectedFilters: externalFilters,
+    showStarFilter = true  // Nueva prop para controlar si mostrar filtro de destacados
+}) => {
     const [filters, setFilters] = useState([]);
     const [selectedCharacteristics, setSelectedCharacteristics] = useState([]);
     const [selectedStar, setSelectedStar] = useState(false);
@@ -21,6 +27,8 @@ const FiltersSidebar = ({ onFilterChange, visible, onClose, selectedFilters: ext
 
     const loadFilters = async () => {
         try {
+            // Importar dinámicamente para evitar dependencias circulares
+            const { allProductsApi } = await import('../../products/services/allProductsApi');
             const data = await allProductsApi.getFilters();
             setFilters(data);
             // Inicializar todos los tipos como expandidos
@@ -82,7 +90,9 @@ const FiltersSidebar = ({ onFilterChange, visible, onClose, selectedFilters: ext
     };
 
     const getSelectedCount = () => {
-        return selectedCharacteristics.length + (selectedStar ? 1 : 0);
+        let count = selectedCharacteristics.length;
+        if (showStarFilter && selectedStar) count++;
+        return count;
     };
 
     if (loading) {
@@ -118,16 +128,18 @@ const FiltersSidebar = ({ onFilterChange, visible, onClose, selectedFilters: ext
 
                 <div className={styles.filtersContent}>
                     {/* Filtro de productos destacados */}
-                    <div className={styles.filterSection}>
-                        <label className={styles.checkboxLabel}>
-                            <input
-                                type="checkbox"
-                                checked={selectedStar}
-                                onChange={handleStarChange}
-                            />
-                            <span>Productos Destacados</span>
-                        </label>
-                    </div>
+                    {showStarFilter && (
+                        <div className={styles.filterSection}>
+                            <label className={styles.checkboxLabel}>
+                                <input
+                                    type="checkbox"
+                                    checked={selectedStar}
+                                    onChange={handleStarChange}
+                                />
+                                <span>Productos Destacados</span>
+                            </label>
+                        </div>
+                    )}
 
                     {/* Filtros por características */}
                     {filters.map((type) => (
@@ -138,9 +150,7 @@ const FiltersSidebar = ({ onFilterChange, visible, onClose, selectedFilters: ext
                             >
                                 <h4>{type.type}</h4>
                                 <span className={`${styles.expandIcon} ${expandedTypes[type.id] ? styles.expanded : ''}`}>
-                                    <svg className={styles.icon}>
-                                        <use href="#icon-arrow-down"></use>
-                                    </svg>
+                                    ▼
                                 </span>
                             </div>
                             
@@ -175,8 +185,5 @@ const FiltersSidebar = ({ onFilterChange, visible, onClose, selectedFilters: ext
         </>
     );
 };
-
-// Importar el servicio
-import { allProductsApi } from '../services/allProductsApi';
 
 export default FiltersSidebar;

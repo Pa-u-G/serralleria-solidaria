@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ProductGrid from '../components/productGrid/ProductGrid';
-import FiltersSidebar from './components/FiltersSidebar';
+import FiltersSidebar from '../components/filters/FiltersSidebar';
 import { allProductsApi } from './services/allProductsApi';
 import MainLayout from "../../../layouts/layoutTienda/Main_layout_tienda";
 import styles from './Products.module.scss';
@@ -48,7 +48,6 @@ const ProductPage = () => {
 
     const handleFilterChange = (filters) => {
         setActiveFilters(filters);
-        // Cerrar sidebar en móvil después de aplicar filtros
         if (window.innerWidth < 1024) {
             setFiltersVisible(false);
         }
