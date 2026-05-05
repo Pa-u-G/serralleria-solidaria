@@ -26,7 +26,11 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    // 🔥 No redirigim a login si la petició és a /login
+    const isLoginRequest = error.config?.url === '/login';
+    const isRegisterRequest = error.config?.url === '/register';
+    
+    if (error.response?.status === 401 && !isLoginRequest && !isRegisterRequest) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       localStorage.removeItem('role');
@@ -39,5 +43,5 @@ axios.interceptors.response.use(
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
-  </StrictMode>,
+  </StrictMode>
 );

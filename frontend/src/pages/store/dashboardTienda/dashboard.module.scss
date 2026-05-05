@@ -2,33 +2,86 @@
 
 // Secció de productes destacats
 .productsDestacados {
-  margin: clamp(1rem, 4vw, 2rem) 0;
+  margin: clamp(2rem, 5vw, 4rem) 0;
+  padding: clamp(1rem, 3vw, 2rem) 0;
+  background: linear-gradient(to bottom, #ffffff, #fafafa);
+  border-radius: 24px;
   
   h1 {
     position: relative;
-    top: clamp(20px, 3vw, 40px);
     font-size: clamp(1.5rem, 4vw, 2.25rem);
     margin-left: clamp(1rem, 5%, 5%);
     margin-bottom: clamp(1.5rem, 4vw, 2rem);
-    color: gray;
-    font-weight: 600;
+    color: #1a1a2e;
+    font-weight: 700;
     padding: 0 clamp(0.5rem, 2vw, 1rem);
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: clamp(1rem, 5%, 5%);
+      width: 60px;
+      height: 4px;
+      background: #3b82f6;
+      border-radius: 2px;
+    }
   }
 }
 
 // Secció de productes populars
 .productsPopular {
-  margin: clamp(2rem, 5vw, 4rem) 0;
+  margin: clamp(2rem, 5vw, 5rem) 0;
+  padding: clamp(1.5rem, 4vw, 2.5rem) 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border-radius: 24px;
   
   h1 {
     position: relative;
-    top: clamp(5px, 2vw, 10px);
     font-size: clamp(1.5rem, 4vw, 2.25rem);
     margin-left: clamp(1rem, 5%, 5%);
-    margin-bottom: clamp(1rem, 3vw, 1.5rem);
-    color: gray;
-    font-weight: 600;
+    margin-bottom: clamp(1.5rem, 4vw, 2rem);
+    color: #1a1a2e;
+    font-weight: 700;
     padding: 0 clamp(0.5rem, 2vw, 1rem);
+    
+    &::before {
+      
+      margin-right: 10px;
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: clamp(1rem, 5%, 5%);
+      width: 60px;
+      height: 4px;
+      background: #f59e0b;
+      border-radius: 2px;
+    }
+  }
+}
+
+// Separador entre seccions (opcional)
+.sectionDivider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 auto;
+  width: 80%;
+  
+  .dividerLine {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #ddd, transparent);
+  }
+  
+  .dividerIcon {
+    color: #3b82f6;
+    font-size: 1.2rem;
   }
 }
 
@@ -40,6 +93,9 @@
   gap: clamp(1rem, 3vw, 2.5rem);
   justify-content: center;
   align-items: center;
+  background: #f8f9fa;
+  border-radius: 24px;
+  margin: 2rem 0;
 
   img {
     width: clamp(250px, 80%, 400px);
@@ -48,10 +104,11 @@
     aspect-ratio: 4 / 3;
     border-radius: clamp(10px, 2vw, 20px);
     object-fit: cover;
-    transition: transform 0.3s ease;
-
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
     &:hover {
       transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     }
   }
 }
@@ -60,16 +117,18 @@
 .emptyState {
   text-align: center;
   padding: clamp(2rem, 8vw, 4rem) clamp(1rem, 4vw, 2rem);
-  background: white;
-  margin: clamp(1rem, 5vw, 4rem) clamp(0.5rem, 3vw, 2rem);
-  border-radius: clamp(12px, 2vw, 20px);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+  margin: clamp(1rem, 5vw, 3rem) clamp(0.5rem, 3vw, 2rem);
+  border-radius: clamp(16px, 3vw, 24px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eef2f6;
   
   .emptyIcon {
     font-size: clamp(3rem, 10vw, 4rem);
     margin-bottom: clamp(0.5rem, 2vw, 1rem);
     display: flex;
     justify-content: center;
+    color: #3b82f6;
     
     svg {
       width: clamp(60px, 15vw, 80px);
@@ -78,18 +137,19 @@
   }
   
   h3 {
-    color: #333;
+    color: #1a1a2e;
     margin-bottom: 0.5rem;
     font-size: clamp(1rem, 4vw, 1.25rem);
+    font-weight: 600;
   }
   
   p {
-    color: #666;
+    color: #6c757d;
     font-size: clamp(0.875rem, 3vw, 1rem);
   }
 }
 
-// Ajustos per al carousel (si necessites)
+// Ajustos per al carousel
 :global {
   .carousel-container {
     padding: clamp(0.5rem, 2vw, 1rem);
@@ -100,38 +160,71 @@
     
     .slick-prev,
     .slick-next {
-      width: clamp(30px, 5vw, 40px);
-      height: clamp(30px, 5vw, 40px);
+      width: clamp(35px, 6vw, 45px);
+      height: clamp(35px, 6vw, 45px);
+      background: rgba(59, 130, 246, 0.9);
+      border-radius: 50%;
+      z-index: 1;
+      
+      &:hover {
+        background: #3b82f6;
+      }
       
       &:before {
-        font-size: clamp(20px, 4vw, 30px);
+        font-size: clamp(18px, 4vw, 24px);
+        color: white;
+        opacity: 1;
       }
+    }
+    
+    .slick-prev {
+      left: 10px;
+    }
+    
+    .slick-next {
+      right: 10px;
     }
   }
   
   // Grid de productes responsive
   .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(clamp(150px, 25vw, 250px), 1fr));
-    gap: clamp(0.75rem, 2vw, 1.5rem);
-    padding: clamp(0.5rem, 2vw, 1rem);
+    grid-template-columns: repeat(auto-fit, minmax(clamp(160px, 22vw, 240px), 1fr));
+    gap: clamp(1rem, 2.5vw, 1.8rem);
+    padding: clamp(1rem, 3vw, 2rem);
     
     .product-card {
-      padding: clamp(0.5rem, 2vw, 1rem);
+      padding: clamp(0.8rem, 2vw, 1.2rem);
+      background: white;
+      border-radius: 16px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
       
       img {
         width: 100%;
         height: auto;
         aspect-ratio: 1 / 1;
         object-fit: cover;
+        border-radius: 12px;
       }
       
       h3 {
         font-size: clamp(0.875rem, 3vw, 1rem);
+        font-weight: 600;
+        color: #1a1a2e;
+        margin-top: 0.75rem;
       }
       
       .price {
-        font-size: clamp(0.875rem, 3vw, 1.125rem);
+        font-size: clamp(0.9rem, 3vw, 1.125rem);
+        font-weight: 700;
+        color: #3b82f6;
+        margin-top: 0.5rem;
       }
     }
   }
@@ -140,6 +233,11 @@
 // Ajustos per al banner carousel
 :global {
   .banner-carousel {
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 1rem 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    
     .slick-slide {
       div {
         width: 100%;
@@ -149,7 +247,7 @@
     img {
       width: 100%;
       height: auto;
-      max-height: clamp(200px, 40vh, 500px);
+      max-height: clamp(250px, 45vh, 550px);
       object-fit: cover;
     }
     
@@ -158,6 +256,8 @@
       
       h2 {
         font-size: clamp(1.25rem, 5vw, 2.5rem);
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
       }
       
       p {
@@ -167,6 +267,14 @@
       button {
         padding: clamp(0.5rem, 2vw, 0.75rem) clamp(1rem, 4vw, 1.5rem);
         font-size: clamp(0.75rem, 3vw, 1rem);
+        background: #3b82f6;
+        border-radius: 40px;
+        transition: all 0.3s ease;
+        
+        &:hover {
+          background: #2563eb;
+          transform: scale(1.02);
+        }
       }
     }
   }
