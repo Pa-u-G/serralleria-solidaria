@@ -20,6 +20,7 @@ import PackShow from "./pages/Packs/packShow";
 import Pack_create from "./pages/Packs/create";
 import Pack_edit from "./pages/Packs/edit";
 import SolutionsShow from "./pages/solutions/solutions";
+import SolutionDetail from "./pages/solutions/SolutionDetail";
 
 // Components de client (protegits - només usuaris loguejats)
 import PerfilCliente from "./pages/store/perfil/Perfil";
@@ -122,6 +123,12 @@ function App() {
             </ProtectedRoute>
           } />
           
+          <Route path="/admin/solutions/:id" element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <SolutionDetail />
+            </ProtectedRoute>
+          } />
+
           {/* RUTES PROTEGIDES DE CLIENT (qualsevol usuari loguejat) */}
           <Route path="/perfil" element={
             <ProtectedRoute allowedRoles={['cliente', 'admin']}>
