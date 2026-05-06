@@ -28,7 +28,9 @@ import PerfilCliente from "./pages/store/perfil/Perfil";
 // Altres
 import Icons from "./assets/icons";
 import Login from "./pages/login/Login";
-import Register from "./pages/login/Register"; // ← AFEGIR AIXÒ
+import Register from "./pages/login/Register";
+import ForgotPassword from "./pages/login/ForgotPassword";
+import ResetPassword from "./pages/login/ResetPassword";
 
 function App() {
   return (
@@ -43,7 +45,9 @@ function App() {
           
           {/* RUTES DE LOGIN I REGISTER */}
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} /> {/* ← AFEGIR AIXÒ */}
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           
           {/* RUTES PROTEGIDES D'ADMIN (només admin) */}
           <Route path="/admin" element={

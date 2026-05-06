@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rules\Password;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Validation\Rules\Password as PasswordRule;
 
 class AuthController extends Controller
 {
@@ -47,7 +49,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'email' => 'required|email|unique:users,email',
-            'password' => ['required', 'confirmed', Password::min(6)],
+            'password' => ['required', 'confirmed', PasswordRule::min(6)],
         ]);
 
         $user = User::create([
@@ -90,5 +92,64 @@ class AuthController extends Controller
         return response()->json([
             'user' => $request->user()
         ]);
+    }
+
+    // ========== NOUS MÈTODES PER RECUPERAR CONTRASENYA ==========
+
+    /**
+     * Enviar enllaç de recuperació de contrasenya
+     */
+    public function forgotPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email'
+        ]);
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        if ($status === Password::RESET_LINK_SENT) {
+            return response()->json([
+                'message' => 'T\'hem enviat un enllaç per restablir la teva contrasenya.'
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'No s\'ha pogut enviar l\'enllaç. Torna-ho a intentar.'
+        ], 400);
+    }
+
+    /**
+     * Restablir la contrasenya
+     */
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => ['required', 'confirmed', PasswordRule::min(6)],
+            'token' => 'required'
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
+                $user->save();
+                event(new PasswordReset($user));
+            }
+        );
+
+        if ($status === Password::PASSWORD_RESET) {
+            return response()->json([
+                'message' => 'Contrasenya canviada correctament. Ja pots iniciar sessió.'
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'L\'enllaç ha expirat o és invàlid. Torna a sol·licitar un altre.'
+        ], 400);
     }
 }
