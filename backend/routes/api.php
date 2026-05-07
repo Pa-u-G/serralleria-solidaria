@@ -36,6 +36,9 @@ Route::get('/store/filters', [ProductsController::class, 'getFilters']);
 
 Route::get('/store/product/{id}', [ProductsController::class, 'getProduct']);
 
+// Packs
+Route::get('/store/packs', [PackController::class, 'getAllPacks']);
+
 // ============================================
 // RUTAS PROTEGIDAS (Requereixen token - Només admin)
 // ============================================

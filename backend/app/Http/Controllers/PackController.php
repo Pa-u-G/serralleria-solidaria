@@ -117,4 +117,36 @@ class PackController extends Controller
 
         return response()->json(['message' => 'Imagen eliminada']);
     }
+
+    public function getAllPacks(Request $request)
+    {
+        $query = Pack::with(['images', 'products'])
+            ->where('status', true);
+        
+        // Ordenar
+        $sortBy = $request->get('sort_by', 'newest');
+        switch($sortBy) {
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'name':
+                $query->orderBy('name', 'asc');
+                break;
+            case 'newest':
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+        
+        $packs = $query->get();
+        
+        return response()->json([
+            'packs' => $packs,
+            'total' => $packs->count()
+        ]);
+    }
+
 }

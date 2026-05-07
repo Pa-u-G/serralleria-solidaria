@@ -1,0 +1,36 @@
+.packGrid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    
+    @media (max-width: 768px) {
+        padding: 1rem;
+        gap: 1rem;
+        grid-template-columns: 1fr;
+    }
+}
+
+.emptyState {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 12px;
+    margin: 2rem;
+    
+    .emptyIcon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+    }
+    
+    h3 {
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+    
+    p {
+        color: #666;
+    }
+}
