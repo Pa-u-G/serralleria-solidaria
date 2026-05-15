@@ -16,7 +16,6 @@ class ProductsController extends Controller
     public function index()
     {
         $products = Product::with(['category', 'images'])->get();
-
         return response()->json($products);
     }
 
@@ -28,36 +27,10 @@ class ProductsController extends Controller
         $request->merge([
             'star' => filter_var($request->star, FILTER_VALIDATE_BOOLEAN)
         ]);
-        $validatedProduct = $request->validate([
-            'code' => 'required',
-            'name' => 'required',
-            'description' => 'required',
-            'category_id' => 'required|exists:categories,id',
-            'price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
-            'star' => 'required|boolean'
-        ]);
 
-        $product = Product::create($validatedProduct);
-        if ($request->has('characteristics')) {
-            $product->characteristics()->sync($request->characteristics);
-        }
-        if ($request->hasFile('images')) {
-            $request->validate([
-                'images.*' => 'image|mimes:jpg,jpeg,png,webp'
-            ]);
-
-            foreach ($request->file('images') as $image) {
-                $filename = time().'_'.$image->getClientOriginalName();
-                $path = $image->storeAs('products', $filename, 'public');
-
-                Product_img::create([
-                    'product_id' => $product->id,
-                    'name_img' => $filename,
-                    'path' => $path
-                ]);
-            }
-        }
+        $product = Product::create($this->validateProduct($request));
+        $this->syncCharacteristics($product, $request);
+        $this->uploadImages($product, $request);
 
         return response()->json($product->load('images'), 201);
     }
@@ -67,8 +40,7 @@ class ProductsController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::with(['images','characteristics.type'])->findOrFail($id);
-
+        $product = Product::with(['images', 'characteristics.type'])->findOrFail($id);
         return response()->json($product);
     }
 
@@ -78,38 +50,10 @@ class ProductsController extends Controller
     public function update(Request $request, string $id)
     {
         $product = Product::findOrFail($id);
-
-        $validated = $request->validate([
-            'code' => 'required',
-            'name' => 'required',
-            'description' => 'required',
-            'category_id' => 'required|exists:categories,id',
-            'price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
-            'star' => 'required|boolean',
-            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp'
-        ]);
-
-        $product->update($validated);
-        if ($request->has('characteristics')) {
-            $product->characteristics()->sync($request->characteristics);
-        } else {
-            $product->characteristics()->sync([]); // elimina todas si no vienen
-        }
-
-        // Subir nuevas imágenes
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $filename = time().'_'.$image->getClientOriginalName();
-                $path = $image->storeAs('products', $filename, 'public');
-
-                Product_img::create([
-                    'product_id' => $product->id,
-                    'name_img' => $filename,
-                    'path' => $path
-                ]);
-            }
-        }
+        $product->update($this->validateProduct($request));
+        
+        $this->syncCharacteristics($product, $request, true);
+        $this->uploadImages($product, $request);
 
         return response()->json($product->load('images'));
     }
@@ -122,7 +66,7 @@ class ProductsController extends Controller
         //
     }
 
-    public function change_status(Request $request, string $id) 
+    public function change_status(Request $request, string $id)
     {
         $product = Product::findOrFail($id);
 
@@ -131,51 +75,100 @@ class ProductsController extends Controller
         }
 
         $product->save();
-
         return response()->json($product);
     }
 
     public function delete_image($image_id)
     {
         $image = Product_img::findOrFail($image_id);
-
-        // Borrar archivo del storage
         Storage::disk('public')->delete($image->path);
-
         $image->delete();
 
         return response()->json(['message' => 'Imagen eliminada']);
     }
-    
 
     public function getProductsByCategory($categoryId)
     {
         $category = Category::with('products.images')->find($categoryId);
-        
+
         if (!$category) {
             return response()->json(['message' => 'Categoría no encontrada'], 404);
         }
-        
+
         $products = $category->products()
             ->where('status', true)
             ->with('images')
             ->get();
-        
+
         return response()->json([
             'category' => $category,
             'products' => $products
         ]);
     }
-    
+
     public function getCategoryInfo($categoryId)
     {
         $category = Category::where('status', true)->find($categoryId);
-        
+
         if (!$category) {
             return response()->json(['message' => 'Categoría no encontrada'], 404);
         }
-        
+
         return response()->json($category);
     }
 
+    // ========== MÉTODOS PRIVADOS (REFACTORIZACIÓN) ==========
+
+    /**
+     * Validación centralizada del producto
+     */
+    private function validateProduct(Request $request)
+    {
+        return $request->validate([
+            'code' => 'required',
+            'name' => 'required',
+            'description' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'star' => 'required|boolean'
+        ]);
+    }
+
+    /**
+     * Sincronizar características (con opción de eliminar todas)
+     */
+    private function syncCharacteristics(Product $product, Request $request, $deleteIfEmpty = false)
+    {
+        if ($request->has('characteristics')) {
+            $product->characteristics()->sync($request->characteristics);
+        } elseif ($deleteIfEmpty) {
+            $product->characteristics()->sync([]);
+        }
+    }
+
+    /**
+     * Subir imágenes al producto
+     */
+    private function uploadImages(Product $product, Request $request)
+    {
+        if (!$request->hasFile('images')) {
+            return;
+        }
+
+        $request->validate([
+            'images.*' => 'image|mimes:jpg,jpeg,png,webp'
+        ]);
+
+        foreach ($request->file('images') as $image) {
+            $filename = time() . '_' . $image->getClientOriginalName();
+            $path = $image->storeAs('products', $filename, 'public');
+
+            Product_img::create([
+                'product_id' => $product->id,
+                'name_img' => $filename,
+                'path' => $path
+            ]);
+        }
+    }
 }
