@@ -1,5 +1,5 @@
 import './Navbar.scss';
-import logo from './logoweb.png';
+import logo from './logoweb.WebP';
 import logoPequeño from './logo-sin-texto.png';
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";

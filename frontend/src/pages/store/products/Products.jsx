@@ -133,19 +133,6 @@ const ProductPage = () => {
                         </div>
                     </div>
 
-                    {/* Filtros activos */}
-                    {getActiveFiltersCount() > 0 && (
-                        <div className={styles.activeFilters}>
-                            <span className={styles.activeFiltersLabel}>Filtros activos:</span>
-                            {activeFilters.star && (
-                                <span className={styles.filterTag}>
-                                    ⭐ Destacados
-                                    <button onClick={() => handleFilterChange({ ...activeFilters, star: false })}>×</button>
-                                </span>
-                            )}
-                            {/* Aquí podrías mostrar las características seleccionadas si quieres */}
-                        </div>
-                    )}
 
                     {/* Grid de productos */}
                     <ProductGrid 

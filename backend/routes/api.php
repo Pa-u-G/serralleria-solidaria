@@ -38,6 +38,7 @@ Route::get('/store/product/{id}', [ProductsController::class, 'getProduct']);
 
 // Packs
 Route::get('/store/packs', [PackController::class, 'getAllPacks']);
+Route::get('/store/pack/{id}', [PackController::class, 'getPack']);
 
 // ============================================
 // RUTAS PROTEGIDAS (Requereixen token - Només admin)

@@ -32,6 +32,8 @@ import Register from "./pages/login/Register"; // ← AFEGIR AIXÒ
 
 import ProductPage from './pages/store/products/ProductPage'
 import ProductsPage from './pages/store/products/Products';
+import PacksPage from './pages/store/packs/PacksPage';
+import PackPage from './pages/store/packs/PackPage';
 
 function App() {
   return (
@@ -45,6 +47,8 @@ function App() {
           <Route path="/product/:id" element={< ProductPage />}/>
           <Route path="/products/" element={< ProductsPage />}/>
           <Route path="/solutions" element={<Solutions />} />
+          <Route path="/packs" element={<PacksPage />} />
+           <Route path="/pack/:id" element={<PackPage />} />
           
           {/* RUTES DE LOGIN I REGISTER */}
           <Route path="/login" element={<Login />} />

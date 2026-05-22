@@ -22,6 +22,9 @@ return new class extends Migration
             $table->integer('stock');
             $table->boolean('star');
             $table->boolean('status')->default(true);
+            $table->boolean('extra_key')->default(false);
+            $table->boolean('key_price')->nullable();
+            $table->boolean('installable')->default(false);
             $table->timestamps();
         });
     }

@@ -164,24 +164,7 @@ const CategoryPage = () => {
                         </div>
                     </div>
 
-                    {/* Filtros activos */}
-                    {getActiveFiltersCount() > 0 && (
-                        <div className={styles.activeFilters}>
-                            <span className={styles.activeFiltersLabel}>Filtros activos:</span>
-                            {activeFilters.star && (
-                                <span className={styles.filterTag}>
-                                    ⭐ Destacados
-                                    <button onClick={() => handleFilterChange({ ...activeFilters, star: false })}>×</button>
-                                </span>
-                            )}
-                            {activeFilters.characteristics.length > 0 && (
-                                <span className={styles.filterTag}>
-                                    {activeFilters.characteristics.length} características seleccionadas
-                                    <button onClick={() => handleFilterChange({ ...activeFilters, characteristics: [] })}>×</button>
-                                </span>
-                            )}
-                        </div>
-                    )}
+                    
 
                     {/* Grid de productos */}
                     {loading ? (

@@ -1,5 +1,5 @@
 import React from 'react';
-import PackCard from './PackCard';
+import PackCard from '../PackCard/PackCard';
 import styles from './PackGrid.module.scss';
 
 const PackGrid = ({ packs, emptyMessage = "No hay packs disponibles" }) => {

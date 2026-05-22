@@ -2,16 +2,16 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
+    // overflow-x: hidden;
     .divMain{
         display: flex;
         flex: 1;
-        overflow-x: hidden; 
+        // overflow-x: hidden;
         main{
             flex: 1;
             background-color: #FFF7ED;
             padding: 2%;
-            overflow-x: hidden; 
+            // overflow-x: hidden; 
             max-width: 100%;
         }
     }

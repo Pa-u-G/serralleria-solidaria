@@ -87,7 +87,6 @@ const ProductPage = () => {
             </div>
         );
     }
-    console.log("a")
     if (error || !product) {
         navigate("/")
     } else {
@@ -133,11 +132,11 @@ const ProductPage = () => {
     
                             {/* Información del producto */}
                             <div className={styles.productInfo}>
-                                {product.star && (
+                                {product.star ? (
                                     <div className={styles.starBadge}>
                                         Producto Destacado
                                     </div>
-                                )}
+                                ): ""}
                                 
                                 <h1 className={styles.productTitle}>{product.name}</h1>
                                 

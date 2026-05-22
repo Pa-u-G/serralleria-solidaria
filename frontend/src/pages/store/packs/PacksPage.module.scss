@@ -1,4 +1,4 @@
-.allProductsPage {
+.packsPage {
     min-height: 100vh;
     background: #f5f5f5;
     border-radius: 10px;
@@ -10,7 +10,7 @@
     }
 
     .pageHeader {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
 
         color: white;
 
@@ -61,7 +61,7 @@
                 margin-bottom: 0.5rem;
             }
 
-            .productCount {
+            .packCount {
                 font-size: clamp(0.9rem, 2vw, 1rem);
 
                 opacity: 0.9;
@@ -75,7 +75,6 @@
         top: 120px;
 
         z-index: 50;
-
 
         background: white;
 
@@ -99,84 +98,8 @@
 
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 
-        .toolbarLeft {
-            display: flex;
-
-            gap: clamp(0.5rem, 2vw, 1rem);
-
-            align-items: center;
-
-            .filterToggleBtn {
-                padding:
-                    clamp(0.4rem, 2vw, 0.5rem)
-                    clamp(0.75rem, 3vw, 1rem);
-
-                background: #0c5f97;
-
-                color: white;
-
-                border: none;
-
-                border-radius: 8px;
-
-                cursor: pointer;
-
-                font-size: clamp(0.8rem, 2vw, 0.9rem);
-
-                display: flex;
-
-                align-items: center;
-
-                gap: 0.5rem;
-
-                transition: all 0.3s ease;
-
-                &:hover {
-                    background: #2980b9;
-                }
-
-                .filterBadge {
-                    background: #e74c3c;
-
-                    color: white;
-
-                    border-radius: 12px;
-
-                    padding: 0.125rem 0.5rem;
-
-                    font-size: clamp(0.7rem, 1.5vw, 0.75rem);
-                }
-            }
-
-            .clearFiltersBtn {
-                padding:
-                    clamp(0.4rem, 2vw, 0.5rem)
-                    clamp(0.75rem, 3vw, 1rem);
-
-                background: #f0f0f0;
-
-                border: none;
-
-                border-radius: 8px;
-
-                cursor: pointer;
-
-                font-size: clamp(0.8rem, 2vw, 0.9rem);
-
-                color: #666;
-
-                transition: all 0.3s ease;
-
-                &:hover {
-                    background: #e0e0e0;
-                    color: #333;
-                }
-            }
-        }
-
         .toolbarRight {
             display: flex;
-
             align-items: center;
 
             gap: clamp(0.5rem, 2vw, 0.75rem);
@@ -204,74 +127,7 @@
 
                 &:focus {
                     outline: none;
-                    border-color: #3498db;
-                }
-            }
-        }
-    }
-
-    .activeFilters {
-        background: white;
-
-        border-radius: 12px;
-
-        padding: clamp(0.75rem, 3vw, 1rem)
-                 clamp(1rem, 4vw, 1.5rem);
-
-        margin-bottom: clamp(1rem, 4vw, 2rem);
-
-        display: flex;
-
-        align-items: center;
-
-        flex-wrap: wrap;
-
-        gap: clamp(0.5rem, 2vw, 0.75rem);
-
-        .activeFiltersLabel {
-            color: #666;
-
-            font-size: clamp(0.8rem, 2vw, 0.9rem);
-
-            font-weight: 600;
-        }
-
-        .filterTag {
-            background: #f0f0f0;
-
-            color: #333;
-
-            padding: 0.25rem 0.5rem;
-
-            border-radius: 6px;
-
-            font-size: clamp(0.75rem, 2vw, 0.85rem);
-
-            display: inline-flex;
-
-            align-items: center;
-
-            gap: 0.5rem;
-
-            button {
-                background: none;
-
-                border: none;
-
-                cursor: pointer;
-
-                font-size: 1rem;
-
-                color: #999;
-
-                padding: 0;
-
-                display: inline-flex;
-
-                align-items: center;
-
-                &:hover {
-                    color: #e74c3c;
+                    border-color: #f5576c;
                 }
             }
         }
@@ -283,19 +139,16 @@
         flex-direction: column;
 
         align-items: center;
-
         justify-content: center;
 
         min-height: 400px;
 
         .spinner {
             width: clamp(40px, 6vw, 50px);
-
             height: clamp(40px, 6vw, 50px);
 
             border: 3px solid #f3f3f3;
-
-            border-top: 3px solid #667eea;
+            border-top: 3px solid #f5576c;
 
             border-radius: 50%;
 
@@ -326,12 +179,16 @@
             color: #333;
 
             margin-bottom: 0.5rem;
+
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
         }
 
         p {
             color: #666;
 
             margin-bottom: 2rem;
+
+            font-size: clamp(0.9rem, 2vw, 1rem);
         }
     }
 }

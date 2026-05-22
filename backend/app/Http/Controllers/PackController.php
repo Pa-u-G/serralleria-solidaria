@@ -120,7 +120,7 @@ class PackController extends Controller
 
     public function getAllPacks(Request $request)
     {
-        $query = Pack::with(['images', 'products'])
+        $query = Pack::with(['images', 'products', 'products.images'])
             ->where('status', true);
         
         // Ordenar
@@ -146,6 +146,31 @@ class PackController extends Controller
         return response()->json([
             'packs' => $packs,
             'total' => $packs->count()
+        ]);
+    }
+
+    public function getPack($id)
+    {
+        $pack = Pack::with(['images', 'products' => function($q) {
+            $q->with(['images', 'category']); // Cargar también imágenes de los productos
+        }])->where('status', true)->find($id);
+        
+        if (!$pack) {
+            return response()->json(['message' => 'Pack no encontrado'], 404);
+        }
+        
+        // Calcular ahorro (si quieres mostrar comparativa con precios individuales)
+        $totalIndividualPrice = $pack->products->sum(function($product) use ($pack) {
+            $amount = $product->pivot->amount;
+            return $product->price * $amount;
+        });
+        
+        $savings = $totalIndividualPrice - $pack->price;
+        
+        return response()->json([
+            'pack' => $pack,
+            'total_individual_price' => $totalIndividualPrice,
+            'savings' => $savings > 0 ? $savings : 0
         ]);
     }
 
