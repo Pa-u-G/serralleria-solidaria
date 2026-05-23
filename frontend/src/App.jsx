@@ -30,6 +30,11 @@ import Icons from "./assets/icons";
 import Login from "./pages/login/Login";
 import Register from "./pages/login/Register"; // ← AFEGIR AIXÒ
 
+import ProductPage from './pages/store/products/ProductPage'
+import ProductsPage from './pages/store/products/Products';
+import PacksPage from './pages/store/packs/PacksPage';
+import PackPage from './pages/store/packs/PackPage';
+
 function App() {
   return (
     <AuthProvider>
@@ -39,7 +44,11 @@ function App() {
           {/* RUTES PÚBLIQUES (tothom pot veure) */}
           <Route path="/" element={<DashboardTienda />} />
           <Route path="/category/:id" element={<CategoryPage />} />
+          <Route path="/product/:id" element={< ProductPage />}/>
+          <Route path="/products/" element={< ProductsPage />}/>
           <Route path="/solutions" element={<Solutions />} />
+          <Route path="/packs" element={<PacksPage />} />
+           <Route path="/pack/:id" element={<PackPage />} />
           
           {/* RUTES DE LOGIN I REGISTER */}
           <Route path="/login" element={<Login />} />

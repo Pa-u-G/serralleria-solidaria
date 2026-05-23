@@ -22,7 +22,7 @@ const ProductCard = ({ product }) => {
     const stockStatus = getStockStatus();
 
     return (
-        <div className={styles.productCard} onClick={() => navigate(`/store/product/${product.id}`)}>
+        <div className={styles.productCard} onClick={() => navigate(`/product/${product.id}`)}>
             {product.star ? (
                 <div className={styles.starBadge}>
                     Destacado

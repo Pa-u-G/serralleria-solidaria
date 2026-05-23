@@ -29,8 +29,16 @@ Route::get('/solutions', [SolutionsController::class, 'publicIndex']);
 Route::post('/solutions', [SolutionsController::class, 'store']); 
 
 // Productos por categoría 
+Route::get('/store/products', [ProductsController::class, 'getAllProducts']);
 Route::get('/store/category/{categoryId}/products', [ProductsController::class, 'getProductsByCategory']);
 Route::get('/store/category/{categoryId}/info', [ProductsController::class, 'getCategoryInfo']);
+Route::get('/store/filters', [ProductsController::class, 'getFilters']);
+
+Route::get('/store/product/{id}', [ProductsController::class, 'getProduct']);
+
+// Packs
+Route::get('/store/packs', [PackController::class, 'getAllPacks']);
+Route::get('/store/pack/{id}', [PackController::class, 'getPack']);
 
 // ============================================
 // RUTAS PROTEGIDAS (Requereixen token - Només admin)
@@ -70,6 +78,7 @@ Route::middleware('api.token')->group(function () {
     Route::post('/product-pack', [ProductPackController::class, 'store']);
     Route::put('/product-pack', [ProductPackController::class, 'update']);
     Route::delete('/product-pack/{product}/{pack}', [ProductPackController::class, 'destroy']);
+    Route::delete('/packs/image/{image_id}', [PackController::class, 'delete_image']);
 
     // Soluciones (Admin)
     Route::get('/solutions-admin', [SolutionsController::class, 'index']);

@@ -117,4 +117,61 @@ class PackController extends Controller
 
         return response()->json(['message' => 'Imagen eliminada']);
     }
+
+    public function getAllPacks(Request $request)
+    {
+        $query = Pack::with(['images', 'products', 'products.images'])
+            ->where('status', true);
+        
+        // Ordenar
+        $sortBy = $request->get('sort_by', 'newest');
+        switch($sortBy) {
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'name':
+                $query->orderBy('name', 'asc');
+                break;
+            case 'newest':
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+        
+        $packs = $query->get();
+        
+        return response()->json([
+            'packs' => $packs,
+            'total' => $packs->count()
+        ]);
+    }
+
+    public function getPack($id)
+    {
+        $pack = Pack::with(['images', 'products' => function($q) {
+            $q->with(['images', 'category']); // Cargar también imágenes de los productos
+        }])->where('status', true)->find($id);
+        
+        if (!$pack) {
+            return response()->json(['message' => 'Pack no encontrado'], 404);
+        }
+        
+        // Calcular ahorro (si quieres mostrar comparativa con precios individuales)
+        $totalIndividualPrice = $pack->products->sum(function($product) use ($pack) {
+            $amount = $product->pivot->amount;
+            return $product->price * $amount;
+        });
+        
+        $savings = $totalIndividualPrice - $pack->price;
+        
+        return response()->json([
+            'pack' => $pack,
+            'total_individual_price' => $totalIndividualPrice,
+            'savings' => $savings > 0 ? $savings : 0
+        ]);
+    }
+
 }

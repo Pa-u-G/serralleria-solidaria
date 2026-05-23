@@ -13,18 +13,15 @@ return new class extends Migration
     {
         Schema::create('directions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('street', 255);
-            $table->string('street_number', 255);
+            $table->string('address', 255);
             $table->string('postal_code', 255);
             $table->string('city', 255);
-            $table->string('province', 255);
             $table->string('nif', 255);
             $table->string('name', 255);
-            $table->string('surnames', 255);
+            $table->string('surnames', 255)->nullable();
             $table->string('phone_number', 255);
             $table->timestamps();
+
         });
     }
 

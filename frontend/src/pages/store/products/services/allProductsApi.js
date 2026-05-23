@@ -1,7 +1,7 @@
 const API_URL = 'http://localhost:8000/api/store';
 
-export const categoryApi = {
-    async getProductsByCategory(categoryId, filters = {}) {
+export const allProductsApi = {
+    async getAllProducts(filters = {}) {
         // Construir query string
         const params = new URLSearchParams();
         
@@ -9,6 +9,10 @@ export const categoryApi = {
             filters.characteristics.forEach(charId => {
                 params.append('characteristics[]', charId);
             });
+        }
+        
+        if (filters.category_id) {
+            params.append('category_id', filters.category_id);
         }
         
         if (filters.star) {
@@ -19,16 +23,16 @@ export const categoryApi = {
             params.append('sort_by', filters.sort_by);
         }
         
-        const url = `${API_URL}/category/${categoryId}/products${params.toString() ? `?${params.toString()}` : ''}`;
+        const url = `${API_URL}/products${params.toString() ? `?${params.toString()}` : ''}`;
         const response = await fetch(url);
         
-        if (!response.ok) throw new Error('Error al cargar productos');
+        if (!response.ok) throw new Error('Error al cargar los productos');
         return response.json();
     },
     
-    async getCategoryInfo(categoryId) {
-        const response = await fetch(`${API_URL}/category/${categoryId}/info`);
-        if (!response.ok) throw new Error('Error al cargar información de la categoría');
+    async getFilters() {
+        const response = await fetch(`${API_URL}/filters`);
+        if (!response.ok) throw new Error('Error al cargar los filtros');
         return response.json();
     }
 };

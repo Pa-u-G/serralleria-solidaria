@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import ProductGrid from '../components/productGrid/ProductGrid';
 import FiltersSidebar from '../components/filters/FiltersSidebar';
-import { categoryApi } from './services/categoryApi';
-import styles from './CategoryPage.module.scss';
+import { allProductsApi } from './services/allProductsApi';
 import MainLayout from "../../../layouts/layoutTienda/Main_layout_tienda";
+import styles from './Products.module.scss';
 
-const CategoryPage = () => {
-    const { id } = useParams();
+const ProductPage = () => {
     const navigate = useNavigate();
-    const [category, setCategory] = useState(null);
+    const location = useLocation();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -22,32 +21,14 @@ const CategoryPage = () => {
     const [totalProducts, setTotalProducts] = useState(0);
 
     useEffect(() => {
-        if (id) {
-            loadCategoryData(id);
-        }
-    }, [id]);
-
-    useEffect(() => {
-        if (id) {
-            loadProducts();
-        }
-    }, [id, activeFilters, sortBy]);
-
-    const loadCategoryData = async (categoryId) => {
-        try {
-            const categoryData = await categoryApi.getCategoryInfo(categoryId);
-            setCategory(categoryData);
-        } catch (err) {
-            setError('No se pudo cargar la información de la categoría');
-            console.error(err);
-        }
-    };
+        loadProducts();
+    }, [activeFilters, sortBy]);
 
     const loadProducts = async () => {
         setLoading(true);
         setError(null);
         try {
-            const data = await categoryApi.getProductsByCategory(id, {
+            const data = await allProductsApi.getAllProducts({
                 ...activeFilters,
                 sort_by: sortBy
             });
@@ -67,7 +48,6 @@ const CategoryPage = () => {
 
     const handleFilterChange = (filters) => {
         setActiveFilters(filters);
-        // Cerrar sidebar en móvil después de aplicar filtros
         if (window.innerWidth < 1024) {
             setFiltersVisible(false);
         }
@@ -81,9 +61,9 @@ const CategoryPage = () => {
         return activeFilters.characteristics.length + (activeFilters.star ? 1 : 0);
     };
 
-    if (loading && !category) {
+    if (loading) {
         return (
-            <div className={styles.categoryPage}>
+            <div className={styles.allProductsPage}>
                 <div className={styles.loadingContainer}>
                     <div className={styles.spinner}></div>
                     <p>Cargando productos...</p>
@@ -92,37 +72,26 @@ const CategoryPage = () => {
         );
     }
 
-    if (error || !category) {
+    if (error) {
         return (
-        <MainLayout>
-            <div className={styles.categoryPage}>
+            <div className={styles.allProductsPage}>
                 <div className={styles.errorContainer}>
                     <div className={styles.errorIcon}>⚠️</div>
                     <h2>Error</h2>
-                    <p>{error || 'Categoría no encontrada'}</p>
+                    <p>{error}</p>
                     <button onClick={handleGoBack} className={styles.backButton}>
                         Volver atrás
                     </button>
                 </div>
             </div>
-        </MainLayout>
         );
     }
 
     return (
         <MainLayout>
-            <div className={`${styles.categoryPage}`}>
-                {/* Header de la categoría */}
-                <div className={styles.categoryHeader}>
-                    {/* <button onClick={handleGoBack} className={styles.backButton}>
-                        ← Volver
-                    </button> */}
-                    <div className={styles.categoryInfo}>
-                        <h1>{category.name}</h1>
-                        <p className={styles.productCount}>
-                            {products.length} {products.length === 1 ? 'producto' : 'productos'} disponibles
-                        </p>
-                    </div>
+
+            <div className={styles.allProductsPage}>
+                <div className={styles.pageContainer}>
 
                     {/* Barra de herramientas */}
                     <div className={styles.toolbar}>
@@ -131,7 +100,7 @@ const CategoryPage = () => {
                                 className={styles.filterToggleBtn}
                                 onClick={() => setFiltersVisible(true)}
                             >
-                                Filtrar
+                                Filtros
                                 {getActiveFiltersCount() > 0 && (
                                     <span className={styles.filterBadge}>
                                         {getActiveFiltersCount()}
@@ -164,20 +133,12 @@ const CategoryPage = () => {
                         </div>
                     </div>
 
-                    
 
                     {/* Grid de productos */}
-                    {loading ? (
-                        <div className={styles.loadingProducts}>
-                            <div className={styles.spinner}></div>
-                            <p>Cargando productos...</p>
-                        </div>
-                    ) : (
-                        <ProductGrid 
-                            products={products} 
-                            emptyMessage="No hay productos que coincidan con los filtros seleccionados"
-                        />
-                    )}
+                    <ProductGrid 
+                        products={products} 
+                        emptyMessage="No hay productos que coincidan con los filtros seleccionados"
+                    />
                 </div>
 
                 {/* Sidebar de filtros */}
@@ -186,11 +147,11 @@ const CategoryPage = () => {
                     onClose={() => setFiltersVisible(false)}
                     onFilterChange={handleFilterChange}
                     selectedFilters={activeFilters}
-                    showStarFilter={true}
                 />
             </div>
         </MainLayout>
+
     );
 };
 
-export default CategoryPage;
+export default ProductPage;

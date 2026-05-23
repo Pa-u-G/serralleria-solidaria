@@ -1,7 +1,7 @@
 // src/components/Navbar.jsx
 import { useNavigate } from "react-router-dom";
 import LogoutButton from './LogoutButton';
-import logo from './tienda/navbarTienda/logoweb.png';
+import logo from './tienda/navbarTienda/logoweb.WebP';
 
 function Navbar() {
   const navigate = useNavigate();
