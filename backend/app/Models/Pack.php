@@ -11,7 +11,10 @@ class Pack extends Model
     protected $fillable = [
         'name',
         'description',
-        'price'
+        'price',
+        'extra_key',
+        'key_price',
+        'installable'
     ];
 
     public function products()

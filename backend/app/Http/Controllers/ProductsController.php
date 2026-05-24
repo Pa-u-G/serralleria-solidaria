@@ -36,7 +36,10 @@ class ProductsController extends Controller
             'category_id' => 'required|exists:categories,id',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'star' => 'required|boolean'
+            'star' => 'required|boolean',
+            'extra_key' => 'required|boolean',
+            'key_price' => 'nullable|numeric|min:0',
+            'installable' => 'required|boolean'
         ]);
 
         $product = Product::create($validatedProduct);
@@ -88,7 +91,10 @@ class ProductsController extends Controller
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'star' => 'required|boolean',
-            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp'
+            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'extra_key' => 'required|boolean',
+            'key_price' => 'nullable|numeric|min:0',
+            'installable' => 'required|boolean'
         ]);
 
         $product->update($validated);

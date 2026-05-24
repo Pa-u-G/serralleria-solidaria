@@ -9,8 +9,7 @@ class Product extends Model
 {
     protected $table = "products";
 
-    protected $fillable = ["category_id","code","name","description","price","stock","star"];
-
+    protected $fillable = ["category_id","code","name","description","price","stock","star","extra_key","key_price","installable"];
     public function category(): BelongsTo {
         return $this->belongsTo(Category::class);
     }
