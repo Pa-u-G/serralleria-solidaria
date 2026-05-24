@@ -9,6 +9,7 @@ use App\Http\Controllers\CharacteristicController;
 use App\Http\Controllers\PackController;
 use App\Http\Controllers\ProductPackController;
 use App\Http\Controllers\SolutionsController;
+use App\Http\Controllers\OrderController;
 
 // ============================================
 // RUTAS PÚBLICAS (No requereixen autenticació)
@@ -47,6 +48,12 @@ Route::middleware('api.token')->group(function () {
     // Auth
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);
+
+    // Carrito (usuario autenticado)
+    Route::post('/cart/add', [OrderController::class, 'addToCart']);
+    Route::get('/cart', [OrderController::class, 'getCart']);
+    Route::patch('/cart/detail/{id}', [OrderController::class, 'updateDetail']);
+    Route::delete('/cart/detail/{id}', [OrderController::class, 'removeDetail']);
 
     // ----------------------------------------- ADMIN ----------------------------------------- //
     

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, HasMany, HasOne};
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, HasMany, HasOne, MorphMany};
 
 class Product extends Model
 {
@@ -20,5 +20,10 @@ class Product extends Model
     }
     public function characteristics(): BelongsToMany {
         return $this->belongsToMany(Characteristic::class, 'product_characteristic');
+    }
+
+    public function orderDetails()
+    {
+        return $this->morphMany(OrderDetail::class, 'product');
     }
 }

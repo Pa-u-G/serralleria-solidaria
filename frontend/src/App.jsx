@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { CartProvider } from './contexts/CartContext';
 
 // Components públics (botiga)
 import DashboardTienda from "./pages/store/dashboardTienda/dashboard";
@@ -38,109 +39,112 @@ import PackPage from './pages/store/packs/PackPage';
 function App() {
   return (
     <AuthProvider>
-      <Icons />
-      <BrowserRouter>
-        <Routes>
-          {/* RUTES PÚBLIQUES (tothom pot veure) */}
-          <Route path="/" element={<DashboardTienda />} />
-          <Route path="/category/:id" element={<CategoryPage />} />
-          <Route path="/product/:id" element={< ProductPage />}/>
-          <Route path="/products/" element={< ProductsPage />}/>
-          <Route path="/solutions" element={<Solutions />} />
-          <Route path="/packs" element={<PacksPage />} />
-           <Route path="/pack/:id" element={<PackPage />} />
-          
-          {/* RUTES DE LOGIN I REGISTER */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} /> {/* ← AFEGIR AIXÒ */}
-          
-          {/* RUTES PROTEGIDES D'ADMIN (només admin) */}
-          <Route path="/admin" element={
-            <ProtectedRoute allowedRoles={['admin']}>
-              <Dashboard />
-            </ProtectedRoute>
-          } />
-          
-          <Route path="/admin/categories" element={
-            <ProtectedRoute allowedRoles={['admin']}>
-              <Categories />
-            </ProtectedRoute>
-          } />
-          
-          <Route path="/admin/products" element={
-            <ProtectedRoute allowedRoles={['admin']}>
-              <Products />
-            </ProtectedRoute>
-          } />
-          
-          <Route path="/admin/products/create" element={
-            <ProtectedRoute allowedRoles={['admin']}>
-              <Create_product />
-            </ProtectedRoute>
-          } />
-          
-          <Route path="/admin/products/edit/:id" element={
-            <ProtectedRoute allowedRoles={['admin']}>
-              <Edit_product />
-            </ProtectedRoute>
-          } />
+      <CartProvider>
 
-          <Route path="/admin/caracteristicas" element={
-            <ProtectedRoute allowedRoles={['admin']}>
-              <Caracteristicas />
-            </ProtectedRoute>
-          } />
+        <Icons />
+        <BrowserRouter>
+          <Routes>
+            {/* RUTES PÚBLIQUES (tothom pot veure) */}
+            <Route path="/" element={<DashboardTienda />} />
+            <Route path="/category/:id" element={<CategoryPage />} />
+            <Route path="/product/:id" element={< ProductPage />}/>
+            <Route path="/products/" element={< ProductsPage />}/>
+            <Route path="/solutions" element={<Solutions />} />
+            <Route path="/packs" element={<PacksPage />} />
+            <Route path="/pack/:id" element={<PackPage />} />
+            
+            {/* RUTES DE LOGIN I REGISTER */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} /> {/* ← AFEGIR AIXÒ */}
+            
+            {/* RUTES PROTEGIDES D'ADMIN (només admin) */}
+            <Route path="/admin" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <Dashboard />
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/admin/categories" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <Categories />
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/admin/products" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <Products />
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/admin/products/create" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <Create_product />
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/admin/products/edit/:id" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <Edit_product />
+              </ProtectedRoute>
+            } />
 
-          <Route path="/admin/caracteristicas/:id" element={
-            <ProtectedRoute allowedRoles={['admin']}>
-              <CharacteristicTypeShow />
-            </ProtectedRoute>
-          } />
+            <Route path="/admin/caracteristicas" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <Caracteristicas />
+              </ProtectedRoute>
+            } />
 
-          <Route path="/admin/packs" element={
-            <ProtectedRoute allowedRoles={['admin']}>
-              <Packs />
-            </ProtectedRoute>
-          } />
+            <Route path="/admin/caracteristicas/:id" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <CharacteristicTypeShow />
+              </ProtectedRoute>
+            } />
 
-          <Route path="/admin/packs/:id" element={
-            <ProtectedRoute allowedRoles={['admin']}>
-              <PackShow />
-            </ProtectedRoute>
-          } />
-          
-          <Route path="/admin/packs/create" element={
-            <ProtectedRoute allowedRoles={['admin']}>
-              <Pack_create />
-            </ProtectedRoute>
-          } />
-          
-          <Route path="/admin/packs/edit/:id" element={
-            <ProtectedRoute allowedRoles={['admin']}>
-              <Pack_edit />
-            </ProtectedRoute>
-          } />
-          
-          <Route path="/admin/solutions" element={
-            <ProtectedRoute allowedRoles={['admin']}>
-              <SolutionsShow />
-            </ProtectedRoute>
-          } />
-          
-          <Route path="/admin/solutions/:id" element={
-            <ProtectedRoute allowedRoles={['admin']}>
-              <SolutionDetail />
-            </ProtectedRoute>
-          } />
+            <Route path="/admin/packs" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <Packs />
+              </ProtectedRoute>
+            } />
 
-          {/* RUTES PROTEGIDES DE CLIENT (qualsevol usuari loguejat) */}
-          <Route path="/perfil" element={
-            <ProtectedRoute allowedRoles={['cliente', 'admin']}>
-              <PerfilCliente />
-            </ProtectedRoute>
-          } />
-        </Routes>
-      </BrowserRouter>
+            <Route path="/admin/packs/:id" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <PackShow />
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/admin/packs/create" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <Pack_create />
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/admin/packs/edit/:id" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <Pack_edit />
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/admin/solutions" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <SolutionsShow />
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/admin/solutions/:id" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <SolutionDetail />
+              </ProtectedRoute>
+            } />
+
+            {/* RUTES PROTEGIDES DE CLIENT (qualsevol usuari loguejat) */}
+            <Route path="/perfil" element={
+              <ProtectedRoute allowedRoles={['cliente', 'admin']}>
+                <PerfilCliente />
+              </ProtectedRoute>
+            } />
+          </Routes>
+        </BrowserRouter>
+      </CartProvider>
     </AuthProvider>
   );
 }

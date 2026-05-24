@@ -4,6 +4,8 @@ import { productApi } from './services/productApi';
 import styles from './ProductPage.module.scss';
 import MainLayout from "../../../layouts/layoutTienda/Main_layout_tienda";
 import axios from "axios";
+import { useAddToCart } from '../../../hooks/useAddToCart';
+
 
 const ProductPage = () => {
     const { id } = useParams();
@@ -14,6 +16,7 @@ const ProductPage = () => {
     const [selectedImage, setSelectedImage] = useState(0);
     const [quantity, setQuantity] = useState(1);
     const [addedToCart, setAddedToCart] = useState(false);
+    const { handleAddToCart } = useAddToCart();
 
     useEffect(() => {
         if (id) {
@@ -58,11 +61,12 @@ const ProductPage = () => {
         }
     };
 
-    const handleAddToCart = () => {
-        // Aquí iría la lógica para añadir al carrito
+    const handleAddToCartClick = async () => {
+        await handleAddToCart('product', product.id, quantity);
         setAddedToCart(true);
         setTimeout(() => setAddedToCart(false), 2000);
     };
+
 
     const formatPrice = (price) => {
         return new Intl.NumberFormat('es-ES', {
@@ -216,7 +220,7 @@ const ProductPage = () => {
                                         </div>
     
                                         <button 
-                                            onClick={handleAddToCart}
+                                            onClick={handleAddToCartClick}
                                             className={`${styles.addToCartBtn} ${addedToCart ? styles.added : ''}`}
                                         >
                                             {addedToCart ? '✓ Añadido al carrito' : 'Añadir al carrito'}

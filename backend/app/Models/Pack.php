@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, HasMany, HasOne};
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, HasMany, HasOne, MorphMany};
 use App\Models\Product;
 
 class Pack extends Model
@@ -23,5 +23,10 @@ class Pack extends Model
 
     public function images(): HasMany {
         return $this->hasMany(Pack_img::class);
+    }
+
+    public function orderDetails()
+    {
+        return $this->morphMany(OrderDetail::class, 'product');
     }
 }

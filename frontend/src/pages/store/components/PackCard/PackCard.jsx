@@ -1,10 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './PackCard.module.scss';
+import { useAddToCart } from '../../../../hooks/useAddToCart';
 
 const PackCard = ({ pack }) => {
     const navigate = useNavigate();
     const [imageError, setImageError] = useState(false);
+
+    const { handleAddToCart } = useAddToCart();
+    const [addedToCart, setAddedToCart] = useState(false);
+
+    const onAddToCart = async (e) => {
+        e.stopPropagation();
+        await handleAddToCart('pack', pack.id, 1);
+        setAddedToCart(true);
+        setTimeout(() => setAddedToCart(false), 2000);
+    };
+
     
     const formatPrice = (price) => {
         return new Intl.NumberFormat('es-ES', {
@@ -91,8 +103,11 @@ const PackCard = ({ pack }) => {
                             {formatPrice(pack.price)}
                         </span>
                         {getStock(pack.products) > 0 && (
-                            <button className={styles.addToCart}>
-                                Añadir al carrito
+                            <button
+                                className={`${styles.addToCart} ${addedToCart ? styles.added : ''}`}
+                                onClick={onAddToCart}
+                            >
+                                {addedToCart ? '✓ Añadido' : 'Añadir al carrito'}
                             </button>
                         )}
                     </div>
