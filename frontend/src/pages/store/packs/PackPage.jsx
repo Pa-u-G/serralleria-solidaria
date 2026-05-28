@@ -212,7 +212,7 @@ const PackPage = () => {
 
                             <div className={styles.purchaseSection}>
                                 <div className={styles.quantitySelector}>
-                                    <label>Cantidad de packs:</label>
+                                    <label for="quantity">Cantidad de packs:</label>
                                     <div className={styles.quantityControls}>
                                         <button 
                                             onClick={decrementQuantity}
@@ -222,6 +222,8 @@ const PackPage = () => {
                                             -
                                         </button>
                                         <input
+                                            id="quantity"
+                                            name="quantity"
                                             type="number"
                                             value={quantity}
                                             onChange={handleQuantityChange}

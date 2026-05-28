@@ -10,6 +10,7 @@ use App\Http\Controllers\PackController;
 use App\Http\Controllers\ProductPackController;
 use App\Http\Controllers\SolutionsController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SettingController;
 
 // ============================================
 // RUTAS PÚBLICAS (No requereixen autenticació)
@@ -50,10 +51,13 @@ Route::middleware('api.token')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
 
     // Carrito (usuario autenticado)
-    Route::post('/cart/add', [OrderController::class, 'addToCart']);
-    Route::get('/cart', [OrderController::class, 'getCart']);
-    Route::patch('/cart/detail/{id}', [OrderController::class, 'updateDetail']);
-    Route::delete('/cart/detail/{id}', [OrderController::class, 'removeDetail']);
+    Route::get('/cart',                        [OrderController::class, 'getCart']);
+    Route::post('/cart/add',                   [OrderController::class, 'addToCart']);
+    Route::patch('/cart/detail/{id}',          [OrderController::class, 'updateDetail']);
+    Route::patch('/cart/detail/{id}/extrakey', [OrderController::class, 'updateExtraKey']);
+    Route::patch('/cart/install',              [OrderController::class, 'updateInstall']);
+    Route::delete('/cart/detail/{id}',         [OrderController::class, 'removeDetail']);
+    Route::post('/cart/checkout',              [OrderController::class, 'checkout']);
 
     // ----------------------------------------- ADMIN ----------------------------------------- //
     
@@ -93,4 +97,9 @@ Route::middleware('api.token')->group(function () {
     Route::put('/solutions-admin/{id}', [SolutionsController::class, 'update']);
     Route::get('/solutions-admin/download-image/{id}', [SolutionsController::class, 'downloadImage']);
     Route::get('/solutions-admin/download-file/{id}', [SolutionsController::class, 'downloadFile']);
+
+    // precios de envio|instalacion
+    Route::get('/settings', [SettingController::class, 'index']);
+    Route::put('/settings/{id}', [SettingController::class, 'update']);
+    
 });

@@ -192,7 +192,7 @@ const ProductPage = () => {
                                 {product.stock > 0 && (
                                     <div className={styles.purchaseSection}>
                                         <div className={styles.quantitySelector}>
-                                            <label>Cantidad:</label>
+                                            <label for="quantity">Cantidad:</label>
                                             <div className={styles.quantityControls}>
                                                 <button 
                                                     onClick={decrementQuantity}
@@ -202,6 +202,8 @@ const ProductPage = () => {
                                                     -
                                                 </button>
                                                 <input
+                                                    id="quantity"
+                                                    name="quantity"
                                                     type="number"
                                                     value={quantity}
                                                     onChange={handleQuantityChange}

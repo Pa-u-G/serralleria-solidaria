@@ -22,6 +22,7 @@ import Pack_create from "./pages/Packs/create";
 import Pack_edit from "./pages/Packs/edit";
 import SolutionsShow from "./pages/solutions/solutions";
 import SolutionDetail from "./pages/solutions/SolutionDetail";
+import Settings from "./pages/settings/Settings";
 
 // Components de client (protegits - només usuaris loguejats)
 import PerfilCliente from "./pages/store/perfil/Perfil";
@@ -35,6 +36,8 @@ import ProductPage from './pages/store/products/ProductPage'
 import ProductsPage from './pages/store/products/Products';
 import PacksPage from './pages/store/packs/PacksPage';
 import PackPage from './pages/store/packs/PackPage';
+
+import CartPage from './pages/store/cart/CartPage';
 
 function App() {
   return (
@@ -56,6 +59,15 @@ function App() {
             {/* RUTES DE LOGIN I REGISTER */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} /> {/* ← AFEGIR AIXÒ */}
+
+
+            {/* RUTA CARRITO */}
+            <Route path="/carrito" element={
+              <ProtectedRoute allowedRoles={['cliente', 'admin']}>
+                <CartPage />
+              </ProtectedRoute>
+            } />
+
             
             {/* RUTES PROTEGIDES D'ADMIN (només admin) */}
             <Route path="/admin" element={
@@ -136,12 +148,19 @@ function App() {
               </ProtectedRoute>
             } />
 
+            <Route path="/admin/settings" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <Settings />
+              </ProtectedRoute>
+            } />
+
             {/* RUTES PROTEGIDES DE CLIENT (qualsevol usuari loguejat) */}
             <Route path="/perfil" element={
               <ProtectedRoute allowedRoles={['cliente', 'admin']}>
                 <PerfilCliente />
               </ProtectedRoute>
             } />
+
           </Routes>
         </BrowserRouter>
       </CartProvider>

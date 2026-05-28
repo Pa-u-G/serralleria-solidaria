@@ -7,40 +7,36 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\Pack;
+use App\Models\Direction;
+use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    /**
-     * Añadir producto o pack al carrito.
-     * Body: { type: 'product'|'pack', id: int, quantity: int }
-     */
     public function addToCart(Request $request)
     {
         $request->validate([
-            'type'     => 'required|in:product,pack',
-            'id'       => 'required|integer',
-            'quantity' => 'required|integer|min:1',
+            'type'      => 'required|in:product,pack',
+            'id'        => 'required|integer',
+            'quantity'  => 'required|integer|min:1',
         ]);
 
         $user = $request->user();
 
-        // Resolver el modelo según el tipo
         if ($request->type === 'product') {
-            $item = Product::findOrFail($request->id);
+            $item      = Product::findOrFail($request->id);
             $morphClass = Product::class;
         } else {
-            $item = Pack::findOrFail($request->id);
+            $item      = Pack::findOrFail($request->id);
             $morphClass = Pack::class;
         }
 
-        // Buscar carrito activo o crear uno nuevo
         $order = Order::firstOrCreate(
             ['user_id' => $user->id, 'status' => 'carrito'],
             ['install' => false]
         );
 
-        // Buscar si ya existe ese item en el carrito
         $detail = OrderDetail::where('order_id', $order->id)
             ->where('product_type', $morphClass)
             ->where('product_id', $item->id)
@@ -59,57 +55,212 @@ class OrderController extends Controller
             ]);
         }
 
-        // Devolver carrito actualizado
-        $order->load('details.product');
-
         return response()->json([
             'message' => 'Producto añadido al carrito',
-            'cart'    => $order,
+            'cart'    => $this->loadCart($order->id),
         ]);
     }
 
-    /**
-     * Obtener el carrito actual del usuario.
-     */
     public function getCart(Request $request)
     {
         $order = Order::where('user_id', $request->user()->id)
             ->where('status', 'carrito')
-            ->with('details.product')
             ->first();
 
-        return response()->json(['cart' => $order]);
+        return response()->json([
+            'cart'     => $order ? $this->loadCart($order->id) : null,
+            'settings' => $this->getSettings(),
+        ]);
     }
 
-    /**
-     * Actualizar cantidad de un detalle.
-     */
     public function updateDetail(Request $request, $detailId)
     {
         $request->validate(['quantity' => 'required|integer|min:1']);
 
         $detail = OrderDetail::where('id', $detailId)
-            ->whereHas('order', fn($q) => $q->where('user_id', $request->user()->id)
+            ->whereHas('order', fn($q) => $q
+                ->where('user_id', $request->user()->id)
                 ->where('status', 'carrito'))
             ->firstOrFail();
 
         $detail->update(['quantity' => $request->quantity]);
 
-        return response()->json(['message' => 'Cantidad actualizada', 'detail' => $detail]);
+        return response()->json(['message' => 'Cantidad actualizada']);
     }
 
-    /**
-     * Eliminar un item del carrito.
-     */
+    public function updateExtraKey(Request $request, $detailId)
+    {
+        $request->validate(['extra_key' => 'required|integer|min:0']);
+
+        $detail = OrderDetail::where('id', $detailId)
+            ->whereHas('order', fn($q) => $q
+                ->where('user_id', $request->user()->id)
+                ->where('status', 'carrito'))
+            ->firstOrFail();
+
+        $detail->update(['extra_key' => $request->extra_key]);
+
+        return response()->json(['message' => 'Llaves extra actualizadas']);
+    }
+
+    public function updateInstall(Request $request)
+    {
+        $request->validate(['install' => 'required|boolean']);
+
+        $order = Order::where('user_id', $request->user()->id)
+            ->where('status', 'carrito')
+            ->firstOrFail();
+
+        $order->update(['install' => $request->install]);
+
+        return response()->json(['message' => 'Instalación actualizada']);
+    }
+
     public function removeDetail(Request $request, $detailId)
     {
         $detail = OrderDetail::where('id', $detailId)
-            ->whereHas('order', fn($q) => $q->where('user_id', $request->user()->id)
+            ->whereHas('order', fn($q) => $q
+                ->where('user_id', $request->user()->id)
                 ->where('status', 'carrito'))
             ->firstOrFail();
 
         $detail->delete();
 
         return response()->json(['message' => 'Producto eliminado del carrito']);
+    }
+
+    // Confirmar pedido: guarda direcciones, cambia status y resta stock
+    public function checkout(Request $request)
+    {
+        $request->validate([
+            'direction.address'      => 'required|string',
+            'direction.postal_code'  => 'required|string',
+            'direction.city'         => 'required|string',
+            'direction.nif'          => 'required|string',
+            'direction.name'         => 'required|string',
+            'direction.surnames'     => 'nullable|string',
+            'direction.phone_number' => 'required|string',
+
+            'facturation.address'      => 'required|string',
+            'facturation.postal_code'  => 'required|string',
+            'facturation.city'         => 'required|string',
+            'facturation.nif'          => 'required|string',
+            'facturation.name'         => 'required|string',
+            'facturation.surnames'     => 'nullable|string',
+            'facturation.phone_number' => 'required|string',
+        ]);
+
+        $order = Order::where('user_id', $request->user()->id)
+            ->where('status', 'carrito')
+            ->with('details')
+            ->firstOrFail();
+
+        // Cargar productos manualmente (morph)
+        $order->details->each(function ($detail) {
+            if ($detail->product_type === Product::class) {
+                $detail->setRelation('product', Product::find($detail->product_id));
+            } elseif ($detail->product_type === Pack::class) {
+                $detail->setRelation('product',
+                    Pack::with('products')->find($detail->product_id)
+                );
+            }
+        });
+
+        // Validación de stock
+        // Calcular stock necesario total agrupado por product_id
+        $stockNeeded = [];
+
+        foreach ($order->details as $detail) {
+            if ($detail->product_type === Product::class) {
+                $pid = $detail->product_id;
+                $stockNeeded[$pid] = ($stockNeeded[$pid] ?? 0) + $detail->quantity;
+
+            } elseif ($detail->product_type === Pack::class) {
+                foreach ($detail->product->products as $packProduct) {
+                    $pid = $packProduct->id;
+                    $needed = $packProduct->pivot->amount * $detail->quantity;
+                    $stockNeeded[$pid] = ($stockNeeded[$pid] ?? 0) + $needed;
+                }
+            }
+        }
+
+        // Validar contra el stock real
+        $stockErrors = [];
+
+        foreach ($stockNeeded as $productId => $totalNeeded) {
+            $product = Product::find($productId);
+            if ($product->stock < $totalNeeded) {
+                $stockErrors[] = [
+                    'name'      => $product->name,
+                    'available' => $product->stock,
+                    'requested' => $totalNeeded,
+                ];
+            }
+        }
+
+        if (!empty($stockErrors)) {
+            return response()->json([
+                'message' => 'Stock insuficiente para algunos productos',
+                'errors'  => $stockErrors,
+            ], 422);
+        }
+
+        DB::transaction(function () use ($order, $request, $stockNeeded) {
+            $direction   = Direction::create($request->direction);
+            $facturation = Direction::create($request->facturation);
+
+            // Restar stock agrupado (un solo decrement por producto)
+            foreach ($stockNeeded as $productId => $totalNeeded) {
+                Product::where('id', $productId)->decrement('stock', $totalNeeded);
+            }
+
+            $order->update([
+                'status'         => 'pendiente',
+                'direction_id'   => $direction->id,
+                'facturation_id' => $facturation->id,
+            ]);
+        });
+
+        return response()->json(['message' => 'Pedido confirmado correctamente']);
+    }
+
+
+    // ---- helpers ----
+
+    private function loadCart(int $orderId): Order
+    {
+        $order = Order::with([
+            'details',
+        ])->findOrFail($orderId);
+
+        // Cargar manualmente el producto morph con sus relaciones
+        $order->details->each(function ($detail) {
+            if ($detail->product_type === Product::class) {
+                $detail->setRelation('product',
+                    Product::with('images')->find($detail->product_id)
+                );
+            } elseif ($detail->product_type === Pack::class) {
+                $detail->setRelation('product',
+                    Pack::with([
+                        'images',
+                        'products.images', // productos del pack con su stock
+                    ])->find($detail->product_id)
+                );
+            }
+        });
+
+        return $order;
+    }
+
+
+    private function getSettings(): array
+    {
+        return [
+            'shipping_price'     => (float) Setting::get('shipping_price', 9),
+            'install_price_tier1' => (float) Setting::get('install_price_tier1', 90),
+            'install_price_tier2' => (float) Setting::get('install_price_tier2', 120),
+            'install_price_tier3' => (float) Setting::get('install_price_tier3', 180),
+            'install_price_tier4' => Setting::get('install_price_tier4', -1), // -1 = a consultar
+        ];
     }
 }
