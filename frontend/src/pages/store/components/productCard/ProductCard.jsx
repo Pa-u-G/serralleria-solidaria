@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import styles from './ProductCard.module.scss';
 import { useNavigate } from "react-router-dom";
+import { useAddToCart } from '../../../../hooks/useAddToCart';
 
 const ProductCard = ({ product }) => {
     const navigate = useNavigate();
     const [imageError, setImageError] = useState(false);
+    const { handleAddToCart } = useAddToCart();
+    const [addedToCart, setAddedToCart] = useState(false);
+
     
     const formatPrice = (price) => {
         return new Intl.NumberFormat('es-ES', {
@@ -18,6 +22,14 @@ const ProductCard = ({ product }) => {
         if (product.stock < 10) return { text: `Últimas ${product.stock} unidades`, class: styles.lowStock };
         return { text: `Stock: ${product.stock}`, class: styles.inStock };
     };
+
+    const onAddToCart = async (e) => {
+        e.stopPropagation(); // evita navegar a la página del producto
+        await handleAddToCart('product', product.id, 1);
+        setAddedToCart(true);
+        setTimeout(() => setAddedToCart(false), 2000);
+    };
+
 
     const stockStatus = getStockStatus();
 
@@ -63,8 +75,11 @@ const ProductCard = ({ product }) => {
                             {formatPrice(product.price)}
                         </span>
                         {product.stock > 0 && (
-                            <button className={styles.addToCart}>
-                                Añadir al carrito
+                            <button
+                                className={`${styles.addToCart} ${addedToCart ? styles.added : ''}`}
+                                onClick={onAddToCart}
+                            >
+                                {addedToCart ? '✓ Añadido' : 'Añadir al carrito'}
                             </button>
                         )}
                     </div>

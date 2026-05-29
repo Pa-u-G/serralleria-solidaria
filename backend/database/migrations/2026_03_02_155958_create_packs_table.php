@@ -18,7 +18,7 @@ return new class extends Migration
             $table->decimal('price', 8, 2);
             $table->boolean("status")->default(true);
             $table->boolean('extra_key')->default(false);
-            $table->boolean('key_price')->nullable();
+            $table->decimal('key_price', 8, 2)->default(0);
             $table->boolean('installable')->default(false);
             $table->timestamps();
         });

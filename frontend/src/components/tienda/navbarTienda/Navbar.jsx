@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from '../../../contexts/AuthContext';
+import { useCart } from '../../../contexts/CartContext';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ function Navbar() {
   const searchRef = useRef(null);
   const hamburgerRef = useRef(null); 
   const userMenuRef = useRef(null);
+  const { cartCount } = useCart();
 
   useEffect(() => {
     axios.get("http://localhost:8000/api/categories")
@@ -162,7 +164,9 @@ function Navbar() {
         </div>
 
         {/* Botó Cesta */}
-        <button className="cart-btn">🛒 Cesta</button>
+        <button className="cart-btn" onClick={() => navigate('/carrito')}>
+          🛒 {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
+        </button>
 
         {/* Menú d'usuari */}
         <div className="user-menu-container" ref={userMenuRef}>

@@ -14,6 +14,9 @@ function EditProduct() {
     price: "",
     stock: "",
     star: false,
+    extra_key: false,
+    key_price: "",
+    installable: false,
     description: ""
   });
 
@@ -88,6 +91,10 @@ function EditProduct() {
     formData.append('price', parseFloat(form.price));
     formData.append('stock', parseInt(form.stock));
     formData.append('star', form.star ? 1 : 0);
+    formData.append("extra_key", form.extra_key ? 1 : 0);
+    formData.append("key_price", form.key_price ? form.key_price : 0);
+    formData.append("installable", form.installable ? 1 : 0);
+
 
     // Agregar nuevas imágenes
     for (let i = 0; i < newImages.length; i++) {
@@ -166,6 +173,7 @@ function EditProduct() {
               value={form.price}
               onChange={handleChange}
               className="border rounded-lg px-4 py-2 w-full" required
+              step="0.01"
             />
           </div>
 
@@ -188,6 +196,39 @@ function EditProduct() {
               onChange={handleChange}
             />
             <label>Producte destacat</label>
+          </div>
+          
+          <div className="flex items-center gap-2 mt-6">
+            <input
+              type="checkbox"
+              name="extra_key"
+              checked={form.extra_key}
+              onChange={handleChange}
+            />
+            <label>Clau extra</label>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">Preu claus</label>
+            <input
+              type="number"
+              name="key_price"
+              value={form.key_price}
+              onChange={handleChange}
+              className="border rounded-lg px-4 py-2 w-full"
+              min={0}
+              step="0.01"
+            />
+          </div>
+
+          <div className="flex items-center gap-2 mt-6">
+            <input
+              type="checkbox"
+              name="installable"
+              checked={form.installable}
+              onChange={handleChange}
+            />
+            <label>producte instal·lable</label>
           </div>
 
           <div>

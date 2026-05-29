@@ -4,6 +4,7 @@ import PackProductItem from './components/PackProductItem';
 import { packApi } from './services/packApi';
 import styles from './PackPage.module.scss';
 import MainLayout from "../../../layouts/layoutTienda/Main_layout_tienda";
+import { useAddToCart } from '../../../hooks/useAddToCart';
 
 const PackPage = () => {
     const { id } = useParams();
@@ -16,6 +17,8 @@ const PackPage = () => {
     const [selectedImage, setSelectedImage] = useState(0);
     const [quantity, setQuantity] = useState(1);
     const [addedToCart, setAddedToCart] = useState(false);
+    const { handleAddToCart } = useAddToCart();
+
 
     useEffect(() => {
         if (id) {
@@ -62,11 +65,13 @@ const PackPage = () => {
         }
     };
 
-    const handleAddToCart = () => {
-        // Aquí iría la lógica para añadir al carrito
+    const handleAddToCartClick = async () => {
+        await handleAddToCart('pack', pack.id, quantity);
         setAddedToCart(true);
         setTimeout(() => setAddedToCart(false), 2000);
     };
+
+
 
     const formatPrice = (price) => {
         return new Intl.NumberFormat('es-ES', {
@@ -207,7 +212,7 @@ const PackPage = () => {
 
                             <div className={styles.purchaseSection}>
                                 <div className={styles.quantitySelector}>
-                                    <label>Cantidad de packs:</label>
+                                    <label for="quantity">Cantidad de packs:</label>
                                     <div className={styles.quantityControls}>
                                         <button 
                                             onClick={decrementQuantity}
@@ -217,6 +222,8 @@ const PackPage = () => {
                                             -
                                         </button>
                                         <input
+                                            id="quantity"
+                                            name="quantity"
                                             type="number"
                                             value={quantity}
                                             onChange={handleQuantityChange}
@@ -235,7 +242,7 @@ const PackPage = () => {
                                 </div>
 
                                 <button 
-                                    onClick={handleAddToCart}
+                                    onClick={handleAddToCartClick}
                                     className={`${styles.addToCartBtn} ${addedToCart ? styles.added : ''}`}
                                 >
                                     {addedToCart ? '✓ Añadido al carrito' : 'Añadir pack al carrito'}

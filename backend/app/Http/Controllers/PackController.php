@@ -26,6 +26,9 @@ class PackController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
+            'extra_key' => 'required|boolean',
+            'key_price' => 'nullable|numeric|min:0',
+            'installable' => 'required|boolean'
         ]);
 
         $pack = Pack::create([
@@ -33,6 +36,9 @@ class PackController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'status' => true, // activo por defecto
+            'extra_key' => $request->extra_key,
+            'key_price' => $request->key_price,
+            'installable' => $request->installable,
         ]);
 
         if ($request->hasFile('images')) {
@@ -79,6 +85,9 @@ class PackController extends Controller
                 'name' => 'required|string|max:255',
                 'description' => 'required|string',
                 'price' => 'required|numeric|min:0',
+                'extra_key' => 'required|boolean',
+                'key_price' => 'nullable|numeric|min:0',
+                'installable' => 'required|boolean'
             ]);
             $pack->update($validated);
         }
