@@ -14,6 +14,54 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+    // Admin: Listar todos los pedidos (excepto carrito)
+    public function adminIndex()
+    {
+        $orders = Order::with(['user', 'direction', 'facturation'])
+            ->where('status', '!=', 'carrito')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($orders);
+    }
+
+    // Admin: Ver detalle de un pedido
+    public function adminShow($id)
+    {
+        $order = Order::with([
+            'user',
+            'direction',
+            'facturation',
+            'details'
+        ])->findOrFail($id);
+
+        // Cargar productos de los detalles
+        $order->details->each(function ($detail) {
+            if ($detail->product_type === Product::class) {
+                $detail->setRelation('product', Product::with('images')->find($detail->product_id));
+            } elseif ($detail->product_type === Pack::class) {
+                $detail->setRelation('product', Pack::with('images')->find($detail->product_id));
+            }
+        });
+
+        return response()->json($order);
+    }
+
+    // Admin: Actualizar estado del pedido
+    public function adminUpdateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:pendiente,enviado,en camino,recibido'
+        ]);
+
+        $order = Order::findOrFail($id);
+        $order->update(['status' => $request->status]);
+
+        return response()->json([
+            'message' => 'Estado actualizado correctamente',
+            'order' => $order
+        ]);
+    }
     public function addToCart(Request $request)
     {
         $request->validate([

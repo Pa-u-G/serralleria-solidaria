@@ -38,6 +38,8 @@ import PacksPage from './pages/store/packs/PacksPage';
 import PackPage from './pages/store/packs/PackPage';
 
 import CartPage from './pages/store/cart/CartPage';
+import Orders from "./pages/orders/Orders";
+import OrderDetail from "./pages/orders/OrderDetail";
 
 function App() {
   return (
@@ -151,6 +153,16 @@ function App() {
             <Route path="/admin/settings" element={
               <ProtectedRoute allowedRoles={['admin']}>
                 <Settings />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/orders" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <Orders />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/orders/:id" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <OrderDetail />
               </ProtectedRoute>
             } />
 
