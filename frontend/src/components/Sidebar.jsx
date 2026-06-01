@@ -10,6 +10,7 @@ function Sidebar() {
       <Link className="hover:bg-[#F07057] p-2 rounded" to="/admin/caracteristicas">Caracteristicas</Link>
       <Link className="hover:bg-[#F07057] p-2 rounded" to="/admin/packs">Packs</Link>
       <Link className="hover:bg-[#F07057] p-2 rounded" to="/admin/solutions">Solucions</Link>
+      <Link className="hover:bg-[#F07057] p-2 rounded" to="/admin/settings">Precios de instalacion</Link>
     </aside>
   );
 }
