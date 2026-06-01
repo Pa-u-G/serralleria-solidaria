@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('status', 255);
             $table->boolean("install")->default(false);
-            $table->decimal('total_price', 8, 2);
+            $table->decimal('total_price', 8, 2)->nullable();
             $table->timestamps();
             
             
