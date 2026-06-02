@@ -112,7 +112,7 @@ function Navbar() {
           <img src={logoPequeño} alt="logo" className="logo-mobile" onClick={() => navigate("/")} />
         </div>
 
-        <button ref={hamburgerRef} className="hamburger" onClick={toggleMobileMenu}>
+        <button aria-label="Menú" ref={hamburgerRef} className="hamburger" onClick={toggleMobileMenu}>
           <span></span><span></span><span></span>
         </button>
 

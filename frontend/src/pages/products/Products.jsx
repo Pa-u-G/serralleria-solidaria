@@ -166,13 +166,13 @@ function Products() {
                 </td>
 
                 <td className="p-4 flex gap-3 justify-center">
-                  <button onClick={() => navigate(`/admin/products/edit/${product.id}`)} className="text-[#F07057] cursor-pointer">
+                  <button aria-label="Editar producte" onClick={() => navigate(`/admin/products/edit/${product.id}`)} className="text-[#F07057] cursor-pointer">
                     <svg className="w-6 h-6">
                       <use href="#icon-square-pen"></use>
                     </svg>
                   </button>
 
-                  <button onClick={() => toggleStatus(product.id)} className={`${product.status ? "bg-red-500" : "bg-green-500"} text-white px-2 py-1 rounded cursor-pointer`}>
+                  <button aria-label={product.status ? "Desactivar producte" : "Activar producte"} onClick={() => toggleStatus(product.id)} className={`${product.status ? "bg-red-500" : "bg-green-500"} text-white px-2 py-1 rounded cursor-pointer`}>
                     {product.status ? "Desactivar" : "Activa"}
                   </button>
                 </td>
