@@ -55,13 +55,24 @@ function App() {
             {/* RUTES PÚBLIQUES (tothom pot veure) */}
             <Route path="/" element={<DashboardTienda />} />
             <Route path="/category/:id" element={<CategoryPage />} />
+            <Route path="/product/:id" element={< ProductPage />}/>
+            <Route path="/products/" element={< ProductsPage />}/>
             <Route path="/solutions" element={<Solutions />} />
+            <Route path="/packs" element={<PacksPage />} />
+            <Route path="/pack/:id" element={<PackPage />} />
             
             {/* RUTES DE LOGIN I REGISTER */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} /> {/* ← AFEGIR AIXÒ */}
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+
+            {/* RUTA CARRITO */}
+            <Route path="/carrito" element={
+              <ProtectedRoute allowedRoles={['cliente', 'admin']}>
+                <CartPage />
+              </ProtectedRoute>
+            } />
             
             {/* RUTES PROTEGIDES D'ADMIN (només admin) */}
             <Route path="/admin" element={
