@@ -30,7 +30,9 @@ import PerfilCliente from "./pages/store/perfil/Perfil";
 // Altres
 import Icons from "./assets/icons";
 import Login from "./pages/login/Login";
-import Register from "./pages/login/Register"; // ← AFEGIR AIXÒ
+import Register from "./pages/login/Register";
+import ForgotPassword from "./pages/login/ForgotPassword";
+import ResetPassword from "./pages/login/ResetPassword";
 
 import ProductPage from './pages/store/products/ProductPage'
 import ProductsPage from './pages/store/products/Products';
@@ -38,36 +40,28 @@ import PacksPage from './pages/store/packs/PacksPage';
 import PackPage from './pages/store/packs/PackPage';
 
 import CartPage from './pages/store/cart/CartPage';
+import Orders from "./pages/orders/Orders";
+import OrderDetail from "./pages/orders/OrderDetail";
+import MyOrders from "./pages/store/compras/MyOrders";
+import MyOrderDetail from "./pages/store/compras/MyOrderDetail";
 
 function App() {
   return (
     <AuthProvider>
       <CartProvider>
-
         <Icons />
         <BrowserRouter>
           <Routes>
             {/* RUTES PÚBLIQUES (tothom pot veure) */}
             <Route path="/" element={<DashboardTienda />} />
             <Route path="/category/:id" element={<CategoryPage />} />
-            <Route path="/product/:id" element={< ProductPage />}/>
-            <Route path="/products/" element={< ProductsPage />}/>
             <Route path="/solutions" element={<Solutions />} />
-            <Route path="/packs" element={<PacksPage />} />
-            <Route path="/pack/:id" element={<PackPage />} />
             
             {/* RUTES DE LOGIN I REGISTER */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} /> {/* ← AFEGIR AIXÒ */}
-
-
-            {/* RUTA CARRITO */}
-            <Route path="/carrito" element={
-              <ProtectedRoute allowedRoles={['cliente', 'admin']}>
-                <CartPage />
-              </ProtectedRoute>
-            } />
-
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             
             {/* RUTES PROTEGIDES D'ADMIN (només admin) */}
             <Route path="/admin" element={
@@ -153,11 +147,31 @@ function App() {
                 <Settings />
               </ProtectedRoute>
             } />
+            <Route path="/admin/orders" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <Orders />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/orders/:id" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <OrderDetail />
+              </ProtectedRoute>
+            } />
 
             {/* RUTES PROTEGIDES DE CLIENT (qualsevol usuari loguejat) */}
             <Route path="/perfil" element={
               <ProtectedRoute allowedRoles={['cliente', 'admin']}>
                 <PerfilCliente />
+              </ProtectedRoute>
+            } />
+            <Route path="/my-orders" element={
+              <ProtectedRoute allowedRoles={['cliente', 'admin']}>
+                <MyOrders />
+              </ProtectedRoute>
+            } />
+            <Route path="/my-orders/:id" element={
+              <ProtectedRoute allowedRoles={['cliente', 'admin']}>
+                <MyOrderDetail />
               </ProtectedRoute>
             } />
 
