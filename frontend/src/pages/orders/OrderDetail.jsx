@@ -14,10 +14,10 @@ function OrderDetail() {
   const [selectedStatus, setSelectedStatus] = useState("");
 
   const statusOptions = [
-    { value: "pendiente", label: "Pendiente", color: "#d97706", bg: "#fef3c7" },
-    { value: "enviado", label: "Enviado", color: "#2563eb", bg: "#dbeafe" },
-    { value: "en camino", label: "En camino", color: "#7c3aed", bg: "#ede9fe" },
-    { value: "recibido", label: "Recibido / Finalizado", color: "#059669", bg: "#d1fae5" }
+    { value: "pendiente", label: "Pendent", color: "#d97706", bg: "#fef3c7" },
+    { value: "enviado", label: "Enviat", color: "#2563eb", bg: "#dbeafe" },
+    { value: "en camino", label: "En camí", color: "#7c3aed", bg: "#ede9fe" },
+    { value: "recibido", label: "Rebut / Finalitzat", color: "#059669", bg: "#d1fae5" }
   ];
 
   useEffect(() => {
@@ -30,7 +30,7 @@ function OrderDetail() {
       setOrder(response.data);
       setSelectedStatus(response.data.status);
     } catch (error) {
-      console.error("Error cargando el pedido:", error);
+      console.error("Error carregant la comanda:", error);
       if (error.response?.status === 404) {
         navigate("/admin/orders");
       }
@@ -48,7 +48,7 @@ function OrderDetail() {
       setSelectedStatus(newStatus);
       setOrder({ ...order, status: newStatus });
     } catch (error) {
-      console.error("Error actualizando el estado:", error);
+      console.error("Error actualitzant l'estat:", error);
     } finally {
       setUpdating(false);
     }
@@ -56,7 +56,7 @@ function OrderDetail() {
 
   const formatDate = (date) => {
     if (!date) return "-";
-    return new Date(date).toLocaleString("es-ES");
+    return new Date(date).toLocaleString("ca-ES");
   };
 
   const getStatusStyle = (status) => {
@@ -75,7 +75,7 @@ function OrderDetail() {
   if (loading) {
     return (
       <MainLayout>
-        <div className={styles.loading}>Cargando detalles del pedido...</div>
+        <div className={styles.loading}>Carregant detalls de la comanda...</div>
       </MainLayout>
     );
   }
@@ -84,8 +84,8 @@ function OrderDetail() {
     return (
       <MainLayout>
         <div className={styles.notFound}>
-          <h2>No se ha encontrado el pedido</h2>
-          <Link to="/admin/orders">Volver al listado</Link>
+          <h2>No s'ha trobat la comanda</h2>
+          <Link to="/admin/orders">Tornar al llistat</Link>
         </div>
       </MainLayout>
     );
@@ -99,26 +99,26 @@ function OrderDetail() {
       <div className={styles.detailContainer}>
         <div className={styles.header}>
           <Link to="/admin/orders" className={styles.backButton}>
-            ← Volver al listado
+            ← Tornar al llistat
           </Link>
-          <h1>Pedido #{order.id}</h1>
+          <h1>Comanda #{order.id}</h1>
         </div>
 
         <div className={styles.content}>
-          {/* Información del pedido */}
+          {/* Informació de la comanda */}
           <div className={styles.card}>
-            <h2>Información del pedido</h2>
+            <h2>Informació de la comanda</h2>
             <div className={styles.infoGrid}>
               <div className={styles.infoItem}>
-                <label>Fecha del pedido:</label>
+                <label>Data de la comanda:</label>
                 <p>{formatDate(order.created_at)}</p>
               </div>
               <div className={styles.infoItem}>
-                <label>Instalación solicitada:</label>
+                <label>Instal·lació sol·licitada:</label>
                 <p>{order.install ? "✓ Sí" : "✗ No"}</p>
               </div>
               <div className={styles.infoItem}>
-                <label>Cliente:</label>
+                <label>Client:</label>
                 <p>{order.user?.name || "-"}</p>
               </div>
               <div className={styles.infoItem}>
@@ -128,17 +128,17 @@ function OrderDetail() {
             </div>
           </div>
 
-          {/* Productos del pedido */}
+          {/* Productes de la comanda */}
           <div className={styles.card}>
-            <h2>Productos / Packs</h2>
+            <h2>Productes / Packs</h2>
             <div className={styles.productsTable}>
               <table>
                 <thead>
                   <tr>
-                    <th>Producto</th>
-                    <th>Tipo</th>
-                    <th>Precio unitario</th>
-                    <th>Cantidad</th>
+                    <th>Producte</th>
+                    <th>Tipus</th>
+                    <th>Preu unitari</th>
+                    <th>Quantitat</th>
                     <th>Extra keys</th>
                     <th>Subtotal</th>
                   </tr>
@@ -152,7 +152,7 @@ function OrderDetail() {
                         <td>{detail.product?.name || "-"}</td>
                         <td>
                           <span className={detail.product_type === "App\\Models\\Product" ? styles.productType : styles.packType}>
-                            {detail.product_type === "App\\Models\\Product" ? "Producto" : "Pack"}
+                            {detail.product_type === "App\\Models\\Product" ? "Producte" : "Pack"}
                           </span>
                         </td>
                         <td>€{price.toFixed(2)}</td>
@@ -173,12 +173,12 @@ function OrderDetail() {
             </div>
           </div>
 
-          {/* Direcciones */}
+          {/* Adreces */}
           <div className={styles.card}>
-            <h2>Direcciones</h2>
+            <h2>Adreces</h2>
             <div className={styles.addressesGrid}>
               <div className={styles.addressBox}>
-                <h3>📦 Dirección de envío</h3>
+                <h3>📦 Adreça d'enviament</h3>
                 <p>{order.direction?.name} {order.direction?.surnames}</p>
                 <p>{order.direction?.address}</p>
                 <p>{order.direction?.postal_code} - {order.direction?.city}</p>
@@ -186,7 +186,7 @@ function OrderDetail() {
                 <p>NIF: {order.direction?.nif}</p>
               </div>
               <div className={styles.addressBox}>
-                <h3>💰 Dirección de facturación</h3>
+                <h3>💰 Adreça de facturació</h3>
                 <p>{order.facturation?.name} {order.facturation?.surnames}</p>
                 <p>{order.facturation?.address}</p>
                 <p>{order.facturation?.postal_code} - {order.facturation?.city}</p>
@@ -196,19 +196,19 @@ function OrderDetail() {
             </div>
           </div>
 
-          {/* Estado */}
+          {/* Estat */}
           <div className={styles.card}>
-            <h2>Estado del pedido</h2>
+            <h2>Estat de la comanda</h2>
             <div className={styles.statusSection}>
               <div 
                 className={styles.currentStatus}
                 style={{ backgroundColor: statusStyle.bg, color: statusStyle.color }}
               >
-                Estado actual: {statusStyle.label}
+                Estat actual: {statusStyle.label}
               </div>
               
               <div className={styles.statusOptions}>
-                <label>Cambiar estado:</label>
+                <label>Canviar estat:</label>
                 <div className={styles.statusButtons}>
                   {statusOptions.map((option) => (
                     <button

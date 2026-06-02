@@ -1,7 +1,7 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
-// Datos de la serrallería
+// Dades de la serralleria
 const SERRALLERIA = {
   name: "Serralleria Solidària",
   address: "Carrer Major 123",
@@ -15,7 +15,7 @@ export const generateAlbaranPDF = (order) => {
   try {
     const doc = new jsPDF();
     
-    // Cabecera
+    // Capçalera
     doc.setFontSize(20);
     doc.setTextColor(240, 112, 87);
     doc.text("ALBARÀ", 14, 20);
@@ -23,9 +23,9 @@ export const generateAlbaranPDF = (order) => {
     doc.setFontSize(10);
     doc.setTextColor(100, 100, 100);
     doc.text(`Núm. Comanda: #${order.id}`, 14, 30);
-    doc.text(`Data: ${new Date(order.created_at).toLocaleDateString("es-ES")}`, 14, 36);
+    doc.text(`Data: ${new Date(order.created_at).toLocaleDateString("ca-ES")}`, 14, 36);
 
-    // Vendedor
+    // Venedor
     doc.setFontSize(10);
     doc.setTextColor(0, 0, 0);
     doc.setFont("helvetica", "bold");
@@ -37,7 +37,7 @@ export const generateAlbaranPDF = (order) => {
     doc.text(`Tel: ${SERRALLERIA.phone}`, 14, 72);
     doc.text(`NIF: ${SERRALLERIA.nif}`, 14, 78);
 
-    // Cliente
+    // Client
     doc.setFont("helvetica", "bold");
     doc.text("CLIENT:", 14, 90);
     doc.setFont("helvetica", "normal");
@@ -46,7 +46,7 @@ export const generateAlbaranPDF = (order) => {
     doc.text(`Ciutat: ${order.direction?.city || "-"}`, 14, 108);
     doc.text(`NIF: ${order.direction?.nif || "-"}`, 14, 114);
 
-    // Tabla de productos
+    // Taula de productes
     const tableColumn = ["Producte", "Qtat", "Preu", "Extra", "Subtotal"];
     const tableRows = [];
 
@@ -84,7 +84,7 @@ export const generateAlbaranPDF = (order) => {
       margin: { left: 14, right: 14 },
     });
 
-    // Instalación
+    // Instal·lació
     if (order.install) {
       const finalY = doc.lastAutoTable.finalY + 10;
       doc.setFont("helvetica", "bold");
@@ -92,7 +92,7 @@ export const generateAlbaranPDF = (order) => {
       doc.text("INSTAL·LACIÓ SOL·LICITADA", 14, finalY);
       doc.setFont("helvetica", "normal");
       doc.setTextColor(0, 0, 0);
-      doc.text("L'instal·lació es realitzarà a l'adreça indicada pel client.", 14, finalY + 6);
+      doc.text("La instal·lació es realitzarà a l'adreça indicada pel client.", 14, finalY + 6);
     }
 
     // Guardar
@@ -100,6 +100,6 @@ export const generateAlbaranPDF = (order) => {
     
   } catch (error) {
     console.error("Error:", error);
-    alert("Error al generar el PDF: " + error.message);
+    alert("Error en generar el PDF: " + error.message);
   }
 };

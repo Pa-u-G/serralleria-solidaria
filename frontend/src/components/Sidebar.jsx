@@ -7,11 +7,11 @@ function Sidebar() {
       <Link className="hover:bg-[#F07057] p-2 rounded" to="/admin/">Dashboard</Link>
       <Link className="hover:bg-[#F07057] p-2 rounded" to="/admin/categories">Categories</Link>
       <Link className="hover:bg-[#F07057] p-2 rounded" to="/admin/products">Productes</Link>
-      <Link className="hover:bg-[#F07057] p-2 rounded" to="/admin/caracteristicas">Caracteristicas</Link>
+      <Link className="hover:bg-[#F07057] p-2 rounded" to="/admin/caracteristicas">Característiques</Link>
       <Link className="hover:bg-[#F07057] p-2 rounded" to="/admin/packs">Packs</Link>
       <Link className="hover:bg-[#F07057] p-2 rounded" to="/admin/solutions">Solucions</Link>
-      <Link className="hover:bg-[#F07057] p-2 rounded" to="/admin/orders">Pedidos</Link>
-      <Link className="hover:bg-[#F07057] p-2 rounded" to="/admin/settings">Configuracion</Link>
+      <Link className="hover:bg-[#F07057] p-2 rounded" to="/admin/orders">Comandes</Link>
+      <Link className="hover:bg-[#F07057] p-2 rounded" to="/admin/settings">Configuració</Link>
     </aside>
   );
 }

@@ -18,7 +18,7 @@ function Orders() {
       const response = await axios.get("http://localhost:8000/api/admin/orders");
       setOrders(response.data);
     } catch (error) {
-      console.error("Error cargando pedidos:", error);
+      console.error("Error carregant comandes:", error);
     } finally {
       setLoading(false);
     }
@@ -28,7 +28,7 @@ function Orders() {
     navigate(`/admin/orders/${id}`);
   };
 
-  // Función para obtener la clase del estado
+  // Funció per obtenir la classe de l'estat
   const getStatusClass = (status) => {
     const statusMap = {
       "pendiente": "pending",
@@ -39,27 +39,27 @@ function Orders() {
     return statusMap[status] || "pending";
   };
 
-  // Traducción del estado para mostrar
+  // Traducció de l'estat per mostrar
   const getStatusText = (status) => {
     const statusMap = {
-      "pendiente": "Pendiente",
-      "enviado": "Enviado",
-      "en camino": "En camino",
-      "recibido": "Recibido / Finalizado"
+      "pendiente": "Pendent",
+      "enviado": "Enviat",
+      "en camino": "En camí",
+      "recibido": "Rebut / Finalitzat"
     };
     return statusMap[status] || status;
   };
 
-  // Formatear fecha
+  // Formatar data
   const formatDate = (date) => {
     if (!date) return "-";
-    return new Date(date).toLocaleDateString("es-ES");
+    return new Date(date).toLocaleDateString("ca-ES");
   };
 
   if (loading) {
     return (
       <MainLayout>
-        <div className={styles.loading}>Cargando pedidos...</div>
+        <div className={styles.loading}>Carregant comandes...</div>
       </MainLayout>
     );
   }
@@ -68,22 +68,22 @@ function Orders() {
     <MainLayout>
       <div className={styles["orders-table-container"]}>
         <div className={styles["orders-header"]}>
-          <h1>Gestión de Pedidos</h1>
+          <h1>Gestió de Comandes</h1>
         </div>
 
         <div className={styles["orders-table"]}>
-          {/* Cabecera */}
+          {/* Capçalera */}
           <div className={styles["orders-table__header"]}>
             <div className={styles["orders-table__cell"]}>ID</div>
-            <div className={styles["orders-table__cell"]}>Cliente</div>
+            <div className={styles["orders-table__cell"]}>Client</div>
             <div className={styles["orders-table__cell"]}>Email</div>
             <div className={styles["orders-table__cell"]}>Total</div>
-            <div className={styles["orders-table__cell"]}>Instalación</div>
-            <div className={styles["orders-table__cell"]}>Fecha</div>
-            <div className={styles["orders-table__cell"]}>Estado</div>
+            <div className={styles["orders-table__cell"]}>Instal·lació</div>
+            <div className={styles["orders-table__cell"]}>Data</div>
+            <div className={styles["orders-table__cell"]}>Estat</div>
           </div>
 
-          {/* Cuerpo de la tabla */}
+          {/* Cos de la taula */}
           <div className={styles["orders-table__body"]}>
             {orders.length > 0 ? (
               orders.map(order => (
@@ -113,7 +113,7 @@ function Orders() {
               ))
             ) : (
               <div className={styles["orders-table__empty"]}>
-                No hay pedidos para mostrar
+                No hi ha comandes per mostrar
               </div>
             )}
           </div>
