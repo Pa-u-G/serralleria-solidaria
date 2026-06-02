@@ -38,6 +38,10 @@ import PacksPage from './pages/store/packs/PacksPage';
 import PackPage from './pages/store/packs/PackPage';
 
 import CartPage from './pages/store/cart/CartPage';
+import Orders from "./pages/orders/Orders";
+import OrderDetail from "./pages/orders/OrderDetail";
+import MyOrders from "./pages/store/compras/MyOrders";
+import MyOrderDetail from "./pages/store/compras/MyOrderDetail";
 
 function App() {
   return (
@@ -153,11 +157,31 @@ function App() {
                 <Settings />
               </ProtectedRoute>
             } />
+            <Route path="/admin/orders" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <Orders />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/orders/:id" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <OrderDetail />
+              </ProtectedRoute>
+            } />
 
             {/* RUTES PROTEGIDES DE CLIENT (qualsevol usuari loguejat) */}
             <Route path="/perfil" element={
               <ProtectedRoute allowedRoles={['cliente', 'admin']}>
                 <PerfilCliente />
+              </ProtectedRoute>
+            } />
+            <Route path="/my-orders" element={
+              <ProtectedRoute allowedRoles={['cliente', 'admin']}>
+                <MyOrders />
+              </ProtectedRoute>
+            } />
+            <Route path="/my-orders/:id" element={
+              <ProtectedRoute allowedRoles={['cliente', 'admin']}>
+                <MyOrderDetail />
               </ProtectedRoute>
             } />
 

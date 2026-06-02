@@ -203,7 +203,7 @@ function Navbar() {
                 
                 <div className="dropdown-item" onClick={() => {
                   setUserMenuOpen(false);
-                  navigate('/mis-compras');
+                  navigate('/my-orders');
                 }}>
                   <svg className="icon">
                     <use href="#icon-document"></use>

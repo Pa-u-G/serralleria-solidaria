@@ -14,7 +14,7 @@ import {
   Legend,
 } from "chart.js";
 
-// Registrar componentes de Chart.js
+// Registrar components de Chart.js
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -32,39 +32,39 @@ function Dashboard() {
   const [packs, setPacks] = useState([]);
 
   useEffect(() => {
-    // Cargar productos
+    // Carregar productes
     axios.get("http://localhost:8000/api/products")
       .then(res => setProducts(res.data))
       .catch(err => console.log(err));
     
-    // Cargar categorías
+    // Carregar categories
     axios.get("http://localhost:8000/api/categories")
       .then(res => setCategories(res.data))
       .catch(err => console.log(err));
 
-    // Cargar packs (si tienes endpoint)
+    // Carregar packs
     axios.get("http://localhost:8000/api/packs")
       .then(res => setPacks(res.data))
       .catch(err => console.log(err));
   }, []);
 
-  // Calcular estadísticas
+  // Calcular estadístiques
   const totalProducts = products.length;
   const activeProducts = products.filter(p => p.status == 1 || p.status === true).length;
   const inactiveProducts = products.filter(p => p.status == 0 || p.status === false).length;
   const totalPacks = packs.length;
   
-  // Productos con stock bajo (<= 5)
+  // Productes amb stock baix (<= 5)
   const lowStockProducts = products.filter(p => p.stock <= 5);
   const lowStockCount = lowStockProducts.length;
 
-  // Productos destacados (star = true)
+  // Productes destacats (star = true)
   const starredProducts = products.filter(p => p.star === true).length;
 
-  // Valor real del inventario total (precio × stock)
+  // Valor real de l'inventari total (preu × stock)
   const totalInventoryValue = products.reduce((sum, p) => sum + (p.price * p.stock), 0);
 
-  // Datos por categoría
+  // Dades per categoria
   const categoryData = categories.map(cat => {
     const productsInCategory = products.filter(p => p.category_id === cat.id);
     const productCount = productsInCategory.length;
@@ -76,12 +76,12 @@ function Dashboard() {
     };
   }).filter(cat => cat.count > 0);
 
-  // GRÁFICO 1: Productos por Categoría (Pastel)
+  // GRÀFIC 1: Productes per Categoria (Pastís)
   const categoryChartData = {
     labels: categoryData.map(cat => cat.name),
     datasets: [
       {
-        label: 'Número de Productos',
+        label: 'Nombre de Productes',
         data: categoryData.map(cat => cat.count),
         backgroundColor: [
           '#F07057',
@@ -109,7 +109,7 @@ function Dashboard() {
       },
       title: {
         display: true,
-        text: 'Productos por Categoría',
+        text: 'Productes per Categoria',
         font: {
           size: 16,
           weight: 'bold',
@@ -118,19 +118,19 @@ function Dashboard() {
       tooltip: {
         callbacks: {
           label: function(context) {
-            return `${context.label}: ${context.raw} productos`;
+            return `${context.label}: ${context.raw} productes`;
           }
         }
       }
     },
   };
 
-  // GRÁFICO 2: Valor del Inventario por Categoría (Barras verticales)
+  // GRÀFIC 2: Valor de l'Inventari per Categoria (Barres)
   const inventoryChartData = {
     labels: categoryData.map(cat => cat.name),
     datasets: [
       {
-        label: 'Valor del Inventario (€)',
+        label: "Valor de l'Inventari (€)",
         data: categoryData.map(cat => cat.value),
         backgroundColor: '#F07057',
         borderRadius: 8,
@@ -148,7 +148,7 @@ function Dashboard() {
       },
       title: {
         display: true,
-        text: 'Valor del Inventario por Categoría',
+        text: "Valor de l'Inventari per Categoria",
         font: {
           size: 16,
           weight: 'bold',
@@ -177,7 +177,7 @@ function Dashboard() {
       x: {
         title: {
           display: true,
-          text: 'Categorías',
+          text: 'Categories',
         }
       }
     }
@@ -185,8 +185,8 @@ function Dashboard() {
 
   const get_status = (stock) => {
     const status = 
-      stock <= 5 ? { text: "Crítico", color: "text-red-600", bg: "bg-red-100" } :
-      stock <= 15 ? { text: "Bajo", color: "text-orange-500", bg: "bg-orange-100" } :
+      stock <= 5 ? { text: "Crític", color: "text-red-600", bg: "bg-red-100" } :
+      stock <= 15 ? { text: "Baix", color: "text-orange-500", bg: "bg-orange-100" } :
       { text: "Normal", color: "text-green-600", bg: "bg-green-100" };
     return status;
   };
@@ -194,16 +194,16 @@ function Dashboard() {
   return (
     <MainLayout>
       <h1 className="text-4xl font-bold text-[#F07057] mb-2">Dashboard</h1>
-      <p className="text-gray-600 mb-6">Bienvenido al panel de control de Serrallería Solidaria</p>
+      <p className="text-gray-600 mb-6">Benvingut al panell de control de Serralleria Solidària</p>
 
-      {/* Tarjetas de estadísticas */}
+      {/* Targetes d'estadístiques */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-[#F07057]">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-gray-500 text-sm mb-1">Valor del Inventario</p>
+              <p className="text-gray-500 text-sm mb-1">Valor de l'Inventari</p>
               <p className="text-3xl font-bold text-gray-800">€{totalInventoryValue.toLocaleString()}</p>
-              <p className="text-gray-500 text-sm mt-2">{totalProducts} productos en stock</p>
+              <p className="text-gray-500 text-sm mt-2">{totalProducts} productes en stock</p>
             </div>
             <div className="bg-[#F07057]/10 p-3 rounded-full">
               <svg className="w-6 h-6 text-[#F07057]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -216,9 +216,9 @@ function Dashboard() {
         <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-gray-500 text-sm mb-1">Productos Totales</p>
+              <p className="text-gray-500 text-sm mb-1">Productes Totals</p>
               <p className="text-3xl font-bold text-gray-800">{totalProducts}</p>
-              <p className="text-green-600 text-sm mt-2">{activeProducts} activos · {inactiveProducts} inactivos</p>
+              <p className="text-green-600 text-sm mt-2">{activeProducts} actius · {inactiveProducts} inactius</p>
             </div>
             <div className="bg-blue-500/10 p-3 rounded-full">
               <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -231,9 +231,9 @@ function Dashboard() {
         <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-gray-500 text-sm mb-1">Packs Activos</p>
+              <p className="text-gray-500 text-sm mb-1">Packs Actius</p>
               <p className="text-3xl font-bold text-gray-800">{totalPacks}</p>
-              <p className="text-gray-500 text-sm mt-2">{starredProducts} productos destacados</p>
+              <p className="text-gray-500 text-sm mt-2">{starredProducts} productes destacats</p>
             </div>
             <div className="bg-purple-500/10 p-3 rounded-full">
               <svg className="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -246,9 +246,9 @@ function Dashboard() {
         <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-red-500">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-gray-500 text-sm mb-1">Stock Bajo</p>
+              <p className="text-gray-500 text-sm mb-1">Stock Baix</p>
               <p className="text-3xl font-bold text-gray-800">{lowStockCount}</p>
-              <p className="text-red-600 text-sm mt-2">Requiere atención</p>
+              <p className="text-red-600 text-sm mt-2">Requereix atenció</p>
             </div>
             <div className="bg-red-500/10 p-3 rounded-full">
               <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -259,46 +259,46 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* GRÁFICO 1: Productos por Categoría (Pastel) */}
+      {/* GRÀFIC 1: Productes per Categoria (Pastís) */}
       <div className="bg-white p-6 rounded-xl shadow-md mb-8">
         <div className="h-96">
           {categoryData.length > 0 ? (
             <Pie data={categoryChartData} options={categoryChartOptions} />
           ) : (
             <div className="flex items-center justify-center h-full text-gray-500">
-              No hay datos de categorías para mostrar
+              No hi ha dades de categories per mostrar
             </div>
           )}
         </div>
       </div>
 
-      {/* GRÁFICO 2: Valor del Inventario por Categoría (Barras) */}
+      {/* GRÀFIC 2: Valor de l'Inventari per Categoria (Barres) */}
       <div className="bg-white p-6 rounded-xl shadow-md mb-8">
         <div className="h-96">
           {categoryData.length > 0 ? (
             <Bar data={inventoryChartData} options={inventoryChartOptions} />
           ) : (
             <div className="flex items-center justify-center h-full text-gray-500">
-              No hay datos de inventario para mostrar
+              No hi ha dades d'inventari per mostrar
             </div>
           )}
         </div>
       </div>
 
-      {/* Tabla de productos con stock bajo */}
+      {/* Taula de productes amb stock baix */}
       <div className="bg-white p-6 rounded-xl shadow-md">
         <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
           <span className="w-2 h-2 bg-red-500 rounded-full"></span>
-          Productos con Stock Bajo
+          Productes amb Stock Baix
         </h2>
         <div className="overflow-x-auto">
           <table className="min-w-full text-left border-collapse">
             <thead className="bg-gray-50 text-gray-600">
               <tr>
-                <th className="p-3 font-medium">Producto</th>
-                <th className="p-3 font-medium">Categoría</th>
+                <th className="p-3 font-medium">Producte</th>
+                <th className="p-3 font-medium">Categoria</th>
                 <th className="p-3 font-medium">Stock</th>
-                <th className="p-3 font-medium">Estado</th>
+                <th className="p-3 font-medium">Estat</th>
               </tr>
             </thead>
             <tbody>
@@ -309,19 +309,19 @@ function Dashboard() {
                     <tr key={product.id} className="border-b border-gray-300 hover:bg-gray-50">
                       <td className="p-3 font-medium text-gray-800">{product.name}</td>
                       <td className="p-3 text-gray-500">{product.category?.name}</td>
-                      <td className={`p-3 font-semibold ${status.color}`}>{product.stock} unidades</td>
+                      <td className={`p-3 font-semibold ${status.color}`}>{product.stock} unitats</td>
                       <td className="p-3">
                         <span className={`${status.bg} ${status.color} px-3 py-1 rounded-full text-sm font-medium`}>
                           {status.text}
                         </span>
-                      </td>
-                    </tr>
+                       </td>
+                     </tr>
                   );
                 })
               ) : (
                 <tr>
                   <td colSpan="4" className="p-8 text-center text-gray-500">
-                    No hay productos con stock bajo
+                    No hi ha productes amb stock baix
                   </td>
                 </tr>
               )}

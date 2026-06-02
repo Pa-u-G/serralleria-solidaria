@@ -59,6 +59,9 @@ Route::middleware('api.token')->group(function () {
     Route::delete('/cart/detail/{id}',         [OrderController::class, 'removeDetail']);
     Route::post('/cart/checkout',              [OrderController::class, 'checkout']);
 
+    // Pedidos (Cliente - ver sus propios pedidos)
+    Route::get('/my-orders', [OrderController::class, 'myOrders']);
+    Route::get('/my-orders/{id}', [OrderController::class, 'myOrderDetail']);
     // ----------------------------------------- ADMIN ----------------------------------------- //
     
     // Categories (Admin)
@@ -101,5 +104,10 @@ Route::middleware('api.token')->group(function () {
     // precios de envio|instalacion
     Route::get('/settings', [SettingController::class, 'index']);
     Route::put('/settings/{id}', [SettingController::class, 'update']);
+    
+    // Pedidos (Admin)
+    Route::get('/admin/orders', [OrderController::class, 'adminIndex']);
+    Route::get('/admin/orders/{id}', [OrderController::class, 'adminShow']);
+    Route::put('/admin/orders/{id}', [OrderController::class, 'adminUpdateStatus']);
     
 });
