@@ -46,6 +46,41 @@ class OrderController extends Controller
 
         return response()->json($order);
     }
+    // Cliente: Listar sus propios pedidos (excepto carrito)
+    public function myOrders(Request $request)
+    {
+        $orders = Order::with(['direction', 'facturation'])
+            ->where('user_id', $request->user()->id)
+            ->where('status', '!=', 'carrito')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($orders);
+    }
+
+    // Cliente: Ver detalle de un pedido suyo
+    public function myOrderDetail(Request $request, $id)
+    {
+        $order = Order::with([
+            'direction',
+            'facturation',
+            'details'
+        ])
+        ->where('user_id', $request->user()->id)
+        ->where('id', $id)
+        ->firstOrFail();
+
+        // Cargar productos de los detalles
+        $order->details->each(function ($detail) {
+            if ($detail->product_type === Product::class) {
+                $detail->setRelation('product', Product::with('images')->find($detail->product_id));
+            } elseif ($detail->product_type === Pack::class) {
+                $detail->setRelation('product', Pack::with('images')->find($detail->product_id));
+            }
+        });
+
+        return response()->json($order);
+    }
 
     // Admin: Actualizar estado del pedido
     public function adminUpdateStatus(Request $request, $id)

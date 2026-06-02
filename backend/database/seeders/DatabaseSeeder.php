@@ -25,8 +25,6 @@ class DatabaseSeeder extends Seeder
             Characteristics_typeSeeder::class,
             CharacteristicSeeder::class,
             SettingsSeeder::class,
-            DirectionsSeeder::class,
-            OrdersSeeder::class,
             //Espai per posar altres seeders
         ]);
     }

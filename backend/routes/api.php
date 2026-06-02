@@ -59,6 +59,9 @@ Route::middleware('api.token')->group(function () {
     Route::delete('/cart/detail/{id}',         [OrderController::class, 'removeDetail']);
     Route::post('/cart/checkout',              [OrderController::class, 'checkout']);
 
+    // Pedidos (Cliente - ver sus propios pedidos)
+    Route::get('/my-orders', [OrderController::class, 'myOrders']);
+    Route::get('/my-orders/{id}', [OrderController::class, 'myOrderDetail']);
     // ----------------------------------------- ADMIN ----------------------------------------- //
     
     // Categories (Admin)

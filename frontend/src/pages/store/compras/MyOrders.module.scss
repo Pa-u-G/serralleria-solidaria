@@ -1,0 +1,113 @@
+.orders-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
+}
+
+.orders-table {
+  background: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  &__header {
+    display: grid;
+    grid-template-columns: 0.8fr 1.5fr 1fr 1fr 1.5fr;
+    background: #f1f5f9;
+    padding: 1rem;
+    font-weight: 600;
+    color: #475569;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 0.8fr 1.5fr 1fr 1fr 1.5fr;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-bottom: 1px solid #f1f5f9;
+
+    &:hover {
+      background-color: #f8fafc;
+      transform: translateX(5px);
+    }
+
+    &.row--pending {
+      border-left: 4px solid #f59e0b;
+    }
+    &.row--shipped {
+      border-left: 4px solid #3b82f6;
+    }
+    &.row--in_transit {
+      border-left: 4px solid #8b5cf6;
+    }
+    &.row--delivered {
+      border-left: 4px solid #10b981;
+    }
+  }
+}
+
+.status {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+
+  &--pendiente {
+    background-color: #fef3c7;
+    color: #d97706;
+  }
+  &--enviado {
+    background-color: #dbeafe;
+    color: #2563eb;
+  }
+  &--en_camino {
+    background-color: #ede9fe;
+    color: #7c3aed;
+  }
+  &--recibido {
+    background-color: #d1fae5;
+    color: #059669;
+  }
+}
+
+.empty {
+  text-align: center;
+  padding: 3rem;
+  background: white;
+  border-radius: 1rem;
+  
+  p {
+    color: #64748b;
+    margin-bottom: 1rem;
+  }
+}
+
+.shopBtn {
+  background-color: #F07057;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem;
+  color: #64748b;
+}

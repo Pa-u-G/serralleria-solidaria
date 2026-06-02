@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import MainLayout from "../../layouts/Main_layout";
 import styles from "./OrderDetail.module.scss";
+import { generateAlbaranPDF } from "../../components/AlbaranPDF";
 
 function OrderDetail() {
   const { id } = useParams();
@@ -224,6 +225,9 @@ function OrderDetail() {
               </div>
             </div>
           </div>
+          <button onClick={() => generateAlbaranPDF(order)} className={styles.pdfButton}>
+            📄 Descarregar Albarà (PDF)
+          </button>
         </div>
       </div>
     </MainLayout>

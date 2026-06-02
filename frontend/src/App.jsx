@@ -40,6 +40,8 @@ import PackPage from './pages/store/packs/PackPage';
 import CartPage from './pages/store/cart/CartPage';
 import Orders from "./pages/orders/Orders";
 import OrderDetail from "./pages/orders/OrderDetail";
+import MyOrders from "./pages/store/compras/MyOrders";
+import MyOrderDetail from "./pages/store/compras/MyOrderDetail";
 
 function App() {
   return (
@@ -170,6 +172,16 @@ function App() {
             <Route path="/perfil" element={
               <ProtectedRoute allowedRoles={['cliente', 'admin']}>
                 <PerfilCliente />
+              </ProtectedRoute>
+            } />
+            <Route path="/my-orders" element={
+              <ProtectedRoute allowedRoles={['cliente', 'admin']}>
+                <MyOrders />
+              </ProtectedRoute>
+            } />
+            <Route path="/my-orders/:id" element={
+              <ProtectedRoute allowedRoles={['cliente', 'admin']}>
+                <MyOrderDetail />
               </ProtectedRoute>
             } />
 

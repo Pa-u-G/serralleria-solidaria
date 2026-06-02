@@ -229,3 +229,25 @@
     text-decoration: none;
   }
 }
+.pdfButton {
+  background-color: #F07057;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-left: 1rem;
+  
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.headerActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
