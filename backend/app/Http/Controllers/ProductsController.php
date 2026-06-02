@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Product_img;
+use App\Models\CharacteristicType;
 use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
@@ -35,7 +36,10 @@ class ProductsController extends Controller
             'category_id' => 'required|exists:categories,id',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'star' => 'required|boolean'
+            'star' => 'required|boolean',
+            'extra_key' => 'required|boolean',
+            'key_price' => 'nullable|numeric|min:0',
+            'installable' => 'required|boolean'
         ]);
 
         $product = Product::create($validatedProduct);
@@ -87,7 +91,10 @@ class ProductsController extends Controller
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'star' => 'required|boolean',
-            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp'
+            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'extra_key' => 'required|boolean',
+            'key_price' => 'nullable|numeric|min:0',
+            'installable' => 'required|boolean'
         ]);
 
         $product->update($validated);
@@ -148,22 +155,55 @@ class ProductsController extends Controller
     }
     
 
-    public function getProductsByCategory($categoryId)
+    public function getProductsByCategory($categoryId, Request $request)
     {
-        $category = Category::with('products.images')->find($categoryId);
+        $category = Category::find($categoryId);
         
         if (!$category) {
             return response()->json(['message' => 'Categoría no encontrada'], 404);
         }
         
-        $products = $category->products()
+        $query = $category->products()
             ->where('status', true)
-            ->with('images')
-            ->get();
+            ->with(['images', 'characteristics']);
+        
+        // Filtrar por características
+        if ($request->has('characteristics') && !empty($request->characteristics)) {
+            $characteristicIds = $request->characteristics;
+            $query->whereHas('characteristics', function($q) use ($characteristicIds) {
+                $q->whereIn('characteristic.id', $characteristicIds);
+            });
+        }
+        
+        // Filtrar por destacados
+        if ($request->has('star') && $request->star) {
+            $query->where('star', true);
+        }
+        
+        // Ordenar
+        $sortBy = $request->get('sort_by', 'newest');
+        switch($sortBy) {
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'name':
+                $query->orderBy('name', 'asc');
+                break;
+            case 'newest':
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+        
+        $products = $query->get();
         
         return response()->json([
             'category' => $category,
-            'products' => $products
+            'products' => $products,
+            'total' => $products->count()
         ]);
     }
     
@@ -177,5 +217,80 @@ class ProductsController extends Controller
         
         return response()->json($category);
     }
+
+    public function getProduct($id)
+    {
+        $product = Product::with(['category', 'images', 'characteristics.type'])
+            ->where('status', true)
+            ->find($id);
+        
+        if (!$product) {
+            return response()->json(['message' => 'Producto no encontrado'], 404);
+        }
+        
+        return response()->json($product);
+    }
+
+
+    public function getAllProducts(Request $request)
+    {
+        $query = Product::with(['category', 'images', 'characteristics'])
+            ->where('status', true);
+        
+        // Filtrar por características
+        if ($request->has('characteristics') && !empty($request->characteristics)) {
+            $characteristicIds = $request->characteristics;
+            $query->whereHas('characteristics', function($q) use ($characteristicIds) {
+                $q->whereIn('characteristic.id', $characteristicIds);
+            });
+        }
+        
+        // Filtrar por categoría
+        if ($request->has('category_id') && $request->category_id) {
+            $query->where('category_id', $request->category_id);
+        }
+        
+        // Filtrar por destacados
+        if ($request->has('star') && $request->star) {
+            $query->where('star', true);
+        }
+        
+        // Ordenar
+        $sortBy = $request->get('sort_by', 'newest');
+        switch($sortBy) {
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'name':
+                $query->orderBy('name', 'asc');
+                break;
+            case 'newest':
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+        
+        $products = $query->get();
+        
+        return response()->json([
+            'products' => $products,
+            'total' => $products->count()
+        ]);
+    }
+    
+    public function getFilters()
+    {
+        // Obtener todos los tipos de características con sus características
+        $characteristicsTypes = CharacteristicType::with(['characteristics' => function($q) {
+            $q->where('status', true);  
+        }])->where('status', true)->get();
+        
+        return response()->json($characteristicsTypes);
+    }
+
+
 
 }

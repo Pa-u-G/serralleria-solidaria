@@ -1,0 +1,114 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.modal {
+    background: white;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 2rem;
+
+    h2 { margin-bottom: 1.5rem; color: #333; }
+
+    .closeBtn {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: #999;
+        &:hover { color: #333; }
+    }
+}
+
+.scrollArea {
+    overflow-y: auto;
+    flex: 1;
+    padding-right: 0.25rem;
+}
+
+.addressBlock {
+    margin-bottom: 1.5rem;
+    h3 { font-size: 1rem; color: #333; margin-bottom: 1rem; }
+}
+
+.formGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+
+    @media (max-width: 500px) { grid-template-columns: 1fr; }
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    span { font-size: 0.8rem; color: #666; font-weight: 500; }
+
+    input {
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        &:focus { outline: none; border-color: #0c5f97; }
+    }
+}
+
+.sameAddress {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    input { accent-color: #0c5f97; }
+}
+
+.totalSummary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    strong { color: #1a7e44; font-size: 1.1rem; }
+}
+
+.error {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+}
+
+.confirmBtn {
+    width: 100%;
+    padding: 1rem;
+    background: #1a7e44;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    &:hover:not(:disabled) { background: #27ae60; }
+    &:disabled { opacity: 0.6; cursor: default; }
+}

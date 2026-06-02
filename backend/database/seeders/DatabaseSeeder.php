@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             ProductsSeeder::class,
             Characteristics_typeSeeder::class,
             CharacteristicSeeder::class,
+            SettingsSeeder::class,
             //Espai per posar altres seeders
         ]);
     }

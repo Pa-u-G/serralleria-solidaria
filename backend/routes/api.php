@@ -9,6 +9,8 @@ use App\Http\Controllers\CharacteristicController;
 use App\Http\Controllers\PackController;
 use App\Http\Controllers\ProductPackController;
 use App\Http\Controllers\SolutionsController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SettingController;
 
 // ============================================
 // RUTAS PÚBLICAS (No requereixen autenticació)
@@ -31,8 +33,16 @@ Route::get('/solutions', [SolutionsController::class, 'publicIndex']);
 Route::post('/solutions', [SolutionsController::class, 'store']); 
 
 // Productos por categoría 
+Route::get('/store/products', [ProductsController::class, 'getAllProducts']);
 Route::get('/store/category/{categoryId}/products', [ProductsController::class, 'getProductsByCategory']);
 Route::get('/store/category/{categoryId}/info', [ProductsController::class, 'getCategoryInfo']);
+Route::get('/store/filters', [ProductsController::class, 'getFilters']);
+
+Route::get('/store/product/{id}', [ProductsController::class, 'getProduct']);
+
+// Packs
+Route::get('/store/packs', [PackController::class, 'getAllPacks']);
+Route::get('/store/pack/{id}', [PackController::class, 'getPack']);
 
 // ============================================
 // RUTAS PROTEGIDAS (Requereixen token - Només admin)
@@ -42,6 +52,18 @@ Route::middleware('api.token')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);
 
+    // Carrito (usuario autenticado)
+    Route::get('/cart',                        [OrderController::class, 'getCart']);
+    Route::post('/cart/add',                   [OrderController::class, 'addToCart']);
+    Route::patch('/cart/detail/{id}',          [OrderController::class, 'updateDetail']);
+    Route::patch('/cart/detail/{id}/extrakey', [OrderController::class, 'updateExtraKey']);
+    Route::patch('/cart/install',              [OrderController::class, 'updateInstall']);
+    Route::delete('/cart/detail/{id}',         [OrderController::class, 'removeDetail']);
+    Route::post('/cart/checkout',              [OrderController::class, 'checkout']);
+
+    // Pedidos (Cliente - ver sus propios pedidos)
+    Route::get('/my-orders', [OrderController::class, 'myOrders']);
+    Route::get('/my-orders/{id}', [OrderController::class, 'myOrderDetail']);
     // ----------------------------------------- ADMIN ----------------------------------------- //
     
     // Categories (Admin)
@@ -72,6 +94,7 @@ Route::middleware('api.token')->group(function () {
     Route::post('/product-pack', [ProductPackController::class, 'store']);
     Route::put('/product-pack', [ProductPackController::class, 'update']);
     Route::delete('/product-pack/{product}/{pack}', [ProductPackController::class, 'destroy']);
+    Route::delete('/packs/image/{image_id}', [PackController::class, 'delete_image']);
 
     // Soluciones (Admin)
     Route::get('/solutions-admin', [SolutionsController::class, 'index']);
@@ -79,4 +102,14 @@ Route::middleware('api.token')->group(function () {
     Route::put('/solutions-admin/{id}', [SolutionsController::class, 'update']);
     Route::get('/solutions-admin/download-image/{id}', [SolutionsController::class, 'downloadImage']);
     Route::get('/solutions-admin/download-file/{id}', [SolutionsController::class, 'downloadFile']);
+
+    // precios de envio|instalacion
+    Route::get('/settings', [SettingController::class, 'index']);
+    Route::put('/settings/{id}', [SettingController::class, 'update']);
+    
+    // Pedidos (Admin)
+    Route::get('/admin/orders', [OrderController::class, 'adminIndex']);
+    Route::get('/admin/orders/{id}', [OrderController::class, 'adminShow']);
+    Route::put('/admin/orders/{id}', [OrderController::class, 'adminUpdateStatus']);
+    
 });

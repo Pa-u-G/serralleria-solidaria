@@ -13,12 +13,17 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('direction_id');
-            $table->foreign('direction_id')->references('id')->on('directions')->onUpdate('cascade')->onDelete('cascade');
-            $table->unsignedBigInteger('facturation_id');
-            $table->foreign('facturation_id')->references('id')->on('facturations')->onUpdate('cascade')->onDelete('cascade');
+            $table->unsignedBigInteger('direction_id')->nullable();
+            $table->unsignedBigInteger('facturation_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('status', 255);
+            $table->boolean("install")->default(false);
+            $table->decimal('total_price', 8, 2)->nullable();
             $table->timestamps();
+            
+            
+            $table->foreign('facturation_id')->references('id')->on('directions')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('direction_id')->references('id')->on('directions')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

@@ -1,10 +1,11 @@
 import './Navbar.scss';
-import logo from './logoweb.png';
+import logo from './logoweb.WebP';
 import logoPequeño from './logo-sin-texto.png';
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from '../../../contexts/AuthContext';
+import { useCart } from '../../../contexts/CartContext';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ function Navbar() {
   const searchRef = useRef(null);
   const hamburgerRef = useRef(null); 
   const userMenuRef = useRef(null);
+  const { cartCount } = useCart();
 
   useEffect(() => {
     axios.get("http://localhost:8000/api/categories")
@@ -124,7 +126,8 @@ function Navbar() {
               ))}
             </div>
           </li>
-          <li onClick={() => navigate("/products")}>Productes</li>
+  
+        <li onClick={() => navigate("/products")}>Productes</li>
           <li onClick={() => navigate("/packs")}>Packs</li>
           <li onClick={() => navigate("/solutions")}>Solucions</li>
         </ul>
@@ -161,7 +164,9 @@ function Navbar() {
         </div>
 
         {/* Botó Cesta */}
-        <button className="cart-btn">🛒 Cesta</button>
+        <button className="cart-btn" onClick={() => navigate('/carrito')}>
+          🛒 {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
+        </button>
 
         {/* Menú d'usuari */}
         <div className="user-menu-container" ref={userMenuRef}>
@@ -198,7 +203,7 @@ function Navbar() {
                 
                 <div className="dropdown-item" onClick={() => {
                   setUserMenuOpen(false);
-                  navigate('/mis-compras');
+                  navigate('/my-orders');
                 }}>
                   <svg className="icon">
                     <use href="#icon-document"></use>

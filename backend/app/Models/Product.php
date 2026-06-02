@@ -3,14 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, HasMany, HasOne};
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, HasMany, HasOne, MorphMany};
 
 class Product extends Model
 {
     protected $table = "products";
 
-    protected $fillable = ["category_id","code","name","description","price","stock","star"];
-
+    protected $fillable = ["category_id","code","name","description","price","stock","star","extra_key","key_price","installable"];
     public function category(): BelongsTo {
         return $this->belongsTo(Category::class);
     }
@@ -20,5 +19,10 @@ class Product extends Model
     }
     public function characteristics(): BelongsToMany {
         return $this->belongsToMany(Characteristic::class, 'product_characteristic');
+    }
+
+    public function orderDetails()
+    {
+        return $this->morphMany(OrderDetail::class, 'product');
     }
 }

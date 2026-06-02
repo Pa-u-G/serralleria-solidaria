@@ -16,7 +16,10 @@ return new class extends Migration
             $table->string('name', 255);
             $table->text('description');
             $table->decimal('price', 8, 2);
-            $table->boolean("status")->default(true);;
+            $table->boolean("status")->default(true);
+            $table->boolean('extra_key')->default(false);
+            $table->decimal('key_price', 8, 2)->default(0);
+            $table->boolean('installable')->default(false);
             $table->timestamps();
         });
     }
