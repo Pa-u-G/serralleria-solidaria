@@ -60,6 +60,8 @@ Route::middleware('api.token')->group(function () {
     Route::patch('/cart/install',              [OrderController::class, 'updateInstall']);
     Route::delete('/cart/detail/{id}',         [OrderController::class, 'removeDetail']);
     Route::post('/cart/checkout',              [OrderController::class, 'checkout']);
+    Route::post('/cart/payment-intent', [OrderController::class, 'createPaymentIntent']);
+
 
     // Pedidos (Cliente - ver sus propios pedidos)
     Route::get('/my-orders', [OrderController::class, 'myOrders']);

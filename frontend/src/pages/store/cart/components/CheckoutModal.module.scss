@@ -112,3 +112,41 @@
     &:hover:not(:disabled) { background: #27ae60; }
     &:disabled { opacity: 0.6; cursor: default; }
 }
+
+.steps {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.activeStep  { font-weight: 700; color: #0c5f97; }
+.doneStep    { font-weight: 600; color: #1a7e44; }
+.inactiveStep { color: #aaa; }
+.stepDivider { color: #ccc; }
+
+.paymentElement {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+}
+
+.paymentActions {
+    display: flex;
+    gap: 1rem;
+
+    .backBtn {
+        flex: 1;
+        padding: 1rem;
+        background: #f0f0f0;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        &:hover { background: #e0e0e0; }
+    }
+
+    .confirmBtn { flex: 2; }
+}

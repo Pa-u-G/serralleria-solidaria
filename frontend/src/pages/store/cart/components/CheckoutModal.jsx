@@ -3,127 +3,81 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../../../contexts/CartContext';
 import styles from './CheckoutModal.module.scss';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import AddressStep from './AddressStep';
+import PaymentStep from './PaymentStep';
 
-const emptyAddress = {
-    name: '', surnames: '', nif: '',
-    address: '', postal_code: '', city: '', phone_number: ''
-};
 
-const fields = [
-    { name: 'name',         label: 'Nombre',       type: 'text' },
-    { name: 'surnames',     label: 'Apellidos',     type: 'text' },
-    { name: 'nif',          label: 'NIF / CIF',     type: 'text' },
-    { name: 'phone_number', label: 'Teléfono',      type: 'tel'  },
-    { name: 'address',      label: 'Dirección',     type: 'text' },
-    { name: 'postal_code',  label: 'Código postal', type: 'text' },
-    { name: 'city',         label: 'Ciudad',        type: 'text' },
-];
-
-// ← Fuera de CheckoutModal
-const AddressForm = ({ values, onChange, title }) => (
-    <div className={styles.addressBlock}>
-        <h3>{title}</h3>
-        <div className={styles.formGrid}>
-            {fields.map(f => (
-                <label key={f.name} className={styles.field}>
-                    <span>{f.label}</span>
-                    <input
-                        type={f.type}
-                        name={f.name}
-                        value={values[f.name]}
-                        onChange={onChange}
-                        required={f.name !== 'surnames'}
-                    />
-                </label>
-            ))}
-        </div>
-    </div>
-);
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 const CheckoutModal = ({ onClose, total, installConsultar, formatPrice }) => {
-    const navigate      = useNavigate();
-    const { fetchCart } = useCart();
+    const [step,          setStep]          = useState(1); // 1=dirección, 2=pago
+    const [direction,     setDirection]     = useState(null);
+    const [facturation,   setFacturation]   = useState(null);
+    const [clientSecret,  setClientSecret]  = useState(null);
+    const [loadingIntent, setLoadingIntent] = useState(false);
 
-    const [direction,   setDirection]   = useState({ ...emptyAddress });
-    const [facturation, setFacturation] = useState({ ...emptyAddress });
-    const [sameAddress, setSameAddress] = useState(true);
-    const [loading,     setLoading]     = useState(false);
-    const [error,       setError]       = useState(null);
+    const handleAddressConfirm = async (dir, fact) => {
+        setDirection(dir);
+        setFacturation(fact);
+        setLoadingIntent(true);
 
-    const handleChange = (setter) => (e) => {
-        setter(prev => ({ ...prev, [e.target.name]: e.target.value }));
-    };
-
-    const handleSubmit = async () => {
-        setLoading(true);
-        setError(null);
         try {
-            await axios.post(
-                'http://localhost:8000/api/cart/checkout',
-                {
-                    direction,
-                    facturation: sameAddress ? direction : facturation,
-                },
+            const res = await axios.post(
+                'http://localhost:8000/api/cart/payment-intent',
+                {},
                 { headers: { Authorization: `Bearer ${localStorage.getItem('api_token')}` } }
             );
-            await fetchCart();
-            navigate('/');
+            setClientSecret(res.data.client_secret);
+            setStep(2);
         } catch (err) {
-            setError('Ha ocurrido un error. Revisa los datos e inténtalo de nuevo.');
+            console.error(err);
         } finally {
-            setLoading(false);
+            setLoadingIntent(false);
         }
     };
+
 
     return (
         <div className={styles.overlay} onClick={onClose}>
             <div className={styles.modal} onClick={e => e.stopPropagation()}>
                 <button className={styles.closeBtn} onClick={onClose}>✕</button>
-                <h2>Finalizar pedido</h2>
 
-                <div className={styles.scrollArea}>
-                    <AddressForm
-                        values={direction}
-                        onChange={handleChange(setDirection)}
-                        title="Dirección de envío"
-                    />
-
-                    <label className={styles.sameAddress}>
-                        <input
-                            type="checkbox"
-                            checked={sameAddress}
-                            onChange={e => setSameAddress(e.target.checked)}
-                        />
-                        La dirección de facturación es la misma
-                    </label>
-
-                    {!sameAddress && (
-                        <AddressForm
-                            values={facturation}
-                            onChange={handleChange(setFacturation)}
-                            title="Dirección de facturación"
-                        />
-                    )}
-
-                    <div className={styles.totalSummary}>
-                        <span>Total a pagar:</span>
-                        <strong>
-                            {installConsultar
-                                ? `${formatPrice(total)} + instalación a consultar`
-                                : formatPrice(total)}
-                        </strong>
-                    </div>
-
-                    {error && <p className={styles.error}>{error}</p>}
-
-                    <button
-                        className={styles.confirmBtn}
-                        onClick={handleSubmit}
-                        disabled={loading}
-                    >
-                        {loading ? 'Procesando...' : 'Confirmar pedido'}
-                    </button>
+                <div className={styles.steps}>
+                    <span className={step === 1 ? styles.activeStep : styles.doneStep}>
+                        1. Dirección
+                    </span>
+                    <span className={styles.stepDivider}>›</span>
+                    <span className={step === 2 ? styles.activeStep : styles.inactiveStep}>
+                        2. Pago
+                    </span>
                 </div>
+
+                {step === 1 && (
+                    <AddressStep
+                        onConfirm={handleAddressConfirm}
+                        loading={loadingIntent}
+                        total={total}
+                        installConsultar={installConsultar}
+                        formatPrice={formatPrice}
+                    />
+                )}
+
+                {step === 2 && clientSecret && (
+                    <Elements stripe={stripePromise} options={{ clientSecret }}>
+                        <PaymentStep
+                            clientSecret={clientSecret}
+                            direction={direction}
+                            facturation={facturation}
+                            onBack={() => setStep(1)}
+                            onClose={onClose}
+                            total={total}
+                            installConsultar={installConsultar}
+                            formatPrice={formatPrice}
+                        />
+                    </Elements>
+                )}
             </div>
         </div>
     );
