@@ -56,7 +56,7 @@ function CharacteristicTypeShow() {
   };
 
   const edit = (id) => {
-    const newName = prompt("Nova descripció de la caracteristica:");
+    const newName = prompt("Nova descripció de la característica:");
     if (!newName) return;
 
     axios.put(`http://localhost:8000/api/characteristics/${id}`, { description: newName })
@@ -78,7 +78,7 @@ function CharacteristicTypeShow() {
             <svg className="w-6 h-6">
               <use href="#icon-arrow-left"></use>
             </svg>
-            Tornar enrrere
+            Tornar enrere
           </button>
         <div className="flex items-center justify-between mb-4 w-full">
           <h1 className="text-3xl">{type.type}</h1>

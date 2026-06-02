@@ -16,7 +16,9 @@ use App\Http\Controllers\SettingController;
 // RUTAS PÚBLICAS (No requereixen autenticació)
 // ============================================
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/register', [AuthController::class, 'register']); 
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('/reset-password', [AuthController::class, 'resetPassword']); 
 
 // ----------------------------------------- TIENDA (PÚBLICO) ----------------------------------------- //
 // Productos - PÚBLICOS
@@ -61,7 +63,12 @@ Route::middleware('api.token')->group(function () {
     Route::patch('/cart/install',              [OrderController::class, 'updateInstall']);
     Route::delete('/cart/detail/{id}',         [OrderController::class, 'removeDetail']);
     Route::post('/cart/checkout',              [OrderController::class, 'checkout']);
+    Route::post('/cart/payment-intent', [OrderController::class, 'createPaymentIntent']);
 
+
+    // Pedidos (Cliente - ver sus propios pedidos)
+    Route::get('/my-orders', [OrderController::class, 'myOrders']);
+    Route::get('/my-orders/{id}', [OrderController::class, 'myOrderDetail']);
     // ----------------------------------------- ADMIN ----------------------------------------- //
     
     // Categories (Admin)
@@ -104,5 +111,10 @@ Route::middleware('api.token')->group(function () {
     // precios de envio|instalacion
     Route::get('/settings', [SettingController::class, 'index']);
     Route::put('/settings/{id}', [SettingController::class, 'update']);
+    
+    // Pedidos (Admin)
+    Route::get('/admin/orders', [OrderController::class, 'adminIndex']);
+    Route::get('/admin/orders/{id}', [OrderController::class, 'adminShow']);
+    Route::put('/admin/orders/{id}', [OrderController::class, 'adminUpdateStatus']);
     
 });

@@ -25,4 +25,13 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function direction(): BelongsTo
+    {
+        return $this->belongsTo(Direction::class, 'direction_id');
+    }
+
+    public function facturation(): BelongsTo
+    {
+        return $this->belongsTo(Direction::class, 'facturation_id');
+    }
 }

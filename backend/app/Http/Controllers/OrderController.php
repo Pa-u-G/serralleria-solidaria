@@ -11,9 +11,94 @@ use App\Models\Direction;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Stripe\Stripe;
+use Stripe\PaymentIntent;
 
 class OrderController extends Controller
 {
+    // Admin: Listar todos los pedidos (excepto carrito)
+    public function adminIndex()
+    {
+        $orders = Order::with(['user', 'direction', 'facturation'])
+            ->where('status', '!=', 'carrito')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($orders);
+    }
+
+    // Admin: Ver detalle de un pedido
+    public function adminShow($id)
+    {
+        $order = Order::with([
+            'user',
+            'direction',
+            'facturation',
+            'details'
+        ])->findOrFail($id);
+
+        // Cargar productos de los detalles
+        $order->details->each(function ($detail) {
+            if ($detail->product_type === Product::class) {
+                $detail->setRelation('product', Product::with('images')->find($detail->product_id));
+            } elseif ($detail->product_type === Pack::class) {
+                $detail->setRelation('product', Pack::with('images')->find($detail->product_id));
+            }
+        });
+
+        return response()->json($order);
+    }
+    // Cliente: Listar sus propios pedidos (excepto carrito)
+    public function myOrders(Request $request)
+    {
+        $orders = Order::with(['direction', 'facturation'])
+            ->where('user_id', $request->user()->id)
+            ->where('status', '!=', 'carrito')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($orders);
+    }
+
+    // Cliente: Ver detalle de un pedido suyo
+    public function myOrderDetail(Request $request, $id)
+    {
+        $order = Order::with([
+            'direction',
+            'facturation',
+            'details'
+        ])
+        ->where('user_id', $request->user()->id)
+        ->where('id', $id)
+        ->firstOrFail();
+
+        // Cargar productos de los detalles
+        $order->details->each(function ($detail) {
+            if ($detail->product_type === Product::class) {
+                $detail->setRelation('product', Product::with('images')->find($detail->product_id));
+            } elseif ($detail->product_type === Pack::class) {
+                $detail->setRelation('product', Pack::with('images')->find($detail->product_id));
+            }
+        });
+
+        return response()->json($order);
+    }
+
+    // Admin: Actualizar estado del pedido
+    public function adminUpdateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:pendiente,enviado,en camino,recibido'
+        ]);
+
+        $order = Order::findOrFail($id);
+        $order->update(['status' => $request->status]);
+
+        return response()->json([
+            'message' => 'Estado actualizado correctamente',
+            'order' => $order
+        ]);
+    }
     public function addToCart(Request $request)
     {
         $request->validate([
@@ -133,6 +218,8 @@ class OrderController extends Controller
     public function checkout(Request $request)
     {
         $request->validate([
+            'payment_intent_id'      => 'required|string',
+
             'direction.address'      => 'required|string',
             'direction.postal_code'  => 'required|string',
             'direction.city'         => 'required|string',
@@ -150,12 +237,24 @@ class OrderController extends Controller
             'facturation.phone_number' => 'required|string',
         ]);
 
+        // Verificar pago con Stripe
+        Stripe::setApiKey(config('services.stripe.secret'));
+        $paymentIntent = PaymentIntent::retrieve($request->payment_intent_id);
+
+        if ($paymentIntent->status !== 'succeeded') {
+            return response()->json(['message' => 'El pago no se ha completado'], 422);
+        }
+
         $order = Order::where('user_id', $request->user()->id)
             ->where('status', 'carrito')
             ->with('details')
             ->firstOrFail();
 
-        // Cargar productos manualmente (morph)
+        // Verificar que el PaymentIntent corresponde a esta orden
+        if ($paymentIntent->metadata->order_id != $order->id) {
+            return response()->json(['message' => 'El pago no corresponde a este pedido'], 422);
+        }
+
         $order->details->each(function ($detail) {
             if ($detail->product_type === Product::class) {
                 $detail->setRelation('product', Product::find($detail->product_id));
@@ -166,27 +265,22 @@ class OrderController extends Controller
             }
         });
 
-        // Validación de stock
-        // Calcular stock necesario total agrupado por product_id
+        // Validación de stock agrupado
         $stockNeeded = [];
-
         foreach ($order->details as $detail) {
             if ($detail->product_type === Product::class) {
                 $pid = $detail->product_id;
                 $stockNeeded[$pid] = ($stockNeeded[$pid] ?? 0) + $detail->quantity;
-
             } elseif ($detail->product_type === Pack::class) {
                 foreach ($detail->product->products as $packProduct) {
-                    $pid = $packProduct->id;
+                    $pid    = $packProduct->id;
                     $needed = $packProduct->pivot->amount * $detail->quantity;
                     $stockNeeded[$pid] = ($stockNeeded[$pid] ?? 0) + $needed;
                 }
             }
         }
 
-        // Validar contra el stock real
         $stockErrors = [];
-
         foreach ($stockNeeded as $productId => $totalNeeded) {
             $product = Product::find($productId);
             if ($product->stock < $totalNeeded) {
@@ -200,7 +294,7 @@ class OrderController extends Controller
 
         if (!empty($stockErrors)) {
             return response()->json([
-                'message' => 'Stock insuficiente para algunos productos',
+                'message' => 'Stock insuficiente',
                 'errors'  => $stockErrors,
             ], 422);
         }
@@ -209,7 +303,6 @@ class OrderController extends Controller
             $direction   = Direction::create($request->direction);
             $facturation = Direction::create($request->facturation);
 
-            // Restar stock agrupado (un solo decrement por producto)
             foreach ($stockNeeded as $productId => $totalNeeded) {
                 Product::where('id', $productId)->decrement('stock', $totalNeeded);
             }
@@ -218,6 +311,7 @@ class OrderController extends Controller
                 'status'         => 'pendiente',
                 'direction_id'   => $direction->id,
                 'facturation_id' => $facturation->id,
+                'total_price' => $facturation->id,
             ]);
         });
 
@@ -263,4 +357,74 @@ class OrderController extends Controller
             'install_price_tier4' => Setting::get('install_price_tier4', -1), // -1 = a consultar
         ];
     }
+
+    public function createPaymentIntent(Request $request)
+    {
+        $order = Order::where('user_id', $request->user()->id)
+            ->where('status', 'carrito')
+            ->with('details')
+            ->firstOrFail();
+
+        // Cargar productos manualmente
+        $order->details->each(function ($detail) {
+            if ($detail->product_type === Product::class) {
+                $detail->setRelation('product', Product::find($detail->product_id));
+            } elseif ($detail->product_type === Pack::class) {
+                $detail->setRelation('product',
+                    Pack::with('products')->find($detail->product_id)
+                );
+            }
+        });
+
+        // Calcular total (igual que en el frontend)
+        $subtotal = $order->details->sum(function ($detail) {
+            $base = $detail->product->price * $detail->quantity;
+            $keys = ($detail->product->extra_key && $detail->extra_key)
+                ? $detail->product->key_price * $detail->extra_key
+                : 0;
+            return $base + $keys;
+        });
+
+        $settings       = $this->getSettings();
+        $shippingPrice  = $settings['shipping_price'];
+
+        // Instalación
+        $installPrice = 0;
+        if ($order->install) {
+            $installableTotal = $order->details->sum(function ($detail) {
+                $p = $detail->product;
+                if ($p->installable) return $p->price * $detail->quantity;
+                if (isset($p->products)) {
+                    return $p->products
+                        ->filter(fn($pp) => $pp->installable)
+                        ->sum(fn($pp) => $pp->price * $pp->pivot->amount * $detail->quantity);
+                }
+                return 0;
+            });
+
+            if ($installableTotal > 0 && $installableTotal <= 250)       $installPrice = $settings['install_price_tier1'];
+            elseif ($installableTotal <= 500)                             $installPrice = $settings['install_price_tier2'];
+            elseif ($installableTotal <= 1000)                            $installPrice = $settings['install_price_tier3'];
+            // >1000 = a consultar, no se cobra por Stripe
+        }
+
+        $total = $subtotal + $shippingPrice + $installPrice;
+
+        // Stripe trabaja en céntimos (entero)
+        $amountCents = (int) round($total * 100);
+
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        $paymentIntent = PaymentIntent::create([
+            'amount'   => $amountCents,
+            'currency' => 'eur',
+            'metadata' => ['order_id' => $order->id],
+        ]);
+
+        return response()->json([
+            'client_secret' => $paymentIntent->client_secret,
+            'amount'        => $amountCents,
+        ]);
+    }
+
 }

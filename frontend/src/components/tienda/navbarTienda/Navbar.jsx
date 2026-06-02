@@ -198,8 +198,15 @@ function Navbar() {
                 <div className="dropdown-item" onClick={() => { setUserMenuOpen(false); navigate('/perfil'); }}>
                   <svg className="icon"><use href="#icon-user"></use></svg> El meu perfil
                 </div>
-                <div className="dropdown-item" onClick={() => { setUserMenuOpen(false); navigate('/my-orders'); }}>
-                  <svg className="icon"><use href="#icon-document"></use></svg> Les meves compres
+                
+                <div className="dropdown-item" onClick={() => {
+                  setUserMenuOpen(false);
+                  navigate('/my-orders');
+                }}>
+                  <svg className="icon">
+                    <use href="#icon-document"></use>
+                  </svg>
+                  Les meves compres
                 </div>
                 {user?.role === 'admin' && (
                   <div className="dropdown-item" onClick={() => { setUserMenuOpen(false); navigate('/admin'); }}>
