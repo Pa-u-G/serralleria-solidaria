@@ -150,8 +150,9 @@ const CategoryPage = () => {
                         </div>
 
                         <div className={styles.toolbarRight}>
-                            <label>Ordenar por:</label>
+                            <label htmlFor="sort-select">Ordenar por:</label>
                             <select 
+                                id="sort-select"
                                 value={sortBy} 
                                 onChange={handleSortChange}
                                 className={styles.sortSelect}
