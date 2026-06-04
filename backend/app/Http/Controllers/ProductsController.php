@@ -290,7 +290,23 @@ class ProductsController extends Controller
         
         return response()->json($characteristicsTypes);
     }
-
+    
+    public function search(Request $request)
+    {
+        $query = $request->get('q');
+        
+        $products = Product::with(['images', 'category'])
+            ->where('status', true)
+            ->where(function($q) use ($query) {
+                $q->where('name', 'LIKE', "%{$query}%")
+                ->orWhere('code', 'LIKE', "%{$query}%")
+                ->orWhere('description', 'LIKE', "%{$query}%");
+            })
+            ->limit(10)
+            ->get();
+        
+        return response()->json($products);
+    }
 
 
 }

@@ -83,7 +83,7 @@ function Characteristics() {
                     </div>
                   </td>
                   <td className="pl-10 pr-10 pt-4 pb-4 flex gap-2 justify-end">
-                    <button onClick={(e) => {
+                    <button aria-label="Editar tipus de característica" onClick={(e) => {
                       e.stopPropagation();
                       edit(type.id)
                     }} className="text-[#F07057] cursor-pointer">
@@ -91,7 +91,7 @@ function Characteristics() {
                         <use href="#icon-square-pen"></use>
                       </svg>
                     </button>
-                    <button onClick={(e) =>{
+                    <button aria-label={type.status ? "Desactivar tipus de característica" : "Activar tipus de característica"} onClick={(e) =>{
                       e.stopPropagation();
                       toggleTypeStatus(type.id);
                     } } className={`${type.status ? "bg-red-500" : "bg-green-500"} text-white px-2 py-1 rounded cursor-pointer`}>

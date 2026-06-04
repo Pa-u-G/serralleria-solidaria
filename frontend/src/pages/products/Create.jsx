@@ -95,10 +95,11 @@ function CreateProduct() {
       <div className="bg-white p-6 rounded-lg shadow-sm">
         <form onSubmit={submitProduct} className="grid grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium mb-1">Codi</label>
+            <label htmlFor="code" className="block text-sm font-medium mb-1">Codi</label>
             <input
               type="text"
               name="code"
+              id="code"
               value={form.code}
               onChange={handleChange}
               className="border rounded-lg px-4 py-2 w-full"
@@ -107,10 +108,11 @@ function CreateProduct() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Nom</label>
+            <label htmlFor="name" className="block text-sm font-medium mb-1">Nom</label>
             <input
               type="text"
               name="name"
+              id="name"
               value={form.name}
               onChange={handleChange}
               className="border rounded-lg px-4 py-2 w-full"
@@ -119,9 +121,10 @@ function CreateProduct() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Categoria</label>
+            <label htmlFor="category_id" className="block text-sm font-medium mb-1">Categoria</label>
             <select
               name="category_id"
+              id="category_id"
               value={form.category_id}
               onChange={handleChange}
               className="border rounded-lg px-4 py-2 w-full"
@@ -135,10 +138,11 @@ function CreateProduct() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Preu</label>
+            <label htmlFor="price" className="block text-sm font-medium mb-1">Preu</label>
             <input
               type="number"
               name="price"
+              id="price"
               value={form.price}
               onChange={handleChange}
               className="border rounded-lg px-4 py-2 w-full"
@@ -149,10 +153,11 @@ function CreateProduct() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Stock</label>
+            <label htmlFor="stock" className="block text-sm font-medium mb-1">Stock</label>
             <input
               type="number"
               name="stock"
+              id="stock"
               value={form.stock}
               onChange={handleChange}
               className="border rounded-lg px-4 py-2 w-full"
@@ -165,27 +170,30 @@ function CreateProduct() {
             <input
               type="checkbox"
               name="star"
+              id="star"
               checked={form.star}
               onChange={handleChange}
             />
-            <label>Producte destacat</label>
+            <label htmlFor="star">Producte destacat</label>
           </div>
 
           <div className="flex items-center gap-2 mt-6">
             <input
               type="checkbox"
               name="extra_key"
+              id="extra_key"
               checked={form.extra_key}
               onChange={handleChange}
             />
-            <label>Clau extra</label>
+            <label htmlFor="extra_key">Clau extra</label>
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Preu claus</label>
+            <label htmlFor="key_price" className="block text-sm font-medium mb-1">Preu claus</label>
             <input
               type="number"
               name="key_price"
+              id="key_price"
               value={form.key_price}
               onChange={handleChange}
               className="border rounded-lg px-4 py-2 w-full"
@@ -198,16 +206,18 @@ function CreateProduct() {
             <input
               type="checkbox"
               name="installable"
+              id="installable"
               checked={form.installable}
               onChange={handleChange}
             />
-            <label>producte instal·lable</label>
+            <label htmlFor="installable">producte instal·lable</label>
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Descripció</label>
+            <label htmlFor="description" className="block text-sm font-medium mb-1">Descripció</label>
             <textarea
               name="description"
+              id="description"
               value={form.description}
               onChange={handleChange}
               className="border rounded-lg px-4 py-2 w-full"
@@ -226,11 +236,12 @@ function CreateProduct() {
           {characteristicTypes.map(type => (
             type.status && (
               <div key={type.id}>
-                <label className="block text-sm font-medium mb-1">
+                <label htmlFor={type.id} className="block text-sm font-medium mb-1">
                   {type.type}
                 </label>
 
                 <select
+                  id={type.id}
                   className="border rounded-lg px-4 py-2 w-full"
                   value={selectedCharacteristics[type.id] || ""}
                   onChange={(e) =>
@@ -252,14 +263,14 @@ function CreateProduct() {
             )
           ))}
           <div className="col-span-2 flex gap-4 mt-4">
-            <button
+            <button aria-label="Guardar Producte"
               type="submit"
               className="bg-[#F07057] text-white px-5 py-2 rounded-lg font-medium hover:opacity-90"
             >
               Guardar Producte
             </button>
 
-            <button
+            <button aria-label="Cancelar"
               type="button"
               onClick={() => navigate("/admin/products")}
               className="bg-gray-200 px-5 py-2 rounded-lg"

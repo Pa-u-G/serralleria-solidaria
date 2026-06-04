@@ -22,8 +22,11 @@ Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
 // ----------------------------------------- TIENDA (PÚBLICO) ----------------------------------------- //
 // Productos - PÚBLICOS
+// Especifica las rutas fijas PRIMERO
+Route::get('/products/search', [ProductsController::class, 'search']);
 Route::get('/products', [ProductsController::class, 'index']); 
-Route::get('/products/{id}', [ProductsController::class, 'show']); 
+Route::get('/products/{id}', [ProductsController::class, 'show']);
+
 
 // Categories - PÚBLICAS
 Route::get('/categories', [CategoriesController::class, 'index']); 

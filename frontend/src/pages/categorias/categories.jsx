@@ -106,7 +106,7 @@ function Categories() {
 
                   <td className="acction_btn">
 
-                    <button
+                    <button aria-label="Editar categoria"
                       onClick={() => editCategory(post.id)}
                       className="btn btn--edit"
                     >
@@ -115,7 +115,7 @@ function Categories() {
                       </svg>
                     </button>
 
-                    <button
+                    <button aria-label={post.status ? "Desactivar categoria" : "Activar categoria"}
                       onClick={() => toggleStatus(post.id)}
                       className={
                         post.status
