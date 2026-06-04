@@ -14,6 +14,7 @@ class Order extends Model
         'facturation_id',
         'status',
         'install',
+        'total_price',
     ];
 
     public function details(): HasMany

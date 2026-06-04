@@ -150,3 +150,25 @@
 
     .confirmBtn { flex: 2; }
 }
+.required {
+    color: #e74c3c;
+}
+
+.fieldError {
+    input {
+        border-color: #e74c3c;
+        background: #fff8f8;
+
+        &:focus {
+            outline: none;
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.15);
+        }
+    }
+}
+
+.errorMsg {
+    font-size: 0.75rem;
+    color: #e74c3c;
+    margin-top: 0.2rem;
+}

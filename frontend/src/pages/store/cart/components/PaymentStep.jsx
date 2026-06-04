@@ -52,7 +52,7 @@ const PaymentStep = ({
 
             await fetchCart();
             onClose();
-            navigate('/mis-compras');
+            navigate('/my-orders');
 
         } catch (err) {
             setError(
