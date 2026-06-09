@@ -344,17 +344,16 @@
 }
 
 // ========== RESPONSIVE PER A MÒBIL ==========
-@media (max-width: 768px) {
-  .successCard {
-    margin: 1rem;
-    padding: 1.5rem;
-  }
-  
-  .spinner {
-    width: 30px;
-    height: 30px;
-  }
+.successCard {
+  margin: clamp(0rem, 2vw, 1rem);
+  padding: clamp(1.5rem, 5vw, 3rem);
 }
+  
+.spinner {
+  width: clamp(30px, 5vw, 40px);
+  height: clamp(30px, 5vw, 40px);
+}
+
 
 // ========== RESPONSIVE PER A MÒBIL ==========
 @media (max-width: 768px) {
