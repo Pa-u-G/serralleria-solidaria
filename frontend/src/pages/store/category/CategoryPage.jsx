@@ -176,7 +176,7 @@ const CategoryPage = () => {
                     ) : (
                         <ProductGrid 
                             products={products} 
-                            emptyMessage="No hay productos que coincidan con los filtros seleccionados"
+                            emptyMessage="No hay productos disponibles"
                         />
                     )}
                 </div>
