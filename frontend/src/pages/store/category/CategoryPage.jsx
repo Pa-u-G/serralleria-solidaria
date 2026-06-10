@@ -38,7 +38,7 @@ const CategoryPage = () => {
             const categoryData = await categoryApi.getCategoryInfo(categoryId);
             setCategory(categoryData);
         } catch (err) {
-            setError('No se pudo cargar la información de la categoría');
+            setError('No s\'ha pogut carregar la informació de la categoria');
             console.error(err);
         }
     };
@@ -54,7 +54,7 @@ const CategoryPage = () => {
             setProducts(data.products);
             setTotalProducts(data.total);
         } catch (err) {
-            setError('No se pudieron cargar los productos');
+            setError('No s\'han pogut carregar els productes');
             console.error(err);
         } finally {
             setLoading(false);
@@ -67,7 +67,7 @@ const CategoryPage = () => {
 
     const handleFilterChange = (filters) => {
         setActiveFilters(filters);
-        // Cerrar sidebar en móvil después de aplicar filtros
+        // Tancar sidebar en mòbil després d'aplicar filtres
         if (window.innerWidth < 1024) {
             setFiltersVisible(false);
         }
@@ -86,7 +86,7 @@ const CategoryPage = () => {
             <div className={styles.categoryPage}>
                 <div className={styles.loadingContainer}>
                     <div className={styles.spinner}></div>
-                    <p>Cargando productos...</p>
+                    <p>Carregant productes...</p>
                 </div>
             </div>
         );
@@ -99,9 +99,9 @@ const CategoryPage = () => {
                 <div className={styles.errorContainer}>
                     <div className={styles.errorIcon}>⚠️</div>
                     <h2>Error</h2>
-                    <p>{error || 'Categoría no encontrada'}</p>
+                    <p>{error || 'Categoria no trobada'}</p>
                     <button onClick={handleGoBack} className={styles.backButton}>
-                        Volver atrás
+                        Tornar enrere
                     </button>
                 </div>
             </div>
@@ -112,19 +112,19 @@ const CategoryPage = () => {
     return (
         <MainLayout>
             <div className={`${styles.categoryPage}`}>
-                {/* Header de la categoría */}
+                {/* Capçalera de la categoria */}
                 <div className={styles.categoryHeader}>
                     {/* <button onClick={handleGoBack} className={styles.backButton}>
-                        ← Volver
+                        ← Tornar
                     </button> */}
                     <div className={styles.categoryInfo}>
                         <h1>{category.name}</h1>
                         <p className={styles.productCount}>
-                            {products.length} {products.length === 1 ? 'producto' : 'productos'} disponibles
+                            {products.length} {products.length === 1 ? 'producte' : 'productes'} disponibles
                         </p>
                     </div>
 
-                    {/* Barra de herramientas */}
+                    {/* Barra d'eines */}
                     <div className={styles.toolbar}>
                         <div className={styles.toolbarLeft}>
                             <button 
@@ -144,44 +144,42 @@ const CategoryPage = () => {
                                     className={styles.clearFiltersBtn}
                                     onClick={() => handleFilterChange({ characteristics: [], star: false })}
                                 >
-                                    Limpiar filtros
+                                    Netejar filtres
                                 </button>
                             )}
                         </div>
 
                         <div className={styles.toolbarRight}>
-                            <label htmlFor="sort-select">Ordenar por:</label>
+                            <label htmlFor="sort-select">Ordenar per:</label>
                             <select 
                                 id="sort-select"
                                 value={sortBy} 
                                 onChange={handleSortChange}
                                 className={styles.sortSelect}
                             >
-                                <option value="newest">Más recientes</option>
-                                <option value="price_asc">Precio: menor a mayor</option>
-                                <option value="price_desc">Precio: mayor a menor</option>
-                                <option value="name">Nombre: A a Z</option>
+                                <option value="newest">Més recents</option>
+                                <option value="price_asc">Preu: de menor a major</option>
+                                <option value="price_desc">Preu: de major a menor</option>
+                                <option value="name">Nom: de A a Z</option>
                             </select>
                         </div>
                     </div>
 
-                    
-
-                    {/* Grid de productos */}
+                    {/* Graella de productes */}
                     {loading ? (
                         <div className={styles.loadingProducts}>
                             <div className={styles.spinner}></div>
-                            <p>Cargando productos...</p>
+                            <p>Carregant productes...</p>
                         </div>
                     ) : (
                         <ProductGrid 
                             products={products} 
-                            emptyMessage="No hay productos disponibles"
+                            emptyMessage="No hi ha productes disponibles"
                         />
                     )}
                 </div>
 
-                {/* Sidebar de filtros */}
+                {/* Sidebar de filtres */}
                 <FiltersSidebar 
                     visible={filtersVisible}
                     onClose={() => setFiltersVisible(false)}

@@ -25,7 +25,7 @@ const PacksPage = () => {
             setPacks(data.packs);
             setTotalPacks(data.total);
         } catch (err) {
-            setError('No se pudieron cargar los packs');
+            setError('No s\'han pogut carregar els packs');
             console.error(err);
         } finally {
             setLoading(false);
@@ -45,7 +45,7 @@ const PacksPage = () => {
             <div className={styles.packsPage}>
                 <div className={styles.loadingContainer}>
                     <div className={styles.spinner}></div>
-                    <p>Cargando packs...</p>
+                    <p>Carregant packs...</p>
                 </div>
             </div>
         );
@@ -59,7 +59,7 @@ const PacksPage = () => {
                     <h2>Error</h2>
                     <p>{error}</p>
                     <button onClick={handleGoBack} className={styles.backButton}>
-                        Volver atrás
+                        Tornar enrere
                     </button>
                 </div>
             </div>
@@ -73,24 +73,24 @@ const PacksPage = () => {
 
                     <div className={styles.toolbar}>
                         <div className={styles.toolbarRight}>
-                            <label>Ordenar por:</label>
+                            <label>Ordenar per:</label>
                             <select 
                                 value={sortBy} 
                                 onChange={handleSortChange}
                                 className={styles.sortSelect}
                             >
-                                <option value="newest">Más recientes</option>
-                                <option value="price_asc">Precio: menor a mayor</option>
-                                <option value="price_desc">Precio: mayor a menor</option>
-                                <option value="name">Nombre: A a Z</option>
+                                <option value="newest">Més recents</option>
+                                <option value="price_asc">Preu: de menor a major</option>
+                                <option value="price_desc">Preu: de major a menor</option>
+                                <option value="name">Nom: de A a Z</option>
                             </select>
                         </div>
                     </div>
 
-                    {/* Grid de packs */}
+                    {/* Graella de packs */}
                     <PackGrid 
                         packs={packs} 
-                        emptyMessage="No hay packs disponibles"
+                        emptyMessage="No hi ha packs disponibles"
                     />
                 </div>
             </div>

@@ -18,13 +18,13 @@ const ProductCard = ({ product }) => {
     };
 
     const getStockStatus = () => {
-        if (product.stock <= 0) return { text: 'Agotado', class: styles.outOfStock };
-        if (product.stock < 10) return { text: `Últimas ${product.stock} unidades`, class: styles.lowStock };
-        return { text: `Stock: ${product.stock}`, class: styles.inStock };
+        if (product.stock <= 0) return { text: 'Esgotat', class: styles.outOfStock };
+        if (product.stock < 10) return { text: `Últimes ${product.stock} unitats`, class: styles.lowStock };
+        return { text: `Estoc: ${product.stock}`, class: styles.inStock };
     };
 
     const onAddToCart = async (e) => {
-        e.stopPropagation(); // evita navegar a la página del producto
+        e.stopPropagation(); // evita navegar a la pàgina del producte
         await handleAddToCart('product', product.id, 1);
         setAddedToCart(true);
         setTimeout(() => setAddedToCart(false), 2000);
@@ -37,7 +37,7 @@ const ProductCard = ({ product }) => {
         <div className={styles.productCard} onClick={() => navigate(`/product/${product.id}`)}>
             {product.star ? (
                 <div className={styles.starBadge}>
-                    Destacado
+                    Destacat
                 </div>
             ) : (
                 ""
@@ -79,7 +79,7 @@ const ProductCard = ({ product }) => {
                                 className={`${styles.addToCart} ${addedToCart ? styles.added : ''}`}
                                 onClick={onAddToCart}
                             >
-                                {addedToCart ? '✓ Añadido' : 'Añadir al carrito'}
+                                {addedToCart ? '✓ Afegit' : 'Afegir al carro'}
                             </button>
                         )}
                     </div>

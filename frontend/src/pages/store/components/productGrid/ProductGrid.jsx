@@ -2,7 +2,7 @@ import React from 'react';
 import ProductCard from '../productCard/ProductCard';
 import styles from './ProductGrid.module.scss';
 
-const ProductGrid = ({ products, emptyMessage = "No hay productos disponibles" }) => {
+const ProductGrid = ({ products, emptyMessage = "No hi ha productes disponibles" }) => {
     if (products.length === 0) {
         return (
             <div className={styles.emptyState}>
@@ -12,7 +12,7 @@ const ProductGrid = ({ products, emptyMessage = "No hay productos disponibles" }
                     </svg>
                 </div>
                 <h3>{emptyMessage}</h3>
-                <p>Pronto tendremos nuevos productos disponibles</p>
+                <p>Aviat tindrem nous productes disponibles</p>
             </div>
         );
     } else {

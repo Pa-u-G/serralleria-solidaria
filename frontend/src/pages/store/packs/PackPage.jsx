@@ -35,7 +35,7 @@ const PackPage = () => {
             setTotalIndividualPrice(data.total_individual_price);
             setSavings(data.savings);
         } catch (err) {
-            setError('No se pudo cargar el pack');
+            setError('No s\'ha pogut carregar el pack');
             console.error(err);
         } finally {
             setLoading(false);
@@ -70,8 +70,6 @@ const PackPage = () => {
         setAddedToCart(true);
         setTimeout(() => setAddedToCart(false), 2000);
     };
-
-
 
     const formatPrice = (price) => {
         return new Intl.NumberFormat('es-ES', {
@@ -109,10 +107,10 @@ const PackPage = () => {
                 <div className={styles.packPage}>
                     <div className={styles.errorContainer}>
                         <div className={styles.errorIcon}>⚠️</div>
-                        <h2>Pack no encontrado</h2>
-                        <p>{error || 'El pack que buscas no existe o no está disponible'}</p>
+                        <h2>Pack no trobat</h2>
+                        <p>{error || 'El pack que busques no existeix o no està disponible'}</p>
                         <button onClick={handleGoBack} className={styles.backButton}>
-                            Volver atrás
+                            Tornar enrere
                         </button>
                     </div>
                 </div>
@@ -124,14 +122,14 @@ const PackPage = () => {
         <MainLayout>
             <div className={styles.packPage}>
                 <div className={styles.packContainer}>
-                    {/* Botón volver */}
+                    {/* Botó tornar */}
                     <button onClick={handleGoBack} className={styles.backButton}>
-                        ← Volver
+                        ← Tornar
                     </button>
 
-                    {/* Contenido principal */}
+                    {/* Contingut principal */}
                     <div className={styles.packContent}>
-                        {/* Galería de imágenes */}
+                        {/* Galeria d'imatges */}
                         <div className={styles.packGallery}>
                             <div className={styles.mainImage}>
                                 
@@ -165,7 +163,7 @@ const PackPage = () => {
                             )}
                         </div>
 
-                        {/* Información del pack */}
+                        {/* Informació del pack */}
                         <div className={styles.packInfo}>
                             
                             <h1 className={styles.packTitle}>{pack.name}</h1>
@@ -176,7 +174,7 @@ const PackPage = () => {
                                 </div>
                                 {quantity === 1 && savings > 0 && (
                                     <div className={styles.savingsBadge}>
-                                        Ahorra {formatPrice(savings)}
+                                        Estalvia {formatPrice(savings)}
                                     </div>
                                 )}
                             </div>
@@ -187,18 +185,18 @@ const PackPage = () => {
                                         Valor original: {formatPrice(totalIndividualPrice)}
                                     </span>
                                     <span className={styles.savingsText}>
-                                        Ahorro del {Math.round((savings / totalIndividualPrice) * 100)}%
+                                        Estalvi del {Math.round((savings / totalIndividualPrice) * 100)}%
                                     </span>
                                 </div>
                             )}
 
                             <div className={styles.packDescription}>
-                                <h3>Descripción del Pack</h3>
+                                <h3>Descripció del Pack</h3>
                                 <p>{pack.description}</p>
                             </div>
 
                             <div className={styles.packIncluded}>
-                                <h3>Productos incluidos</h3>
+                                <h3>Productes inclosos</h3>
                                 <div className={styles.productsList}>
                                     {pack.products.map((product) => (
                                         <PackProductItem 
@@ -212,7 +210,7 @@ const PackPage = () => {
 
                             <div className={styles.purchaseSection}>
                                 <div className={styles.quantitySelector}>
-                                    <label for="quantity">Cantidad de packs:</label>
+                                    <label for="quantity">Quantitat de packs:</label>
                                     <div className={styles.quantityControls}>
                                         <button 
                                             onClick={decrementQuantity}
@@ -245,7 +243,7 @@ const PackPage = () => {
                                     onClick={handleAddToCartClick}
                                     className={`${styles.addToCartBtn} ${addedToCart ? styles.added : ''}`}
                                 >
-                                    {addedToCart ? '✓ Añadido al carrito' : 'Añadir pack al carrito'}
+                                    {addedToCart ? '✓ Afegit al carro' : 'Afegir pack al carro'}
                                 </button>
                             </div>
                         </div>

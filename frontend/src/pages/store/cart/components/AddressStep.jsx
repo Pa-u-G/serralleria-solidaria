@@ -9,19 +9,19 @@ const emptyAddress = {
 const fields = [
     {
         name:        'name',
-        label:       'Nombre',
+        label:       'Nom',
         type:        'text',
         placeholder: 'Joan',
         required:    true,
-        validate:    v => v.trim().length >= 2 ? null : 'El nombre debe tener al menos 2 caracteres',
+        validate:    v => v.trim().length >= 2 ? null : 'El nom ha de tenir almenys 2 caràcters',
     },
     {
         name:        'surnames',
-        label:       'Apellidos',
+        label:       'Cognoms',
         type:        'text',
         placeholder: 'García López',
         required:    false,
-        validate:    v => (!v || v.trim().length >= 2) ? null : 'Los apellidos deben tener al menos 2 caracteres',
+        validate:    v => (!v || v.trim().length >= 2) ? null : 'Els cognoms han de tenir almenys 2 caràcters',
     },
     {
         name:        'nif',
@@ -29,39 +29,39 @@ const fields = [
         type:        'text',
         placeholder: '12345678A',
         required:    true,
-        validate:    v => /^[A-Za-z0-9]{8,9}$/.test(v.trim()) ? null : 'NIF/CIF no válido',
+        validate:    v => /^[A-Za-z0-9]{8,9}$/.test(v.trim()) ? null : 'NIF/CIF no vàlid',
     },
     {
         name:        'phone_number',
-        label:       'Teléfono',
+        label:       'Telèfon',
         type:        'tel',
         placeholder: '612 345 678',
         required:    true,
-        validate:    v => /^[0-9\s\+\-]{9,15}$/.test(v.trim()) ? null : 'Teléfono no válido',
+        validate:    v => /^[0-9\s\+\-]{9,15}$/.test(v.trim()) ? null : 'Telèfon no vàlid',
     },
     {
         name:        'address',
-        label:       'Dirección',
+        label:       'Adreça',
         type:        'text',
-        placeholder: 'Carrer de Exemple, 42, 3r 2a',
+        placeholder: 'Carrer d\'Exemple, 42, 3r 2a',
         required:    true,
-        validate:    v => v.trim().length >= 5 ? null : 'Introduce una dirección válida',
+        validate:    v => v.trim().length >= 5 ? null : 'Introdueix una adreça vàlida',
     },
     {
         name:        'postal_code',
-        label:       'Código postal',
+        label:       'Codi postal',
         type:        'text',
         placeholder: '08001',
         required:    true,
-        validate:    v => /^[0-9]{5}$/.test(v.trim()) ? null : 'El código postal debe tener 5 dígitos',
+        validate:    v => /^[0-9]{5}$/.test(v.trim()) ? null : 'El codi postal ha de tenir 5 dígits',
     },
     {
         name:        'city',
-        label:       'Ciudad',
+        label:       'Ciutat',
         type:        'text',
         placeholder: 'Barcelona',
         required:    true,
-        validate:    v => v.trim().length >= 2 ? null : 'Introduce una ciudad válida',
+        validate:    v => v.trim().length >= 2 ? null : 'Introdueix una ciutat vàlida',
     },
 ];
 
@@ -110,7 +110,6 @@ const AddressStep = ({ onConfirm, loading, total, installConsultar, formatPrice 
         const { name, value } = e.target;
         setter(prev => {
             const updated = { ...prev, [name]: value };
-            // Limpiar error del campo al escribir
             if (submitted) {
                 const field = fields.find(f => f.name === name);
                 const err   = field?.validate(value) ?? null;
@@ -151,7 +150,7 @@ const AddressStep = ({ onConfirm, loading, total, installConsultar, formatPrice 
                 onChange={handleChange(setDirection, setDirErrors)}
                 onBlur={handleBlur(direction, setDirErrors)}
                 errors={dirErrors}
-                title="Dirección de envío"
+                title="Adreça d'enviament"
             />
 
             <label className={styles.sameAddress}>
@@ -160,7 +159,7 @@ const AddressStep = ({ onConfirm, loading, total, installConsultar, formatPrice 
                     checked={sameAddress}
                     onChange={e => setSameAddress(e.target.checked)}
                 />
-                La dirección de facturación es la misma
+                L'adreça de facturació és la mateixa
             </label>
 
             {!sameAddress && (
@@ -169,7 +168,7 @@ const AddressStep = ({ onConfirm, loading, total, installConsultar, formatPrice 
                     onChange={handleChange(setFacturation, setFactErrors)}
                     onBlur={handleBlur(facturation, setFactErrors)}
                     errors={factErrors}
-                    title="Dirección de facturación"
+                    title="Adreça de facturació"
                 />
             )}
 
@@ -177,7 +176,7 @@ const AddressStep = ({ onConfirm, loading, total, installConsultar, formatPrice 
                 <span>Total a pagar:</span>
                 <strong>
                     {installConsultar
-                        ? `${formatPrice(total)} + instalación a consultar`
+                        ? `${formatPrice(total)} + instal·lació a consultar`
                         : formatPrice(total)}
                 </strong>
             </div>
@@ -187,7 +186,7 @@ const AddressStep = ({ onConfirm, loading, total, installConsultar, formatPrice 
                 onClick={handleSubmit}
                 disabled={loading}
             >
-                {loading ? 'Preparando pago...' : 'Continuar al pago →'}
+                {loading ? 'Preparant el pagament...' : 'Continuar al pagament →'}
             </button>
         </div>
     );

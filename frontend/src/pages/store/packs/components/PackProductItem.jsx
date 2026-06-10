@@ -42,7 +42,7 @@ const PackProductItem = ({ product, amount }) => {
                 <h4 className={styles.productName}>{product.name}</h4>
                 <p className={styles.productCategory}>{product.category?.name}</p>
                 <div className={styles.productDetails}>
-                    <span className={styles.productAmount}>Cantidad: {amount}</span>
+                    <span className={styles.productAmount}>Quantitat: {amount}</span>
                     <span className={styles.productPrice}>{formatPrice(product.price)} c/u</span>
                     <div className={styles.productSubtotal}>
                         Subtotal: {formatPrice(product.price * amount)}

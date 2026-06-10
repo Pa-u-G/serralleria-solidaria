@@ -12,7 +12,7 @@ import PaymentStep from './PaymentStep';
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 const CheckoutModal = ({ onClose, total, installConsultar, formatPrice }) => {
-    const [step,          setStep]          = useState(1); // 1=dirección, 2=pago
+    const [step,          setStep]          = useState(1); // 1=adreça, 2=pagament
     const [direction,     setDirection]     = useState(null);
     const [facturation,   setFacturation]   = useState(null);
     const [clientSecret,  setClientSecret]  = useState(null);
@@ -46,11 +46,11 @@ const CheckoutModal = ({ onClose, total, installConsultar, formatPrice }) => {
 
                 <div className={styles.steps}>
                     <span className={step === 1 ? styles.activeStep : styles.doneStep}>
-                        1. Dirección
+                        1. Adreça
                     </span>
                     <span className={styles.stepDivider}>›</span>
                     <span className={step === 2 ? styles.activeStep : styles.inactiveStep}>
-                        2. Pago
+                        2. Pagament
                     </span>
                 </div>
 
