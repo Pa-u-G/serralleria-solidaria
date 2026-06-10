@@ -52,11 +52,11 @@ const PaymentStep = ({
 
             await fetchCart();
             onClose();
-            navigate('/mis-compras');
+            navigate('/my-orders');
 
         } catch (err) {
             setError(
-                err.response?.data?.message ?? 'Error de conexión. Inténtalo de nuevo.'
+                err.response?.data?.message ?? 'Error de connexió. Torna-ho a intentar.'
             );
         } finally {
             setLoading(false);
@@ -69,12 +69,12 @@ const PaymentStep = ({
                 <span>Total a pagar:</span>
                 <strong>
                     {installConsultar
-                        ? `${formatPrice(total)} + instalación a consultar`
+                        ? `${formatPrice(total)} + instal·lació a consultar`
                         : formatPrice(total)}
                 </strong>
             </div>
 
-            {/* Formulario de tarjeta de Stripe */}
+            {/* Formulari de targeta de Stripe */}
             <div className={styles.paymentElement}>
                 <PaymentElement />
             </div>
@@ -87,14 +87,14 @@ const PaymentStep = ({
                     onClick={onBack}
                     disabled={loading}
                 >
-                    ← Volver
+                    ← Tornar
                 </button>
                 <button
                     className={styles.confirmBtn}
                     onClick={handleSubmit}
                     disabled={loading || !stripe}
                 >
-                    {loading ? 'Procesando...' : 'Pagar ahora'}
+                    {loading ? 'Processant...' : 'Pagar ara'}
                 </button>
             </div>
         </div>

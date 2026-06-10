@@ -307,11 +307,16 @@ class OrderController extends Controller
                 Product::where('id', $productId)->decrement('stock', $totalNeeded);
             }
 
+            // Calcular total real desde el PaymentIntent ya verificado
+            Stripe::setApiKey(config('services.stripe.secret'));
+            $paymentIntent = PaymentIntent::retrieve($request->payment_intent_id);
+            $totalPrice    = $paymentIntent->amount / 100; // céntimos → euros
+
             $order->update([
                 'status'         => 'pendiente',
                 'direction_id'   => $direction->id,
                 'facturation_id' => $facturation->id,
-                'total_price' => $facturation->id,
+                'total_price'    => $totalPrice,
             ]);
         });
 

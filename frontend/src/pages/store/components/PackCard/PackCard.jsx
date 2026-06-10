@@ -57,7 +57,7 @@ const PackCard = ({ pack }) => {
         navigate(`/pack/${pack.id}`);
     };
 
-    // Obtener primera imagen si existe
+    // Obtenir la primera imatge si existeix
     const firstImage = pack.images && pack.images.length > 0 ? pack.images[0] : null;
     const p_img = getProductImage(pack.products)
     
@@ -107,7 +107,7 @@ const PackCard = ({ pack }) => {
                                 className={`${styles.addToCart} ${addedToCart ? styles.added : ''}`}
                                 onClick={onAddToCart}
                             >
-                                {addedToCart ? '✓ Añadido' : 'Añadir al carrito'}
+                                {addedToCart ? '✓ Afegit' : 'Afegir al carro'}
                             </button>
                         )}
                     </div>

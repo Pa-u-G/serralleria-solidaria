@@ -28,7 +28,7 @@ const CartPage = () => {
         if (cart) setInstall(cart.install);
     }, [cart]);
 
-    // ---------- cálculos ----------
+    // ---------- càlculs ----------
     const formatPrice = (n) =>
         new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(n);
 
@@ -48,11 +48,11 @@ const CartPage = () => {
 
     const shippingPrice = settings?.shipping_price ?? 9;
 
-    // Precio de instalación según tramos
+    // Preu d'instal·lació segons trams
     const installableTotal = cart?.details?.reduce((acc, d) => {
         const p = d.product;
         if (p.installable) return acc + parseFloat(p.price) * d.quantity;
-        // Si es pack, sus productos installables
+        // Si és un pack, els seus productes instal·lables
         if (p.products) {
             return acc + p.products
                 .filter(pp => pp.installable)
@@ -90,10 +90,10 @@ const CartPage = () => {
             const p = detail.product;
 
             if (!p.products) {
-                // Producto normal
+                // Producte normal
                 stockNeeded[p.id] = (stockNeeded[p.id] ?? 0) + detail.quantity;
             } else {
-                // Pack: acumular por cada producto del pack
+                // Pack: acumular per cada producte del pack
                 p.products.forEach(pp => {
                     const needed = pp.pivot.amount * detail.quantity;
                     stockNeeded[pp.id] = (stockNeeded[pp.id] ?? 0) + needed;
@@ -101,7 +101,7 @@ const CartPage = () => {
             }
         });
 
-        // Buscar el producto en el carrito para obtener nombre y stock
+        // Buscar el producte al carro per obtenir nom i estoc
         const productMap = {};
         cart.details.forEach(detail => {
             const p = detail.product;
@@ -141,10 +141,10 @@ const CartPage = () => {
                 <div className={styles.cartPage}>
                     <div className={styles.emptyCart}>
                         <div className={styles.emptyIcon}>🛒</div>
-                        <h2>Tu carrito está vacío</h2>
-                        <p>Añade productos para continuar</p>
+                        <h2>El teu carro està buit</h2>
+                        <p>Afegeix productes per continuar</p>
                         <button onClick={() => navigate('/products')} className={styles.shopBtn}>
-                            Ver productos
+                            Veure productes
                         </button>
                     </div>
                 </div>
@@ -155,10 +155,10 @@ const CartPage = () => {
     return (
         <MainLayout>
             <div className={styles.cartPage}>
-                <h1 className={styles.title}>Tu carrito</h1>
+                <h1 className={styles.title}>El teu carro</h1>
 
                 <div className={styles.cartLayout}>
-                    {/* Lista de items */}
+                    {/* Llista d'articles */}
                     <div className={styles.itemsList}>
                         {cart.details.map(detail => (
                             <CartItem
@@ -172,9 +172,9 @@ const CartPage = () => {
                         ))}
                     </div>
 
-                    {/* Resumen */}
+                    {/* Resum */}
                     <div className={styles.summary}>
-                        <h2>Resumen del pedido</h2>
+                        <h2>Resum de la comanda</h2>
 
                         <div className={styles.summaryRow}>
                             <span>Subtotal</span>
@@ -182,11 +182,11 @@ const CartPage = () => {
                         </div>
 
                         <div className={styles.summaryRow}>
-                            <span>Envío</span>
+                            <span>Enviament</span>
                             <span>{formatPrice(shippingPrice)}</span>
                         </div>
 
-                        {/* Opción instalación */}
+                        {/* Opció instal·lació */}
                         {hasInstallable && (
                             <div className={styles.installOption}>
                                 <label className={styles.installLabel}>
@@ -195,7 +195,7 @@ const CartPage = () => {
                                         checked={install}
                                         onChange={(e) => handleInstallToggle(e.target.checked)}
                                     />
-                                    <span>Instalación</span>
+                                    <span>Instal·lació</span>
                                 </label>
                                 {install? install && (
                                     <span className={styles.installPrice}>
@@ -213,7 +213,7 @@ const CartPage = () => {
                             <span>Total:</span>
                             <span>
                                 {installConsultar && install
-                                    ? `${formatPrice(subtotal + shippingPrice)} + instalación a consultar`
+                                    ? `${formatPrice(subtotal + shippingPrice)} + instal·lació a consultar`
                                     : formatPrice(total)}
                             </span>
                         </div>
@@ -222,15 +222,15 @@ const CartPage = () => {
                             className={styles.checkoutBtn}
                             onClick={handleCheckout}
                         >
-                            Tramitar pedido
+                            Tramitar comanda
                         </button>
                         {stockErrors.length > 0 && (
                             <div className={styles.stockErrors}>
-                                <p>Stock insuficiente:</p>
+                                <p>Estoc insuficient:</p>
                                 <ul>
                                     {stockErrors.map((e, i) => (
                                         <li key={i}>
-                                            <strong>{e.name}</strong>: pedido {e.requested}, disponible {e.available}
+                                            <strong>{e.name}</strong>: demanat {e.requested}, disponible {e.available}
                                         </li>
                                     ))}
                                 </ul>

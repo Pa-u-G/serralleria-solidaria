@@ -23,7 +23,7 @@ function MyOrderDetail() {
       });
       setOrder(response.data);
     } catch (error) {
-      console.error("Error cargando el pedido:", error);
+      console.error("Error carregant la comanda:", error);
       navigate("/my-orders");
     } finally {
       setLoading(false);
@@ -42,10 +42,10 @@ function MyOrderDetail() {
 
   const getStatusText = (status) => {
     const map = {
-      "pendiente": "Pendiente",
-      "enviado": "Enviado",
-      "en camino": "En camino",
-      "recibido": "Recibido / Finalizado"
+      "pendiente": "Pendent",
+      "enviado": "Enviat",
+      "en camino": "En camí",
+      "recibido": "Rebut / Finalitzat"
     };
     return map[status] || status;
   };
@@ -63,7 +63,7 @@ function MyOrderDetail() {
   if (loading) {
     return (
       <MainLayout>
-        <div className={styles.loading}>Cargando detalles del pedido...</div>
+        <div className={styles.loading}>Carregant els detalls de la comanda...</div>
       </MainLayout>
     );
   }
@@ -74,24 +74,24 @@ function MyOrderDetail() {
     <MainLayout>
       <div className={styles.detailContainer}>
         <Link to="/my-orders" className={styles.backButton}>
-          ← Volver a mis pedidos
+          ← Tornar a les meves comandes
         </Link>
 
-        <h1 className={styles.title}>Pedido #{order.id}</h1>
+        <h1 className={styles.title}>Comanda #{order.id}</h1>
 
         <div className={styles.card}>
-          <h2>Información del pedido</h2>
+          <h2>Informació de la comanda</h2>
           <div className={styles.infoGrid}>
             <div>
-              <label>Fecha:</label>
+              <label>Data:</label>
               <p>{formatDate(order.created_at)}</p>
             </div>
             <div>
-              <label>Instalación:</label>
-              <p>{order.install ? "✓ Solicitada" : "✗ No solicitada"}</p>
+              <label>Instal·lació:</label>
+              <p>{order.install ? "✓ Sol·licitada" : "✗ No sol·licitada"}</p>
             </div>
             <div>
-              <label>Estado:</label>
+              <label>Estat:</label>
               <p className={`${styles.status} ${styles[`status--${getStatusClass(order.status)}`]}`}>
                 {getStatusText(order.status)}
               </p>
@@ -104,15 +104,15 @@ function MyOrderDetail() {
         </div>
 
         <div className={styles.card}>
-          <h2>Productos</h2>
+          <h2>Productes</h2>
           <div className={styles.productsTable}>
             <table>
               <thead>
                 <tr>
-                  <th>Producto</th>
-                  <th>Cantidad</th>
-                  <th>Precio unitario</th>
-                  <th>Extra keys</th>
+                  <th>Producte</th>
+                  <th>Quantitat</th>
+                  <th>Preu unitari</th>
+                  <th>Claus extra</th>
                   <th>Subtotal</th>
                 </tr>
               </thead>
@@ -136,7 +136,7 @@ function MyOrderDetail() {
         </div>
 
         <div className={styles.card}>
-          <h2>Dirección de envío</h2>
+          <h2>Adreça d'enviament</h2>
           <p>{order.direction?.name} {order.direction?.surnames}</p>
           <p>{order.direction?.address}</p>
           <p>{order.direction?.postal_code} - {order.direction?.city}</p>

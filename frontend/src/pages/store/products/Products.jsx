@@ -35,7 +35,7 @@ const ProductPage = () => {
             setProducts(data.products);
             setTotalProducts(data.total);
         } catch (err) {
-            setError('No se pudieron cargar los productos');
+            setError('No s\'han pogut carregar els productes');
             console.error(err);
         } finally {
             setLoading(false);
@@ -66,7 +66,7 @@ const ProductPage = () => {
             <div className={styles.allProductsPage}>
                 <div className={styles.loadingContainer}>
                     <div className={styles.spinner}></div>
-                    <p>Cargando productos...</p>
+                    <p>Carregant productes...</p>
                 </div>
             </div>
         );
@@ -80,7 +80,7 @@ const ProductPage = () => {
                     <h2>Error</h2>
                     <p>{error}</p>
                     <button onClick={handleGoBack} className={styles.backButton}>
-                        Volver atrás
+                        Tornar enrere
                     </button>
                 </div>
             </div>
@@ -93,14 +93,14 @@ const ProductPage = () => {
             <div className={styles.allProductsPage}>
                 <div className={styles.pageContainer}>
 
-                    {/* Barra de herramientas */}
+                    {/* Barra d'eines */}
                     <div className={styles.toolbar}>
                         <div className={styles.toolbarLeft}>
                             <button 
                                 className={styles.filterToggleBtn}
                                 onClick={() => setFiltersVisible(true)}
                             >
-                                Filtros
+                                Filtres
                                 {getActiveFiltersCount() > 0 && (
                                     <span className={styles.filterBadge}>
                                         {getActiveFiltersCount()}
@@ -113,35 +113,34 @@ const ProductPage = () => {
                                     className={styles.clearFiltersBtn}
                                     onClick={() => handleFilterChange({ characteristics: [], star: false })}
                                 >
-                                    Limpiar filtros
+                                    Netejar filtres
                                 </button>
                             )}
                         </div>
 
                         <div className={styles.toolbarRight}>
-                            <label>Ordenar por:</label>
+                            <label>Ordenar per:</label>
                             <select 
                                 value={sortBy} 
                                 onChange={handleSortChange}
                                 className={styles.sortSelect}
                             >
-                                <option value="newest">Más recientes</option>
-                                <option value="price_asc">Precio: menor a mayor</option>
-                                <option value="price_desc">Precio: mayor a menor</option>
-                                <option value="name">Nombre: A a Z</option>
+                                <option value="newest">Més recents</option>
+                                <option value="price_asc">Preu: de menor a major</option>
+                                <option value="price_desc">Preu: de major a menor</option>
+                                <option value="name">Nom: de A a Z</option>
                             </select>
                         </div>
                     </div>
 
-
-                    {/* Grid de productos */}
+                    {/* Graella de productes */}
                     <ProductGrid 
                         products={products} 
-                        emptyMessage="No hay productos que coincidan con los filtros seleccionados"
+                        emptyMessage="No hi ha productes disponibles"
                     />
                 </div>
 
-                {/* Sidebar de filtros */}
+                {/* Sidebar de filtres */}
                 <FiltersSidebar 
                     visible={filtersVisible}
                     onClose={() => setFiltersVisible(false)}

@@ -31,7 +31,7 @@ const ProductPage = () => {
             const data = await productApi.getProduct(productId);
             setProduct(data);
         } catch (err) {
-            setError('No se pudo cargar el producto');
+            setError('No s\'ha pogut carregar el producte');
             console.error(err);
         } finally {
             setLoading(false);
@@ -100,14 +100,14 @@ const ProductPage = () => {
                 
                 <div className={styles.productPage}>
                     <div className={styles.productContainer}>
-                        {/* Botón volver */}
+                        {/* Botó tornar */}
                         <button onClick={handleGoBack} className={styles.backButton}>
-                            ← Volver
+                            ← Tornar
                         </button>
     
-                        {/* Contenido principal */}
+                        {/* Contingut principal */}
                         <div className={styles.productContent}>
-                            {/* Galería de imágenes */}
+                            {/* Galeria d'imatges */}
                             <div className={styles.productGallery}>
                                 <div className={styles.mainImage}>
                                     {product.images[selectedImage] ? 
@@ -134,20 +134,20 @@ const ProductPage = () => {
                                 )}
                             </div>
     
-                            {/* Información del producto */}
+                            {/* Informació del producte */}
                             <div className={styles.productInfo}>
                                 {product.star ? (
                                     <div className={styles.starBadge}>
-                                        Producto Destacado
+                                        Producte Destacat
                                     </div>
                                 ): ""}
                                 
                                 <h1 className={styles.productTitle}>{product.name}</h1>
                                 
                                 <div className={styles.productMeta}>
-                                    <span className={styles.productCode}>Código: {product.code}</span>
+                                    <span className={styles.productCode}>Codi: {product.code}</span>
                                     <span className={styles.productCategory}>
-                                        Categoría: {product.category?.name}
+                                        Categoria: {product.category?.name}
                                     </span>
                                 </div>
     
@@ -158,26 +158,26 @@ const ProductPage = () => {
                                 <div className={styles.stockInfo}>
                                     {product.stock > 0 ? (
                                         <>
-                                            <span className={styles.inStock}>✓ En stock</span>
+                                            <span className={styles.inStock}>✓ En estoc</span>
                                             {product.stock < 10 && (
                                                 <span className={styles.lowStockWarning}>
-                                                    ¡Últimas {product.stock} unidades!
+                                                    Últimes {product.stock} unitats!
                                                 </span>
                                             )}
                                         </>
                                     ) : (
-                                        <span className={styles.outOfStock}>✗ Agotado</span>
+                                        <span className={styles.outOfStock}>✗ Esgotat</span>
                                     )}
                                 </div>
     
                                 <div className={styles.productDescription}>
-                                    <h3>Descripción</h3>
+                                    <h3>Descripció</h3>
                                     <p>{product.description}</p>
                                 </div>
     
                                 {product.characteristics && product.characteristics.length > 0 && (
                                     <div className={styles.productCharacteristics}>
-                                        <h3>Características</h3>
+                                        <h3>Característiques</h3>
                                         <ul>
                                             {product.characteristics.map((char, index) => ( 
                                                 <li key={index}>
@@ -192,7 +192,7 @@ const ProductPage = () => {
                                 {product.stock > 0 && (
                                     <div className={styles.purchaseSection}>
                                         <div className={styles.quantitySelector}>
-                                            <label for="quantity">Cantidad:</label>
+                                            <label for="quantity">Quantitat:</label>
                                             <div className={styles.quantityControls}>
                                                 <button 
                                                     onClick={decrementQuantity}
@@ -225,7 +225,7 @@ const ProductPage = () => {
                                             onClick={handleAddToCartClick}
                                             className={`${styles.addToCartBtn} ${addedToCart ? styles.added : ''}`}
                                         >
-                                            {addedToCart ? '✓ Añadido al carrito' : 'Añadir al carrito'}
+                                            {addedToCart ? '✓ Afegit al carro' : 'Afegir al carro'}
                                         </button>
                                     </div>
                                 )}

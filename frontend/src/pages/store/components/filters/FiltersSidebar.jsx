@@ -6,7 +6,7 @@ const FiltersSidebar = ({
     visible, 
     onClose, 
     selectedFilters: externalFilters,
-    showStarFilter = true  // Nueva prop para controlar si mostrar filtro de destacados
+    showStarFilter = true  // Nova prop per controlar si mostrar el filtre de destacats
 }) => {
     const [filters, setFilters] = useState([]);
     const [selectedCharacteristics, setSelectedCharacteristics] = useState([]);
@@ -27,11 +27,11 @@ const FiltersSidebar = ({
 
     const loadFilters = async () => {
         try {
-            // Importar dinámicamente para evitar dependencias circulares
+            // Importar dinàmicament per evitar dependències circulars
             const { allProductsApi } = await import('../../products/services/allProductsApi');
             const data = await allProductsApi.getFilters();
             setFilters(data);
-            // Inicializar todos los tipos como expandidos
+            // Inicialitzar tots els tipus com a expandits
             const initialExpanded = {};
             data.forEach(type => {
                 initialExpanded[type.id] = true;
@@ -57,7 +57,7 @@ const FiltersSidebar = ({
                 ? prev.filter(id => id !== characteristicId)
                 : [...prev, characteristicId];
             
-            // Aplicar filtros después de la actualización
+            // Aplicar filtres després de l'actualització
             setTimeout(() => {
                 onFilterChange({
                     characteristics: newSelection,
@@ -99,12 +99,12 @@ const FiltersSidebar = ({
         return (
             <div className={`${styles.filtersSidebar} ${visible ? styles.visible : ''}`}>
                 <div className={styles.sidebarHeader}>
-                    <h3>Filtros</h3>
+                    <h3>Filtres</h3>
                     <button className={styles.closeBtn} onClick={onClose}>×</button>
                 </div>
                 <div className={styles.loadingFilters}>
                     <div className={styles.spinner}></div>
-                    <p>Cargando filtros...</p>
+                    <p>Carregant filtres...</p>
                 </div>
             </div>
         );
@@ -112,22 +112,22 @@ const FiltersSidebar = ({
 
     return (
         <>
-            {/* Overlay para móvil */}
+            {/* Overlay per a mòbil */}
             {visible && <div className={styles.overlay} onClick={onClose}></div>}
             
             <div className={`${styles.filtersSidebar} ${visible ? styles.visible : ''}`}>
                 <div className={styles.sidebarHeader}>
-                    <h3>Filtros</h3>
+                    <h3>Filtres</h3>
                     {getSelectedCount() > 0 && (
                         <span className={styles.selectedCount}>
-                            {getSelectedCount()} activos
+                            {getSelectedCount()} actius
                         </span>
                     )}
                     <button className={styles.closeBtn} onClick={onClose}>×</button>
                 </div>
 
                 <div className={styles.filtersContent}>
-                    {/* Filtro de productos destacados */}
+                    {/* Filtre de productes destacats */}
                     {showStarFilter && (
                         <div className={styles.filterSection}>
                             <label className={styles.checkboxLabel}>
@@ -136,12 +136,12 @@ const FiltersSidebar = ({
                                     checked={selectedStar}
                                     onChange={handleStarChange}
                                 />
-                                <span>Productos Destacados</span>
+                                <span>Productes Destacats</span>
                             </label>
                         </div>
                     )}
 
-                    {/* Filtros por características */}
+                    {/* Filtres per característiques */}
                     {filters.map((type) => (
                         <div key={type.id} className={styles.filterSection}>
                             <div 
@@ -178,7 +178,7 @@ const FiltersSidebar = ({
                         onClick={handleClearFilters}
                         disabled={getSelectedCount() === 0}
                     >
-                        Limpiar filtros
+                        Netejar filtres
                     </button>
                 </div>
             </div>

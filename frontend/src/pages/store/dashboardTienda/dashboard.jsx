@@ -47,7 +47,7 @@ function Dashboard() {
       <BannerCarousel banners={banners} />
       
       <section className={styles.productsDestacados}>
-        <h1>Productos destacados</h1>
+        <h1>Productes destacats</h1>
         
         {featuredProducts.length > 0 ? (
           <Carousel products={featuredProducts} limit={10} />
@@ -58,7 +58,7 @@ function Dashboard() {
                     <use href="#icon-box?"></use>
                 </svg>
             </div>
-            <h3>No hay productos destacados disponibles</h3>
+            <h3>No hi ha productes destacats disponibles</h3>
           </div>
         )}
         
@@ -71,7 +71,7 @@ function Dashboard() {
       </section> */}
           
       <section className={styles.productsPopular}>
-        <h1>Productos Populares</h1>
+        <h1>Productes Populars</h1>
         
         {popularProducts.length > 0 ? (
           <Products products={popularProducts} limit={20} />
@@ -82,7 +82,7 @@ function Dashboard() {
                     <use href="#icon-box?"></use>
                 </svg>
             </div>
-            <h3>No hay productos populares disponibles</h3>
+            <h3>No hi ha productes populars disponibles</h3>
           </div>
         )}
       </section>

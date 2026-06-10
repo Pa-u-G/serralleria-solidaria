@@ -21,7 +21,7 @@ function MyOrders() {
       });
       setOrders(response.data);
     } catch (error) {
-      console.error("Error cargando pedidos:", error);
+      console.error("Error carregant les comandes:", error);
     } finally {
       setLoading(false);
     }
@@ -43,10 +43,10 @@ function MyOrders() {
 
   const getStatusText = (status) => {
     const statusMap = {
-      "pendiente": "Pendiente",
-      "enviado": "Enviado",
-      "en camino": "En camino",
-      "recibido": "Recibido / Finalizado"
+      "pendiente": "Pendent",
+      "enviado": "Enviat",
+      "en camino": "En camí",
+      "recibido": "Rebut / Finalitzat"
     };
     return statusMap[status] || status;
   };
@@ -59,7 +59,7 @@ function MyOrders() {
   if (loading) {
     return (
       <MainLayout>
-        <div className={styles.loading}>Cargando tus pedidos...</div>
+        <div className={styles.loading}>Carregant les teves comandes...</div>
       </MainLayout>
     );
   }
@@ -67,23 +67,23 @@ function MyOrders() {
   return (
     <MainLayout>
       <div className={styles["orders-container"]}>
-        <h1 className={styles.title}>Mis Pedidos</h1>
+        <h1 className={styles.title}>Les meves comandes</h1>
 
         {orders.length === 0 ? (
           <div className={styles.empty}>
-            <p>No has realizado ningún pedido todavía.</p>
+            <p>Encara no has fet cap comanda.</p>
             <button onClick={() => navigate("/tienda")} className={styles.shopBtn}>
-              Ir a la tienda
+              Anar a la botiga
             </button>
           </div>
         ) : (
           <div className={styles["orders-table"]}>
             <div className={styles["orders-table__header"]}>
               <div>ID</div>
-              <div>Fecha</div>
+              <div>Data</div>
               <div>Total</div>
-              <div>Instalación</div>
-              <div>Estado</div>
+              <div>Instal·lació</div>
+              <div>Estat</div>
             </div>
 
             <div className={styles["orders-table__body"]}>

@@ -6,7 +6,7 @@ const BASE = 'http://localhost:8000/storage/';
 
 const CartItem = ({ detail, onQuantityChange, onExtraKeyChange, onRemove, formatPrice }) => {
     const item = detail.product;
-    const isPack = !!item.products; // los packs tienen .products
+    const isPack = !!item.products; // els packs tenen .products
 
     const image = item.images?.[0]?.path
         ?? (isPack ? item.products?.find(p => p.images?.[0])?.images[0].path : null);
@@ -48,9 +48,9 @@ const CartItem = ({ detail, onQuantityChange, onExtraKeyChange, onRemove, format
 
                 <div className={styles.itemPrice}>{formatPrice(item.price)} / ud.</div>
 
-                {/* Cantidad */}
+                {/* Quantitat */}
                 <div className={styles.quantityRow}>
-                    <label>Cantidad:</label>
+                    <label>Quantitat:</label>
                     <div className={styles.quantityControls}>
                         <button
                             onClick={() => onQuantityChange(detail.quantity - 1)}
@@ -62,11 +62,11 @@ const CartItem = ({ detail, onQuantityChange, onExtraKeyChange, onRemove, format
                     <span className={styles.lineTotal}>{formatPrice(baseTotal)}</span>
                 </div>
 
-                {/* Llaves extra */}
+                {/* Claus extra */}
                 { item.extra_key ? 
                     item.extra_key && (
                         <div className={styles.extraKeyRow}>
-                            <label>Llaves extra <span className={styles.keyPrice}>({formatPrice(item.key_price)} / llave)</span>:</label>
+                            <label>Claus extra <span className={styles.keyPrice}>({formatPrice(item.key_price)} / clau)</span>:</label>
                             <input
                                 type="number"
                                 min="0"

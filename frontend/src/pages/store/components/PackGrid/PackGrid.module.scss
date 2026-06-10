@@ -27,6 +27,8 @@
     .emptyIcon {
         font-size: clamp(3rem, 8vw, 4rem);
         margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
     }
 
     h3 {
